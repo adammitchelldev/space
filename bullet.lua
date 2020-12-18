@@ -13,7 +13,6 @@ function bullet_make(x, y, speed, width)
 		speed = speed,
 		width = width or 1
 	}:add()
-	sfx(0)
 end
 
 function bullet:update()

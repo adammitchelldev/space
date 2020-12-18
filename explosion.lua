@@ -11,7 +11,6 @@ function explosion_make(p)
 		size = p.explosion,
 		age = 0
 	}:add()
-	sfx(1)
 end
 
 function explosion:update()

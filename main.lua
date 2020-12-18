@@ -41,19 +41,29 @@ function _update60()
 	bullets:update()
 
 	for e, b in collision_pairs(enemies, bullets) do
+		sfx(1)
 		e:explode()
 		b:explode()
 		score += 10
 	end
 
 	for p, e in collision_pairs(players, enemies) do
+		sfx(1)
 		p:explode()
 		save_hiscore()
 	end
 
 	explosions:update()
 
-	if (max(0, flr(rnd(20 - (score / 200)))) == 0) enemy_make()
+	--TODO put this somewhere else
+	if max(0, flr(rnd(20 - (score / 200)))) == 0 then
+
+		if flr(rnd(50)) == 0 then
+			enemy_green_make()
+		else
+			enemy_make()
+		end
+	end
 end
 
 function _draw()
