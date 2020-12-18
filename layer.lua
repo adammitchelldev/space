@@ -1,13 +1,13 @@
-function layer_add(system, ent)
-	system[ent] = ent
+function layer_add(layer, ent)
+	layer[ent] = ent
 end
 
-function layer_remove(system, ent)
-	system[ent] = nil
+function layer_remove(layer, ent)
+	layer[ent] = nil
 end
 
-function layer_foreach(system, func)
-	for k, v in pairs(system) do
+function layer_foreach(layer, func)
+	for k, v in pairs(layer) do
 		func(v)
 	end
 end

@@ -8,7 +8,14 @@ player = {
 }
 
 bullet = {
-    explosion = 10
+    explosion = 5,
+    col = { l=0, r=2, u=0, d=6 }
+}
+
+enemy = {
+    sprite = 3,
+    explosion = 8,
+    col = { l=0, r=8, u=0, d=8 }
 }
 
 heat_colors = {7, 10, 9, 8, 2}

@@ -1,15 +1,16 @@
-function enemy_draw(e)
-	fillp(0)
-	spr(3, e.x, e.y)
-end
-
 function enemy_make()
 	e = {
 		x = rnd(120),
 		y = -8,
-		dx = rnd(3) - 2,
+        dx = rnd(3) - 2,
+        col = enemy.col
 	}
 	layer_add(enemies, e)
+end
+
+function enemy_explode(e)
+    explosion_make(e.x, e.y, enemy.explosion)
+    layer_remove(enemies, e)
 end
 
 function enemy_update(e)
@@ -22,4 +23,9 @@ function enemy_update(e)
 		e.x = 0
 		e.dx = -e.dx
 	end
+end
+
+function enemy_draw(e)
+	fillp(0)
+	spr(enemy.sprite, e.x, e.y)
 end

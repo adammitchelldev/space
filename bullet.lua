@@ -3,24 +3,20 @@ function bullet_make(x, y, speed, width)
 		x = x,
 		y = y,
 		speed = speed,
-		width = width or 1
+		width = width or 1,
+		col = bullet.col
 	}
 	sfx(0)
 	layer_add(bullets, b)
 end
 
+function bullet_explode(b)
+	explosion_make(b.x, b.y, bullet.explosion)
+	layer_remove(bullets, b)
+end
+
 function bullet_update(b)
 	b.y -= b.speed
-
-	--hacking in collision for now
-	layer_foreach(enemies, function(e)
-		if b.x + 2 > e.x and b.x < e.x + 6 and b.y + 4 + b.speed > e.y and b.y < e.y + 8 then
-			local ey = min(e.y + 7, b.y + b.speed)
-			explosion_make(b.x, ey, bullet.explosion)
-			layer_remove(bullets, b)
-			layer_remove(enemies, e)
-		end
-	end)
 
 	if b.y < -16 then
 		layer_remove(bullets, b)

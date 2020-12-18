@@ -3,6 +3,7 @@ version 29
 __lua__
 #include constants.lua
 #include layer.lua
+#include collision.lua
 
 #include bullet.lua
 #include enemy.lua
