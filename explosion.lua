@@ -6,12 +6,12 @@ function explosion_make(x, y, size)
 		age = 0
 	}
 	sfx(1)
-	system_add(explosions, e)
+	layer_add(explosions, e)
 end
 
 function explosion_update(e)
 	e.age += 1
-	if (e.age > 5) system_remove(explosions, e)
+	if (e.age > 5) layer_remove(explosions, e)
 end
 
 function explosion_draw(e)

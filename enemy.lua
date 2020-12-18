@@ -9,7 +9,7 @@ function enemy_make()
 		y = -8,
 		dx = rnd(3) - 2,
 	}
-	system_add(enemies, e)
+	layer_add(enemies, e)
 end
 
 function enemy_update(e)
