@@ -53,7 +53,7 @@ function _update60()
 
 	explosions:update()
 
-	if (flr(rnd(20 - (score / 200))) == 0) enemy_make()
+	if (max(0, flr(rnd(20 - (score / 200)))) == 0) enemy_make()
 end
 
 function _draw()
