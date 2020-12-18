@@ -3,7 +3,7 @@
 ## TODO
 
 ### Features:
-- [ ] Ship boundaries and hit detection
+- [x] Ship boundaries and hit detection
 - [ ] Ship lives and game over
 - [ ] Score counter
 - [ ] Cool enemy movement patterns

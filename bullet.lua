@@ -1,29 +1,37 @@
+bullets = layer {}
+
+bullet = class {
+    layer = bullets,
+    explosion = 5,
+    col = { l=0, r=2, u=0, d=6 }
+}
+
 function bullet_make(x, y, speed, width)
-	local b = bullet {
+	bullet {
 		x = x,
 		y = y,
 		speed = speed,
 		width = width or 1
-	}
+	}:add()
 	sfx(0)
 end
 
-function bullet_update(b)
-	b.y -= b.speed
+function bullet:update()
+	self.y -= self.speed
 
-	if b.y < -16 then
-		layer_remove(bullets, b)
+	if self.y < -16 then
+		self:remove()
 	end
 end
 
-function bullet_draw(b)
-	local x = b.x
-	local y = b.y
+function bullet:draw()
+	local x = self.x
+	local y = self.y
 	local c = 1
 	fillp(0)
-	for i = b.speed, 1, -1 do
+	for i = self.speed, 1, -1 do
 		color(heat_colors[c])
-		rectfill(x, y, x + b.width - 1, y + i - 1)
+		rectfill(x, y, x + self.width - 1, y + i - 1)
 		y += i
 		if (c < 5) c += 1
 	end

@@ -1,25 +1,45 @@
+explosions = layer {}
+
+explosion = class {
+    layer = explosions
+}
+
 function explosion_make(p)
-	local e = {
+	explosion {
 		x = p.x,
 		y = p.y,
 		size = p.explosion,
 		age = 0
-	}
+	}:add()
 	sfx(1)
-	layer_add(explosions, e)
 end
 
-function explosion_update(e)
-	e.age += 1
-	if (e.age > 5) layer_remove(explosions, e)
+function explosion:update()
+	self.age += 1
+	if (self.age > 5) self:remove()
 end
 
-function explosion_draw(e)
-	local x = e.x
-	local y = e.y
-	local c = heat_colors[e.age]
-	local s = e.size * (1 + (e.age - 1) * 0.2)
-	color(c)
-	fillp(explosion_dither[e.age])
-	circfill(x, y, s)
+do
+    local explosion_dither = {
+        0b0000000000000000,
+        0b1010000010100000,
+        0b1010010110100101,
+        0b1111010111110101,
+        0b1111010111110101,
+    }
+
+    function explosion:draw()
+        local x = self.x
+        local y = self.y
+        local c = heat_colors[self.age]
+        local s = self.size * (1 + (self.age - 1) * 0.2)
+        color(c)
+        fillp(explosion_dither[self.age])
+        circfill(x, y, s)
+    end
+end
+
+function class:explode()
+    explosion_make(self)
+    self:remove()
 end

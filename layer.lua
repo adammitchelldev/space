@@ -1,12 +1,29 @@
-function layer_add(layer, ent)
-	layer[ent] = ent
+function layer(t)
+    setmetatable(t, {
+        __index = function(layer, key)
+            return function(...)
+                for item in layer_each(layer) do
+                    item[key](item, ...)
+                end
+            end
+        end
+    })
+    return t
 end
 
-function layer_remove(layer, ent)
-	layer[ent] = nil
+function class:add()
+    if self.layer != nil then
+        self.layer[self] = self
+    end
 end
 
-function layer_foreach(layer, func)
+function class:remove()
+    if self.layer != nil then
+        self.layer[self] = nil
+    end
+end
+
+function layer_foreach(func)
 	for k, v in pairs(layer) do
 		func(v)
     end

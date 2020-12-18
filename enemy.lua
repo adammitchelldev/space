@@ -1,24 +1,36 @@
+enemies = layer {}
+
+enemy = class {
+    layer = enemies,
+    sprite = 3,
+    explosion = 8,
+    col = { l=0, r=8, u=0, d=8 }
+}
+
 function enemy_make()
-	local e = enemy {
+	enemy {
 		x = rnd(120),
 		y = -8,
         dx = rnd(3) - 2,
-    }
+    }:add()
 end
 
-function enemy_update(e)
-	e.x += e.dx
-	e.y += 0b0.0001
-	if e.x > 120 then
-		e.x = 120
-		e.dx = -e.dx
-	elseif e.x < 0 then 
-		e.x = 0
-		e.dx = -e.dx
-	end
+function enemy:update()
+	self.x += self.dx
+	self.y += 0x2
+	if self.x > 120 then
+		self.x = 120
+		self.dx = -self.dx
+	elseif self.x < 0 then 
+		self.x = 0
+		self.dx = -self.dx
+    end
+    if self.y > 128 then
+        self:remove()
+    end
 end
 
-function enemy_draw(e)
+function enemy:draw()
 	fillp(0)
-	spr(enemy.sprite, e.x, e.y)
+	spr(self.sprite, self.x, self.y)
 end
