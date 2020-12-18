@@ -4,7 +4,10 @@ __lua__
 #include constants.lua
 
 #include bullet.lua
+#include enemy.lua
+#include explosion.lua
 #include player.lua
+#include starfield.lua
 
 #include main.lua
 __gfx__
