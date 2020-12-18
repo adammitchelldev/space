@@ -1,7 +1,4 @@
 object = {}
-object_mt = {
-    __index = object,
-}
 setmetatable(object, {
     __call = function(obj, t)
         local mt = {
