@@ -1,8 +1,8 @@
-function explosion_make(x, y, size)
+function explosion_make(p)
 	local e = {
-		x = x,
-		y = y,
-		size = size,
+		x = p.x,
+		y = p.y,
+		size = p.explosion,
 		age = 0
 	}
 	sfx(1)

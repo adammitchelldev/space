@@ -1,3 +1,8 @@
+-- Layers
+bullets = {}
+explosions = {}
+enemies = {}
+
 player = {
     sprite = 2,
     shot = {
@@ -7,12 +12,14 @@ player = {
     }
 }
 
-bullet = {
+bullet = object {
+    layer = bullets,
     explosion = 5,
     col = { l=0, r=2, u=0, d=6 }
 }
 
-enemy = {
+enemy = object {
+    layer = enemies,
     sprite = 3,
     explosion = 8,
     col = { l=0, r=8, u=0, d=8 }

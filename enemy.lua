@@ -1,16 +1,9 @@
 function enemy_make()
-	e = {
+	local e = enemy {
 		x = rnd(120),
 		y = -8,
         dx = rnd(3) - 2,
-        col = enemy.col
-	}
-	layer_add(enemies, e)
-end
-
-function enemy_explode(e)
-    explosion_make(e.x, e.y, enemy.explosion)
-    layer_remove(enemies, e)
+    }
 end
 
 function enemy_update(e)

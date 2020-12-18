@@ -1,18 +1,11 @@
 function bullet_make(x, y, speed, width)
-	local b = {
+	local b = bullet {
 		x = x,
 		y = y,
 		speed = speed,
-		width = width or 1,
-		col = bullet.col
+		width = width or 1
 	}
 	sfx(0)
-	layer_add(bullets, b)
-end
-
-function bullet_explode(b)
-	explosion_make(b.x, b.y, bullet.explosion)
-	layer_remove(bullets, b)
 end
 
 function bullet_update(b)

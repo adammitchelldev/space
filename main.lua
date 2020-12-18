@@ -1,9 +1,3 @@
--- Layers
-bullets = {}
-explosions = {}
-enemies = {}
-
--- Main
 function _init()
 	starfield_make()
 	player_init()
@@ -17,11 +11,10 @@ function _update60()
 	layer_foreach(enemies, enemy_update)
 	layer_foreach(bullets, bullet_update)
 
-	collision_pairs(enemies, bullets, function(e, b)
-		enemy_explode(e)
-		bullet_explode(b)
-	
-	end)
+	for e, b in collision_pairs(enemies, bullets) do
+		e:explode()
+		b:explode()
+	end
 
 	layer_foreach(explosions, explosion_update)
 
