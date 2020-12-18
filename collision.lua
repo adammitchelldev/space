@@ -1,12 +1,6 @@
 function collision_pairs(layer1, layer2, func)
     layer_foreach(layer1, function(i1)
         layer_foreach(layer2, function(i2)
-            -- i1.col.l
-            -- i1.col.r
-            -- i1.col.u
-            -- i1.col.d
-            -- i1.x
-            -- ir.y
 
             local l1 = i1.x + i1.col.l
             local r1 = i1.x + i1.col.r
