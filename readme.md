@@ -5,7 +5,7 @@
 ### Features:
 - [x] Ship boundaries and hit detection
 - [ ] Ship lives and game over
-- [ ] Score counter
+- [x] Score counter
 - [ ] Cool enemy movement patterns
 - [ ] More enemy types
 - [ ] Powerups

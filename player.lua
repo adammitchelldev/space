@@ -21,13 +21,16 @@ function player_make()
 end
 
 function player:shoot()
-    if self.atk == 0 then
+	if self.atk == 0 then
+		score -= 1
 		bullet_make(self.x + 3, self.y - 4, self.shot.speed, self.shot.width)
 		self.atk = self.shot.delay
 	end
 end
 
 function player:update()
+	score += 1
+
 	local dx = 0
 	local dy = 0
 
