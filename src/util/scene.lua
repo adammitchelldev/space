@@ -2,18 +2,19 @@ do
     local _active_scenes = {}
 
     function scene_update()
-        for scene in all(_active_scenes) do
-            assert(coresume(scene))
+        for _, scene in pairs(_active_scenes) do
+            if costatus(scene) == 'suspended' then
+                assert(coresume(scene))
+            else
+                _active_scenes[scene] = nil
+            end
         end
     end
 
     function scene_play(script)
         local scene
-        scene = cocreate(function()
-            script()
-            del(_active_scenes, scene)
-        end)
-        add(_active_scenes, scene)
+        scene = cocreate(script)
+        _active_scenes[scene] = scene
         assert(coresume(scene)) --TODO add proper error handling which is now available
     end
 end

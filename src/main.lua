@@ -1,6 +1,7 @@
 score = 0
 hiscore = 0
 alive = false
+waiting = true
 
 function score_add(x)
 	if (alive) score += x >> 15
@@ -39,6 +40,7 @@ function reset()
 	player_make()
 	enemy_make()
 	alive = true
+	waiting = false
 	score = 0
 end
 
@@ -50,11 +52,24 @@ function save_hiscore()
 	if score > hiscore then
 		hiscore = score
 		dset(0, hiscore)
+		scene_play(function()
+			t = text_box("hI-sCORE!!", 45, 20)
+			t.bg = nil
+			for i = 1,10 do
+				scene_wait(10)
+				t.fg = nil
+				sfx(10)
+				scene_wait(10)
+				t.fg = 7
+			end
+			scene_wait(30)
+			t:remove()
+		end)
 	end
 end
 
 function _update60()
-	if not alive and btnp(5) then
+	if waiting and btnp(5) then
 		reset()
 	end
 
@@ -79,8 +94,9 @@ function _update60()
 		e:explode()
 		b:explode()
 		score_add(e.value)
-		scene_play(text_rising_box(tostr(e.value), e.x, e.y))
+		scene_play(text_rising_box(tostr(e.value * 10), e.x, e.y))
 		if rnd(20) < 1 then
+			sfx(9)
 			powerup_make(e)
 		end
 	end)
@@ -89,13 +105,35 @@ function _update60()
 		sfx(1)
 		p:explode()
 		alive = false
+		sfx(7)
+		scene_play(function()
+			for i = 1, 10 do
+				scene_wait(i)
+				explosion_make({
+					x = p.x + rnd(40) - 20,
+					y = p.y + rnd(40) - 20,
+					explosion = (rnd(2) + 1) * (11 - i)
+				})
+			end
+		end)
+
+		scene_play(function()
+			local t = text_box("game over", 46, 60)
+			t.bg = false
+			text_scene_type(t, "gAME oVER", 5)
+			scene_wait(50)
+			waiting = true
+			t:remove()
+		end)
 		save_hiscore()
 	end)
 
 	collision_grid_pairs_foreach(grid_players, grid_powerups, function(p, pu)
 		sfx(6)
 		pu:remove()
-		score_add(1000)
+		score_add(500)
+		scene_play(text_rising_box("5000", pu.x, pu.y))
+		scene_play(text_rising_box("gUN uP", pu.x, pu.y + 8))
 		if p.shot_delay > 1 then
 			p.shot_delay -= 1
 		end
@@ -135,7 +173,7 @@ function _draw()
 	score_print(hiscore, 128, 2, 1)
 	score_print(score, 128, 10, 1)
 
-	if not alive then
-		print("pRESS ❎ TO PLAY", 32, 60)
+	if waiting then
+		print("pRESS ❎ TO PLAY", 31, 60)
 	end
 end

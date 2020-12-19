@@ -8,8 +8,10 @@ function text_draw(obj)
 	if obj.bg then
 		color(obj.bg)
 		rectfill(obj.x - 1, obj.y - 1, obj.x + (obj.w * 4) - 1, obj.y + 5)
-	end
-	print(obj.text, obj.x, obj.y, obj.fg)
+    end
+    if obj.fg then
+        print(obj.text, obj.x, obj.y, obj.fg)
+    end
 end
 
 function text_box(tx, x, y)
@@ -38,7 +40,7 @@ function text_rising_box(tx, x, y)
 		t.bg = false
 		scene_multitask({
 			function()
-				text_scene_type(t, text, 2)
+				text_scene_type(t, tx, 2)
 			end,
 			function()
 				for i = 1, 5 do

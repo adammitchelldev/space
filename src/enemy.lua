@@ -7,14 +7,14 @@ enemy = class {
     bounce_sfx = 2,
     explosion = 8,
     speed = 1,
-    value = 100,
+    value = 75,
     col = { l=0, r=8, u=0, d=8 }
 }
 
 enemy_green = enemy {
     draw = draw_sprite(4),
     explosion = 16,
-    value = 1000,
+    value = 1250,
     speed = 2
 }
 
@@ -36,6 +36,11 @@ function enemy_green_make()
     }:add()
     score_add(10)
     sfx(enemy.sfx)
+end
+
+function enemy_green:explode()
+    sfx(8)
+    enemy.explode(self)
 end
 
 function enemy:update()
