@@ -2,19 +2,19 @@ enemies = layer {}
 
 enemy = class {
     layer = enemies,
-    sprite = 3,
+    draw = draw_sprite(3),
     sfx = 3,
     bounce_sfx = 2,
     explosion = 8,
     speed = 1,
-    value = 10,
+    value = 100,
     col = { l=0, r=8, u=0, d=8 }
 }
 
 enemy_green = enemy {
-    sprite = 4,
+    draw = draw_sprite(4),
     explosion = 16,
-    value = 100,
+    value = 1000,
     speed = 2
 }
 
@@ -56,7 +56,6 @@ function enemy:update()
 end
 
 function enemy_green:update()
-
     for p in layer_each(players) do
         if self.y > p.y - 60 then
             if self.x < p.x then
@@ -70,9 +69,4 @@ function enemy_green:update()
     sfx(4) --TODO constant
     
     enemy.update(self)
-end
-
-function enemy:draw()
-	fillp(0)
-	spr(self.sprite, self.x, self.y)
 end

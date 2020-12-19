@@ -3,8 +3,8 @@ powerups = layer {}
 powerup = class {
     layer = powerups,
     sprite = 16,
-    speed = 1,
-    col = { l=0,r=5,u=0,d=5 }
+    speed = 0.5,
+    col = { l=-2,r=7,u=-2,d=7 }
 }
 
 function powerup_make(orig)

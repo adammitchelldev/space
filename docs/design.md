@@ -34,4 +34,4 @@ Upgrades are great but not unlimited and may come with various drawbacks. High f
 
 ## Drones and Allies
 
-The player can also gain ally ships, which fight autonomously and provide an alternative way to expand the player's firepower. Certain special ally ships have unique abilities or support powers.
+The player can also gain ally ships, which fight autonomously and provide an alternative way to expand the player's firepower. Certain special ally ships have unique abilities or support powers and they will level up over time too.

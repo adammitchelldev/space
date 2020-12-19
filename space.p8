@@ -1,12 +1,12 @@
 pico-8 cartridge // http://www.pico-8.com
 version 29
 __lua__
-#include src/class.lua
-#include src/object.lua
-#include src/layer.lua
+#include src/util/class.lua
+#include src/util/layer.lua
+#include src/util/collision.lua
+#include src/util/draw.lua
 
 #include src/constants.lua
-#include src/collision.lua
 
 #include src/bullet.lua
 #include src/enemy.lua
