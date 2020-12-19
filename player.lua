@@ -4,12 +4,10 @@ player = class {
 	layer = players,
 	sprite = 2,
 	explosion = 50,
-    shot = {
-		sfx = 0,
-        delay = 10,
-        speed = 5,
-        width = 1
-	},
+	speed = 1,
+	shot_sfx = 0,
+	shot_delay = 10,
+	shot_speed = 5,
 	col = { l=1,r=7,u=3,d=7 }
 }
 
@@ -23,17 +21,14 @@ end
 
 function player:shoot()
 	if self.atk == 0 then
-		score -= 1
-		sfx(self.shot.sfx)
-		bullet_make(self.x, self.y - 4, self.shot.speed, self.shot.width)
-		bullet_make(self.x + 7, self.y - 4, self.shot.speed, self.shot.width)
-		self.atk = self.shot.delay
+		sfx(self.shot_sfx)
+		bullet_make(self.x, self.y - 4, self.shot_speed, 1)
+		bullet_make(self.x + 7, self.y - 4, self.shot_speed, 1)
+		self.atk = self.shot_delay
 	end
 end
 
 function player:update()
-	score += 1
-
 	local dx = 0
 	local dy = 0
 
@@ -42,8 +37,8 @@ function player:update()
 	if (btn(2)) dy -= 1
 	if (btn(3)) dy += 1
 
-	self.x += dx
-	self.y += dy
+	self.x += dx * self.speed
+	self.y += dy * self.speed
 
 	if (self.x < 0) self.x = 0
 	if (self.x > 120) self.x = 120
@@ -57,5 +52,6 @@ function player:update()
 end
 
 function player:draw()
+	fillp(0)
 	spr(self.sprite, self.x, self.y)
 end

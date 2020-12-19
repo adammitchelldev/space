@@ -1,5 +1,10 @@
 score = 0
 hiscore = 0
+alive = false
+
+function score_add(x)
+	if (alive) score += x
+end
 
 function _init()
 	cartdata("space")
@@ -12,8 +17,10 @@ function reset()
 	players:remove()
 	enemies:remove()
 	bullets:remove()
+	sfx(5)
 	player_make()
 	enemy_make()
+	alive = true
 	score = 0
 end
 
@@ -34,29 +41,44 @@ function _update60()
 		reset()
 	end
 
+	score_add(1)
+
 	starfield:update()
 	players:update()
 
 	enemies:update()
 	bullets:update()
+	powerups:update()
 
 	for e, b in collision_pairs(enemies, bullets) do
 		sfx(1)
 		e:explode()
 		b:explode()
-		score += 10
+		score_add(e.value)
+		if rnd(20) < 1 then
+			powerup_make(e)
+		end
 	end
 
 	for p, e in collision_pairs(players, enemies) do
 		sfx(1)
 		p:explode()
+		alive = false
 		save_hiscore()
+	end
+
+	for p, pu in collision_pairs(players, powerups) do
+		sfx(6)
+		pu:remove()
+		if p.shot_delay > 1 then
+			p.shot_delay -= 1
+		end
 	end
 
 	explosions:update()
 
 	--TODO put this somewhere else
-	if max(0, flr(rnd(20 - (score / 200)))) == 0 then
+	if rnd(1) < rnd(score / (score + 5000)) then
 
 		if flr(rnd(50)) == 0 then
 			enemy_green_make()
@@ -72,6 +94,7 @@ function _draw()
 	enemies:draw()
 	bullets:draw()
 	explosions:draw()
+	powerups:draw()
 	players:draw()
 
 	color(7)
