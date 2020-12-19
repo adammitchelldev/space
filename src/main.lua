@@ -60,6 +60,8 @@ function _update60()
 
 	score_add(1)
 
+	scene_update()
+
 	starfield:update()
 
 	players:update()
@@ -77,6 +79,7 @@ function _update60()
 		e:explode()
 		b:explode()
 		score_add(e.value)
+		scene_play(text_rising_box(tostr(e.value), e.x, e.y))
 		if rnd(20) < 1 then
 			powerup_make(e)
 		end
@@ -119,6 +122,7 @@ function _draw()
 	explosions:draw()
 	powerups:draw()
 	players:draw()
+	texts:draw()
 
 	-- color(9)
 	-- collision_grid_draw_debug(grid_enemies)

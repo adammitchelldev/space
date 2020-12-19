@@ -15,6 +15,7 @@ function class:add()
     if self.layer != nil then
         self.layer[self] = self
     end
+    return self
 end
 
 function class:remove()
