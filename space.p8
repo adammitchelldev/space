@@ -1,21 +1,21 @@
 pico-8 cartridge // http://www.pico-8.com
 version 29
 __lua__
-#include class.lua
-#include object.lua
-#include layer.lua
+#include src/class.lua
+#include src/object.lua
+#include src/layer.lua
 
-#include constants.lua
-#include collision.lua
+#include src/constants.lua
+#include src/collision.lua
 
-#include bullet.lua
-#include enemy.lua
-#include explosion.lua
-#include player.lua
-#include powerup.lua
-#include starfield.lua
+#include src/bullet.lua
+#include src/enemy.lua
+#include src/explosion.lua
+#include src/player.lua
+#include src/powerup.lua
+#include src/starfield.lua
 
-#include main.lua
+#include src/main.lua
 __gfx__
 0000000000000000000110000020020000bbbb000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000005500002222220033bb3300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
