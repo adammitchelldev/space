@@ -52,17 +52,17 @@ function save_hiscore()
 	if score > hiscore then
 		hiscore = score
 		dset(0, hiscore)
-		scene_play(function()
+		play(function()
 			t = text_box("hI-sCORE!!", 45, 20)
 			t.bg = nil
 			for i = 1,10 do
-				scene_wait(10)
+				wait(10)
 				t.fg = nil
 				sfx(10)
-				scene_wait(10)
+				wait(10)
 				t.fg = 7
 			end
-			scene_wait(30)
+			wait(30)
 			t:remove()
 		end)
 	end
@@ -75,7 +75,7 @@ function _update60()
 
 	score_add(1)
 
-	scene_update()
+	script_update()
 
 	starfield:update()
 
@@ -94,7 +94,7 @@ function _update60()
 		e:explode()
 		b:explode()
 		score_add(e.value)
-		scene_play(text_rising_box(tostr(e.value * 10), e.x, e.y))
+		play(text_rising_box(tostr(e.value * 10), e.x, e.y))
 		if rnd(20) < 1 then
 			sfx(9)
 			powerup_make(e)
@@ -106,9 +106,9 @@ function _update60()
 		p:explode()
 		alive = false
 		sfx(7)
-		scene_play(function()
+		play(function()
 			for i = 1, 10 do
-				scene_wait(i)
+				wait(i)
 				explosion_make({
 					x = p.x + rnd(40) - 20,
 					y = p.y + rnd(40) - 20,
@@ -117,11 +117,11 @@ function _update60()
 			end
 		end)
 
-		scene_play(function()
+		play(function()
 			local t = text_box("game over", 46, 60)
 			t.bg = false
 			text_scene_type(t, "gAME oVER", 5)
-			scene_wait(50)
+			wait(50)
 			waiting = true
 			t:remove()
 		end)
@@ -132,8 +132,8 @@ function _update60()
 		sfx(6)
 		pu:remove()
 		score_add(500)
-		scene_play(text_rising_box("5000", pu.x, pu.y))
-		scene_play(text_rising_box("gUN uP", pu.x, pu.y + 8))
+		play(text_rising_box("5000", pu.x, pu.y))
+		play(text_rising_box("gUN uP", pu.x, pu.y + 8))
 		if p.shot_delay > 1 then
 			p.shot_delay -= 1
 		end

@@ -5,7 +5,7 @@ __lua__
 #include src/util/layer.lua
 #include src/util/collision.lua
 #include src/util/draw.lua
-#include src/util/scene.lua
+#include src/util/script.lua
 #include src/util/text.lua
 
 #include src/constants.lua

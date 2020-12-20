@@ -28,7 +28,7 @@ end
 function text_scene_type(obj, tx, delay)
 	for p=1, #tx do
 		obj.text = sub(tx, 1, p)
-		scene_wait(delay)
+		wait(delay)
 	end
 end
 
@@ -38,18 +38,18 @@ function text_rising_box(tx, x, y)
 				x - ((#tx) * 2),
 				y - 3)
 		t.bg = false
-		scene_multitask({
-			function()
+		wait(
+			play(function()
 				text_scene_type(t, tx, 2)
-			end,
-			function()
+			end),
+			play(function()
 				for i = 1, 5 do
-					scene_wait(2)
+					wait(2)
 					t.y -= 1
 				end
-			end
-		})
-		scene_wait(20)
+			end)
+        )
+		wait(20)
 		t:remove()
 	 end
 end
