@@ -42,8 +42,22 @@ level_simple = level(function()
         wait_layer_empty(enemies)
         wait(100)
 
+        if diff > 0 then
+            enemy_big_make({ x = 60, y = -16, dx = 0.5, health = 50 * diff })
+            wait_layer_empty(enemies)
+            wait(180)
+        end
+
         if (diff > 1) level_extra_enemy()
         diff += 1
+    until false
+end)
+
+level_test = level(function()
+    repeat
+        enemy_big_make({ x = 60, y = -16, dx = 0.5, health = 20 })
+        wait_layer_empty(enemies)
+        wait(180)
     until false
 end)
 

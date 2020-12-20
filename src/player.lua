@@ -7,7 +7,6 @@ player = class {
 	speed = 1,
 	shot_sfx = 0,
 	shot_delay = 30,
-	shot_speed = -5,
 	col = { l=1,r=7,u=3,d=7 }
 }
 
@@ -22,8 +21,8 @@ end
 function player:shoot()
 	if self.atk == 0 then
 		sfx(self.shot_sfx)
-		bullet_make(bullet, self.x, self.y - 4, self.shot_speed, 1)
-		bullet_make(bullet, self.x + 7, self.y - 4, self.shot_speed, 1)
+		bullet_make(bullet, self.x, self.y - 4)
+		bullet_make(bullet, self.x + 7, self.y - 4)
 		self.atk = self.shot_delay
 	end
 end

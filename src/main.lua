@@ -80,16 +80,7 @@ function player_enemy_collision(p, e)
 	p:explode()
 	alive = false
 	sfx(7)
-	play(function()
-		for i = 1, 10 do
-			wait(i)
-			explosion_make({
-				x = p.x + rnd(40) - 20,
-				y = p.y + rnd(40) - 20,
-				explosion = (rnd(2) + 1) * (11 - i)
-			})
-		end
-	end)
+	big_explosion(p.x, p.y)
 
 	play(function()
 		local t = text_box("game over", 46, 60)
@@ -127,10 +118,14 @@ function _update60()
 
 	collision_grid_pairs_foreach(grid_enemies, grid_bullets, function(e, b)
 		sfx(1)
-		e:explode()
 		b:explode()
+		if e.health then
+			e.health -= 1
+			if (e.health > 0) return
+		end
+		e:explode()
 		score_add(e.value)
-		play(text_rising_box(tostr(e.value * 10), e.x, e.y))
+		play(text_rising_box(tostr(e.value).."0", e.x, e.y))
 		if rnd(20) < 1 then
 			sfx(9)
 			powerup_make(e)

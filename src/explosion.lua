@@ -42,3 +42,14 @@ function class:explode()
     explosion_make(self)
     self:remove()
 end
+
+big_explosion = script(function(px, py)
+    for i = 1, 10 do
+        wait(i)
+        explosion_make({
+            x = px + rnd(40) - 20,
+            y = py + rnd(40) - 20,
+            explosion = (rnd(2) + 1) * (11 - i)
+        })
+    end
+end)
