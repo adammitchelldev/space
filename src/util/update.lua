@@ -16,6 +16,8 @@ do
         end
     })
 
+    -- TODO this should be reworked to calculate the item outside of the coroutine
+    --   and pass the item in with coresume(item) to a yield()
     local function dispatch(self, item, secret_key, func, ...)
         local co = item[secret_key]
         if not co then
@@ -54,12 +56,26 @@ do
         local iter = layer_each(layer)
 
         local item = iter()
-        if (not item) return
+        while item do
+            local co = cocreate(updater)
+            local active, exception = coresume(co, co, item, iter, funcname, secret_key, ...)
+            if exception then
+                printh(trace(co, exception))
+                stop("script err: "..exception)
+            end
+            item = iter()
+        end
+    end
 
+    local function nil_iter()
+        return nil
+    end
+    function update_one(item, funcname, ...)
+        local secret_key = secret_keys[funcname]
         local co = cocreate(updater)
-        local active, exception = coresume(co, co, item, iter, funcname, secret_key, ...)
+        local active, exception = coresume(co, co, item, nil_iter, funcname, secret_key, ...)
         if exception then
-            printh(trace(script, exception))
+            printh(trace(co, exception))
             stop("script err: "..exception)
         end
     end
@@ -90,3 +106,15 @@ end
 --         end
 --     end
 -- end
+
+-- planned API
+
+-- lock([event]): prevent this handler from being entered again until we complete, optionally all handlers
+-- hold(): hold the event from propagating until this function completes
+-- cancel(): drop the event, causing it not to propagate
+-- fire("event", ...): trigger another event immediately
+-- return "event", ...: trigger this event next update
+--   return fire("event") can be used safely due to lua tail calls
+-- cancel("event"):
+
+-- handle(): call or resume the other handlers immediately if not already, waitable with wait(handle())

@@ -23,7 +23,7 @@ end
 
 function _init()
 	cartdata("space")
-	menuitem(2, "clear hiscore", function()
+	menuitem(1, "clear hiscore", function()
 		dset(0, 0)
 		hiscore = 0
 	end)
@@ -33,15 +33,20 @@ function _init()
 end
 
 function reset()
+	level_stop()
+
 	players:remove()
 	enemies:remove()
 	bullets:remove()
+	enemy_bullets:remove()
+	powerups:remove()
+
 	sfx(5)
 	player_make()
-	enemy_make()
 	alive = true
 	waiting = false
 	score = 0
+	level_simple()
 end
 
 function load_hiscore()
@@ -68,6 +73,35 @@ function save_hiscore()
 	end
 end
 
+function player_enemy_collision(p, e)
+	level_stop()
+
+	sfx(1)
+	p:explode()
+	alive = false
+	sfx(7)
+	play(function()
+		for i = 1, 10 do
+			wait(i)
+			explosion_make({
+				x = p.x + rnd(40) - 20,
+				y = p.y + rnd(40) - 20,
+				explosion = (rnd(2) + 1) * (11 - i)
+			})
+		end
+	end)
+
+	play(function()
+		local t = text_box("game over", 46, 60)
+		t.bg = false
+		text_scene_type(t, "gAME oVER", 5)
+		wait(50)
+		waiting = true
+		t:remove()
+	end)
+	save_hiscore()
+end
+
 function _update60()
 	if waiting and btnp(5) then
 		reset()
@@ -82,11 +116,13 @@ function _update60()
 	players:update()
 	enemies:update()
 	bullets:update()
+	enemy_bullets:update()
 	powerups:update()
 
 	grid_enemies = collision_grid(enemies)
 	grid_players = collision_grid(players)
 	grid_bullets = collision_grid(bullets)
+	grid_enemy_bullets = collision_grid(enemy_bullets)
 	grid_powerups = collision_grid(powerups)
 
 	collision_grid_pairs_foreach(grid_enemies, grid_bullets, function(e, b)
@@ -101,55 +137,39 @@ function _update60()
 		end
 	end)
 
-	collision_grid_pairs_foreach(grid_players, grid_enemies, function(p, e)
-		sfx(1)
-		p:explode()
-		alive = false
-		sfx(7)
-		play(function()
-			for i = 1, 10 do
-				wait(i)
-				explosion_make({
-					x = p.x + rnd(40) - 20,
-					y = p.y + rnd(40) - 20,
-					explosion = (rnd(2) + 1) * (11 - i)
-				})
-			end
-		end)
-
-		play(function()
-			local t = text_box("game over", 46, 60)
-			t.bg = false
-			text_scene_type(t, "gAME oVER", 5)
-			wait(50)
-			waiting = true
-			t:remove()
-		end)
-		save_hiscore()
-	end)
+	collision_grid_pairs_foreach(grid_players, grid_enemies, player_enemy_collision)
+	collision_grid_pairs_foreach(grid_players, grid_enemy_bullets, player_enemy_collision)
 
 	collision_grid_pairs_foreach(grid_players, grid_powerups, function(p, pu)
 		sfx(6)
 		pu:remove()
 		score_add(500)
-		play(text_rising_box("5000", pu.x, pu.y))
-		play(text_rising_box("gUN uP", pu.x, pu.y + 8))
-		if p.shot_delay > 1 then
+		play(text_rising_box("5000", pu.x + 4, pu.y - 8))
+		if p.shot_delay > 20 then
+			p.shot_delay -= 3
+			play(text_rising_box("gUN uP", pu.x + 4, pu.y))
+		elseif p.shot_delay > 10 then
+			p.shot_delay -= 2
+			play(text_rising_box("gUN uP", pu.x + 4, pu.y))
+		elseif p.shot_delay > 1 then
 			p.shot_delay -= 1
+			play(text_rising_box("gUN uP", pu.x + 4, pu.y))
+		else
+			play(text_rising_box("max!", pu.x, pu.y))
 		end
 	end)
 
 	explosions:update()
 
 	--TODO put this somewhere else
-	if rnd(1) < rnd(score / ((score + 1))) then
+	-- if rnd(1) < rnd(score / ((score + 1))) then
 
-		if flr(rnd(10)) == 0 then
-			enemy_green_make()
-		else
-			enemy_make()
-		end
-	end
+	-- 	if flr(rnd(10)) == 0 then
+	-- 		enemy_green_make()
+	-- 	else
+	-- 		enemy_make()
+	-- 	end
+	-- end
 end
 
 function _draw()
@@ -157,6 +177,7 @@ function _draw()
 	starfield:draw()
 	enemies:draw()
 	bullets:draw()
+	enemy_bullets:draw()
 	explosions:draw()
 	powerups:draw()
 	players:draw()
