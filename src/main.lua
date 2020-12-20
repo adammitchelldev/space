@@ -1,10 +1,23 @@
+lives = 0
 score = 0
 hiscore = 0
-alive = false
 waiting = true
+alive = false
+next_powerup = 0
+
+screen_height = 114
 
 function score_add(x)
-	if (alive) score += x >> 15
+	if (alive) score += x >> 16
+end
+
+function roll_powerup(x, y)
+	next_powerup -= 1
+	if next_powerup <= 0 then
+		sfx(9)
+		powerup_make({x = x, y = y})
+		next_powerup = flr(rnd(5)) + 10
+	end
 end
 
 function score_print(score, x, y, pad)
@@ -42,10 +55,12 @@ function reset()
 	powerups:remove()
 
 	sfx(5)
-	player_make()
-	alive = true
+	lives = 2
 	waiting = false
 	score = 0
+	alive = true
+	next_powerup = flr(rnd(5)) + 10
+	player_make()
 	level_simple()
 end
 
@@ -74,31 +89,38 @@ function save_hiscore()
 end
 
 function player_enemy_collision(p, e)
-	level_stop()
-
+	if (p.iframes) return
 	sfx(1)
 	p:explode()
-	alive = false
 	sfx(7)
 	big_explosion(p.x, p.y)
 
-	play(function()
-		local t = text_box("game over", 46, 60)
-		t.bg = false
-		text_scene_type(t, "gAME oVER", 5)
-		wait(50)
-		waiting = true
-		t:remove()
-	end)
-	save_hiscore()
+	if lives > 0 then
+		play(function()
+			wait(200)
+			lives -= 1
+			player_make().iframes = 60
+		end)
+	else
+		level_stop()
+		alive = false
+		play(function()
+			wait(60)
+			local t = text_box("game over", 46, 60)
+			t.bg = false
+			text_scene_type(t, "gAME oVER", 5)
+			wait(120)
+			waiting = true
+			t:remove()
+		end)
+		save_hiscore()
+	end
 end
 
 function _update60()
 	if waiting and btnp(5) then
 		reset()
 	end
-
-	score_add(1)
 
 	script_update()
 
@@ -126,10 +148,7 @@ function _update60()
 		e:explode()
 		score_add(e.value)
 		play(text_rising_box(tostr(e.value).."0", e.x, e.y))
-		if rnd(20) < 1 then
-			sfx(9)
-			powerup_make(e)
-		end
+		roll_powerup(e.x, e.y)
 	end)
 
 	collision_grid_pairs_foreach(grid_players, grid_enemies, player_enemy_collision)
@@ -138,15 +157,15 @@ function _update60()
 	collision_grid_pairs_foreach(grid_players, grid_powerups, function(p, pu)
 		sfx(6)
 		pu:remove()
-		score_add(500)
-		play(text_rising_box("5000", pu.x + 4, pu.y - 8))
+		score_add(25)
+		play(text_rising_box("250", pu.x + 4, pu.y - 8))
 		if p.shot_delay > 20 then
 			p.shot_delay -= 3
 			play(text_rising_box("gUN uP", pu.x + 4, pu.y))
 		elseif p.shot_delay > 10 then
 			p.shot_delay -= 2
 			play(text_rising_box("gUN uP", pu.x + 4, pu.y))
-		elseif p.shot_delay > 1 then
+		elseif p.shot_delay > 5 then
 			p.shot_delay -= 1
 			play(text_rising_box("gUN uP", pu.x + 4, pu.y))
 		else
@@ -169,6 +188,8 @@ end
 
 function _draw()
 	cls()
+	clip(0, 128-screen_height, 128, 128)
+	camera(0, screen_height-128)
 	starfield:draw()
 	enemies:draw()
 	bullets:draw()
@@ -185,13 +206,19 @@ function _draw()
 	-- color(11)
 	-- collision_grid_draw_debug(grid_players)
 
+	clip()
+	camera(0,0)
 	color(7)
-	score_print(hiscore, 128, 2, 1)
-	score_print(score, 128, 10, 1)
+	score_print(hiscore, 128, 1, 1)
+	score_print(score, 128, 8, 1)
+
+	for i = 1, lives do
+		spr(player.sprite, (i * 9) - 8, 1)
+	end
 
 	if waiting then
 		print("pRESS ❎ TO PLAY", 31, 60)
 	end
 
-	print(stat(1), 0, 0, 7)
+	--print(stat(1), 0, 0, 7)
 end

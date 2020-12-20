@@ -5,20 +5,20 @@ enemy = class {
     draw = draw_sprite(3),
     sfx = 3,
     bounce_sfx = 2,
-    bounce = { l=0, r=120, u=0, d=60 },
+    bounce = { l=0, r=120, u=0, d=50 },
     explosion = 8,
     x = 60,
     y = -8,
     dy = 1,
     dx = 0,
-    value = 75,
+    value = 10,
     col = { l=0, r=8, u=0, d=8 }
 }
 
 enemy_green = enemy {
     draw = draw_sprite(4),
     explosion = 16,
-    value = 1250,
+    value = 50,
     dy = 2,
     bounce = false
 }
@@ -74,7 +74,7 @@ function enemy_move(self)
     end
 
     -- TODO this should pick up the play area size
-    if (self.y > 128) or self.y < -16 or self.x > 128 or self.x < -16 then
+    if (self.y > screen_height) or self.y < -16 or self.x > 128 or self.x < -16 then
         self:remove()
     end
 end
@@ -123,10 +123,10 @@ enemy_green.update = {
 enemy_big = enemy {
     draw = draw_sprite(14, 0, 0, 2, 2),
     explosion = 40,
-    value = 10000,
+    value = 250,
     health = 50,
     dy = 0.25,
-    bounce = { l=24, r=88, u=20, d=40 },
+    bounce = { l=24, r=88, u=10, d=35 },
     col = { l=2, r=14, u=2, d=14 }
 }
 

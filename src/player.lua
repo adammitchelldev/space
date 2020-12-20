@@ -11,9 +11,9 @@ player = class {
 }
 
 function player_make()
-	player {
+	return player {
     	x = 60,
-    	y = 120,
+    	y = screen_height,
 		atk = 0,
 	}:add()
 end
@@ -42,15 +42,21 @@ function player:update()
 	if (self.x < 0) self.x = 0
 	if (self.x > 120) self.x = 120
 	if (self.y < 0) self.y = 0
-	if (self.y > 120) self.y = 120
+	if (self.y > screen_height-8) self.y -= 1 --HACK
 
     -- TODO refactor out into a separate "weapon" table
 	if (self.atk > 0) self.atk -= 1
+
+	if self.iframes then
+		self.iframes -= 1
+		if (self.iframes <= 0) self.iframes = nil
+	end
 
 	if (btn(4)) self:shoot()
 end
 
 function player:draw()
 	fillp(0)
+	if (self.iframes and self.iframes & 1 == 1) return
 	spr(self.sprite, self.x, self.y)
 end
