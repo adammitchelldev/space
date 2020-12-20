@@ -1,5 +1,6 @@
 do
     -- TODO replace with the efficient ordered buffer
+    -- TODO integrate this with update ticking?
     local active_scripts = {}
     local global_step = 0
 

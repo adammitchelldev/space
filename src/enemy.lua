@@ -55,23 +55,32 @@ function enemy:update()
         self.dx = -self.dx
         sfx(self.bounce_sfx)
     end
-    if self.y > 128 then
+    if self.y > 128 or self.y < -8 then
         self:remove()
     end
 end
 
-function enemy_green:update()
-    for p in layer_each(players) do
-        if self.y > p.y - 60 then
-            if self.x < p.x then
-                self.dx += 0x0.2
-            elseif self.x > p.x then
-                self.dy = -0x0.2
-            end
-        end
-    end
-
-    sfx(4) --TODO constant
+function enemy_green:update_2()
+    local p = layer_each(players)()
+    if (not p) return
     
-    enemy.update(self)
+    if vec_dist2(self, p) < (64 ^ 2) then
+        local d = {
+            x = p.x - self.x,
+            y = p.y - self.y
+        }
+        vec_normalize(d, 4)
+        self.dx = 0
+        self.speed = 0
+        for i = 1,20 do
+            sfx(4)
+            wait(1)
+        end
+        self.dx = d.x
+        self.speed = d.y
+        repeat
+            sfx(4)
+            wait(1)
+        until false
+    end
 end

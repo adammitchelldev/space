@@ -2,9 +2,8 @@ function layer(t)
     setmetatable(t, {
         __index = function(layer, key)
             return function(...)
-                for item in layer_each(layer) do
-                    item[key](item, ...)
-                end
+                -- TODO pull this all together
+                update_layer(layer, key, ...)
             end
         end
     })
@@ -32,9 +31,16 @@ end
 
 function layer_each(layer)
     local orig_iter, state, cv = pairs(layer)
+    local done = false
     return function()
+        if (not orig_iter) return nil
         local k, v = orig_iter(state, cv)
         cv = k
+        if v == nil then
+            orig_iter = nil
+            state = nil
+            cv = nil
+        end
         return v
     end 
 end

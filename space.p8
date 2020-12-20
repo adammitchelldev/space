@@ -7,6 +7,8 @@ __lua__
 #include src/util/draw.lua
 #include src/util/script.lua
 #include src/util/text.lua
+#include src/util/update.lua
+#include src/util/vec.lua
 
 #include src/constants.lua
 

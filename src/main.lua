@@ -8,12 +8,12 @@ function score_add(x)
 end
 
 function score_print(score, x, y, pad)
-	local n = score
-	pad = pad or 0
+	if score == 0 then pad = 0 else pad = pad or 0 end
 	for i = 1, pad do
 		x -= 4
 		print("0", x, y)
 	end
+	local n = score
 	repeat
 		x -= 4
 		print((n % 0x0000.000a) << 16, x, y)
@@ -81,6 +81,7 @@ function _update60()
 
 	players:update()
 	enemies:update()
+	enemies:update_2()
 	bullets:update()
 	powerups:update()
 
@@ -144,7 +145,7 @@ function _update60()
 	--TODO put this somewhere else
 	if rnd(1) < rnd(score / ((score + 1))) then
 
-		if flr(rnd(50)) == 0 then
+		if flr(rnd(10)) == 0 then
 			enemy_green_make()
 		else
 			enemy_make()
@@ -176,4 +177,6 @@ function _draw()
 	if waiting then
 		print("pRESS ❎ TO PLAY", 31, 60)
 	end
+
+	print(stat(1), 0, 0, 7)
 end
