@@ -60,27 +60,30 @@ function enemy:update()
     end
 end
 
-function enemy_green:update_2()
-    local p = layer_each(players)()
-    if (not p) return
-    
-    if vec_dist2(self, p) < (64 ^ 2) then
-        local d = {
-            x = p.x - self.x,
-            y = p.y - self.y
-        }
-        vec_normalize(d, 4)
-        self.dx = 0
-        self.speed = 0
-        for i = 1,20 do
-            sfx(4)
-            wait(1)
+enemy_green.update = {
+    function(self)
+        local p = layer_each(players)()
+        if (not p) return
+        
+        if vec_dist2(self, p) < (64 ^ 2) then
+            local d = {
+                x = p.x - self.x,
+                y = p.y - self.y
+            }
+            vec_normalize(d, 4)
+            self.dx = 0
+            self.speed = 0
+            for i = 1,20 do
+                sfx(4)
+                wait(1)
+            end
+            self.dx = d.x
+            self.speed = d.y
+            repeat
+                sfx(4)
+                wait(1)
+            until false
         end
-        self.dx = d.x
-        self.speed = d.y
-        repeat
-            sfx(4)
-            wait(1)
-        until false
-    end
-end
+    end,
+    enemy.update
+}

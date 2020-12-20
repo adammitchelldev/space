@@ -81,7 +81,6 @@ function _update60()
 
 	players:update()
 	enemies:update()
-	enemies:update_2()
 	bullets:update()
 	powerups:update()
 

@@ -1,7 +1,7 @@
 starfield = {
-    static_count = 20,
+    static_count = 50,
     star_count = 20,
-    dust_count = 10
+    dust_count = 50
 }
 
 do
@@ -18,7 +18,7 @@ do
             static[i] = {
                 x = rnd(128),
                 y = rnd(128),
-                colour = rnd(4)
+                colour = flr(rnd(2)) + 5
             }
         end
 
@@ -29,7 +29,7 @@ do
                 x = rnd(128),
                 y = rnd(136) - 8,
                 speed = ((i / (n*2)) ^ 3) + 0x0.1,
-                colour = rnd(6) + 7
+                colour = 6
             }
         end
 

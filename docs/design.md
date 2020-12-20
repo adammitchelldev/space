@@ -32,6 +32,42 @@ The ship itself will be upgradeable with weapons and items, following various ra
 
 Upgrades are great but not unlimited and may come with various drawbacks. High firepower can result in lower armour (more damage taken) and higher energy use. Lots of heavy modules or high loads can counteract mobility too, mostly felt as acceleration. Certain upgrades are mutually exclusive. The ship can also be levelled up to unlock more room to play with upgrades, and the level up options are specific to each ship and captain.
 
+### Weapon types
+
+* Plasma blasters
+* Machine guns
+* Missiles
+* Flamethrowers
+* Acid throwers
+* Lasers
+* Black hole cannons
+* Railgun
+* Lightning/elec gun
+* Cluster bombs/flak
+* Limpet mines
+* Kinetic disk
+* Gamma gun (alternative lasers)
+
+### Upgradable weapon aspects
+
+* Split shot/spread
+* Double shot
+* Fire rate
+* Shot speed/power
+* Homing
+* Bigger explosions
+* More penetration/anti-shield
+* Knockback
+* Stun/slow/EMP
+* Melting
+* Charged shots
+
+### Power ups
+
+When collecting power ups in the level, they overcharge the ships abilities for a short while, so certain items will upgrade the overcharging power or change its behaviour e.g. collecting power ups adds permanent upgrades instead, or boosts power, or boosts speed, or repairs the ship, or boosts fire rate etc.
+
 ## Drones and Allies
 
-The player can also gain ally ships, which fight autonomously and provide an alternative way to expand the player's firepower. Certain special ally ships have unique abilities or support powers and they will level up over time too.
+Drones autonomously bounce around the battlefield and seek out targets, depending on the drone type and whatever special upgrades the player may have.
+
+The player can also gain ally ships, which join the players formation and are controlled by them. They fire additional weapons. Certain special ally ships have unique abilities or support powers that will automatically activate and they will level up over time too. Ally ships are not as complex as the player ship and they don't take damage.
