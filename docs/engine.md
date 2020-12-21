@@ -37,9 +37,6 @@ end)
 function player.collides:enemy(e)
 
 end
--- collision index uses weak keys, so ad-hoc prototypes can be used
-
-end
 ```
 
 ## Old stuff

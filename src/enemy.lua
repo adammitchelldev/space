@@ -52,26 +52,28 @@ function enemy_move(self)
     self.x += self.dx
     self.y += self.dy
 
+    local bounced
     if self.bounce then
         local b = self.bounce
         if b.l and self.x < b.l and self.dx < 0 then
             self.x = b.l
             self.dx = -self.dx
-            sfx(self.bounce_sfx)
+            bounced = true
         elseif b.r and self.x > b.r and self.dx > 0 then
             self.x = b.r
             self.dx = -self.dx
-            sfx(self.bounce_sfx)
+            bounced = true
         elseif b.u and self.y < b.u and self.dy < 0 then
             self.y = b.u
             self.dy = -self.dy
-            sfx(self.bounce_sfx)
+            bounced = true
         elseif b.d and self.y > b.d and self.dy > 0 then
             self.y = b.d
             self.dy = -self.dy
-            sfx(self.bounce_sfx)
+            bounced = true
         end
     end
+    if (bounced and self.bounce_sfx) sfx(self.bounce_sfx)
 
     -- TODO this should pick up the play area size
     if (self.y > screen_height) or self.y < -16 or self.x > 128 or self.x < -16 then
@@ -112,7 +114,7 @@ enemy_green.update = {
             self.dx = d.x
             self.dy = d.y
             repeat
-                sfx(4)
+                sfx(4) -- TODO make this an actual sound loop
                 wait(1)
             until false
         end
@@ -127,6 +129,7 @@ enemy_big = enemy {
     health = 50,
     dy = 0.25,
     bounce = { l=24, r=88, u=10, d=35 },
+    bounce_sfx = false,
     col = { l=2, r=14, u=2, d=14 }
 }
 
@@ -175,14 +178,22 @@ function enemy_move_fast(self)
     until false
 end
 
+function enemy_big_sfx(self)
+    if stat(18) != 12 then
+        sfx(12,2)
+    end
+end
+
 enemy_big.update = {
     enemy_move_fast,
     enemy_move,
-    enemy_shoot_big
+    enemy_shoot_big,
+    enemy_big_sfx -- TODO make a generic sound function
 }
 
 function enemy_big:explode()
     enemy.explode(self)
     big_explosion(self.x, self.y)
     sfx(7)
+    sfx(-1,2)
 end
