@@ -1,5 +1,49 @@
 # Engine Design
 
+## New stuff
+
+The engine should be highly modular, each module should be optional but integrate well with other modules (duh). Each module should either support a design pattern or provide a utility or implementation (e.g. drawing or collision).
+
+Initially, we'll combine the implementations together until the lines are clearer split.
+
+### Class/proto
+
+The prototyping system should support prototye metaprogramming i.e. provide hooks for prototype instantiation.
+
+The basic prototype method (`__call`) takes a table parameter and applies itself as the prototype. It should also provide an `__add` method to union prototypes, applying their indexes in order and overwriting other metamethods. The `__add` should be useable for adding additional behaviour classes e.g. adding update methods.
+
+### Object/behaviour/event system
+
+* Should be able to add arbitrary behaviours to an object at the instance level.
+* Should detect added or removed behaviours when a new prototype is created, and maintain a map of event handlers.
+* Behaviour event handlers should be able to specify how they want to handle events.
+
+### Auto-register behaviours
+
+When a prototype is "forked", system handlers should be able to hook in and detect whether or not specific behaviours should be added e.g. collision, draw methods, update methods. This provides a similar experience to ECS.
+
+### Collision handlers
+
+Collision handlers should be special registered behaviours, possible API forms:
+
+```
+player:collision("enemies", function(self, e)
+    --handle
+end)
+
+-- __index for player.collides
+-- __newindex for collides.enemies = function
+-- uses global lookup for collision type check: layer, class, tag?
+function player.collides:enemy(e)
+
+end
+-- collision index uses weak keys, so ad-hoc prototypes can be used
+
+end
+```
+
+## Old stuff
+
 Need to figure out the whole layers shebang. I liked how it worked in Find Gold somewhat, although it would be nice to have more "systemic" options for when objects are added and removed.
 
 I would also like it to be really easy to script events and stuff. Having a more "lightweight" way to do simultaneous events would be nice, could probably also seamlessly mix coroutines with more traditional animation components. The easier it is to script new things the better.

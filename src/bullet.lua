@@ -1,18 +1,23 @@
-bullets = layer {}
-enemy_bullets = layer {}
+bullets = layer()
+player_bullets = layer()
+enemy_bullets = layer()
 
 bullet = class {
-	layer = bullets,
-	colors = heat_colors,
+	tag = bullets,
 	explosion = 5,
-	dx = 0,
+	dx = 0
+}
+
+player_bullet = bullet {
+	tag = player_bullets,
+	colors = heat_colors,
 	dy = -5,
 	width = 1,
     col = { l=0, r=1, u=0, d=6 }
 }
 
 enemy_bullet = bullet {
-	layer = enemy_bullets,
+	tag = enemy_bullets,
 	colors = alien_colors,
 	width = 2,
 	dy = 1.5,

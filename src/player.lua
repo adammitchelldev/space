@@ -1,7 +1,4 @@
-players = layer {}
-
 player = class {
-	layer = players,
 	sprite = 2,
 	explosion = 50,
 	speed = 1,
@@ -11,6 +8,7 @@ player = class {
 	shot_delay = 30,
 	col = { l=1,r=7,u=3,d=7 }
 }
+players = layer(player)
 
 function player_make()
 	return player {
@@ -25,8 +23,8 @@ end
 function player:shoot()
 	if self.atk == 0 then
 		sfx(self.shot_sfx)
-		bullet_make(bullet, self.x, self.y - 4)
-		bullet_make(bullet, self.x + 7, self.y - 4)
+		bullet_make(player_bullet, self.x, self.y - 4)
+		bullet_make(player_bullet, self.x + 7, self.y - 4)
 		self.atk = self.shot_delay
 	end
 end

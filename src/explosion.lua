@@ -1,7 +1,7 @@
-explosions = layer {}
+explosions = layer()
 
 explosion = class {
-    layer = explosions
+    tag = explosions
 }
 
 function explosion_make(p)

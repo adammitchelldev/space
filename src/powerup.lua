@@ -1,7 +1,7 @@
-powerups = layer {}
+powerups = layer()
 
 powerup = class {
-    layer = powerups,
+    tag = powerups,
     sprite = 16,
     speed = 0.5,
     col = { l=-2,r=7,u=-2,d=7 }

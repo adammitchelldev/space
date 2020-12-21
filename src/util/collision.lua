@@ -89,3 +89,34 @@ do
         end
     end
 end
+
+-- Three types of collidables: layers, tags and classes
+-- collision_index = setmetatable({}, {
+--     __mode = "kv"
+-- })
+
+-- function collision_on(a, b, handler)
+--     local at = type(a)
+--     if at == "string" then
+
+--     end
+-- end
+
+
+
+-- local class_mt = getmetatable(class)
+-- local old_index = class_mt.__index
+-- class_mt.__index = function(t, k)
+--     if k == "collides" then -- BAD, will see on every miss
+--         local collision_index = setmetatable({}, {
+--             __newindex = function(_, k, v)
+                
+--             end,
+--             __mode = "k"
+--         })
+--         t.collides = collision_index
+--         return collision_index
+--     else
+--         return old_index[k]
+--     end
+-- end

@@ -1,7 +1,7 @@
-enemies = layer {}
+enemies = layer()
 
 enemy = class {
-    layer = enemies,
+    tag = enemies,
     draw = draw_sprite(3),
     sfx = 3,
     bounce_sfx = 2,

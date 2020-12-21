@@ -1,8 +1,4 @@
-texts = layer {}
-
-text = class {
-    layer = texts
-}
+text = class {}
 
 function text_draw(obj)
 	if obj.bg then

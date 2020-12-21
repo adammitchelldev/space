@@ -1,32 +1,67 @@
-function layer(t)
+layer_index = setmetatable({}, {
+    __mode = "kv"
+})
+
+local function layer_add_if_exists(key, obj)
+    local l = layer_index[key]
+    if (l) l[obj] = obj
+end
+
+local function layer_remove_if_exists(key, obj)
+    local l = layer_index[key]
+    if (l) l[obj] = nil
+end
+
+function layer_reg(obj, func)
+    local c = obj
+    while c != nil do
+        -- class layer
+        func(c, obj)
+
+        -- tag layer
+        local tag = c.tag
+        if (tag) func(tag, obj)
+
+        local tags = c.tags
+        if tags then
+            for tag in all(tags) do
+                func(tag, obj)
+            end
+        end
+
+        c = getmetatable(c)
+        if (c) c = c.__index
+    end
+    return obj
+end
+
+function layer_add(obj)
+    return layer_reg(obj, layer_add_if_exists)
+end
+class.add = layer_add
+
+function layer_remove(obj)
+    return layer_reg(obj, layer_remove_if_exists)
+end
+class.remove = layer_remove
+
+function layer(key)
+    local existing = layer_index[key]
+    if (existing) return existing
+
+    local t = {}
+    if (key == nil) key = t
+    layer_index[key] = t
+
     setmetatable(t, {
         __index = function(layer, key)
             return function(...)
-                -- TODO pull this all together
+                -- TODO rethink firing
                 update_layer(layer, key, ...)
             end
         end
     })
     return t
-end
-
-function class:add()
-    if self.layer != nil then
-        self.layer[self] = self
-    end
-    return self
-end
-
-function class:remove()
-    if self.layer != nil then
-        self.layer[self] = nil
-    end
-end
-
-function layer_foreach(func)
-	for k, v in pairs(layer) do
-		func(v)
-    end
 end
 
 function layer_each(layer)

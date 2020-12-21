@@ -7,6 +7,8 @@ next_powerup = 0
 
 screen_height = 114
 
+texts = layer(text)
+
 function score_add(x)
 	if (alive) score += x >> 16
 end
@@ -56,7 +58,6 @@ function reset()
 	players:remove()
 	enemies:remove()
 	bullets:remove()
-	enemy_bullets:remove()
 	powerups:remove()
 
 	sfx(5)
@@ -134,16 +135,15 @@ function _update60()
 	players:update()
 	enemies:update()
 	bullets:update()
-	enemy_bullets:update()
 	powerups:update()
 
-	grid_enemies = collision_grid(enemies)
 	grid_players = collision_grid(players)
-	grid_bullets = collision_grid(bullets)
+	grid_enemies = collision_grid(enemies)
+	grid_player_bullets = collision_grid(player_bullets)
 	grid_enemy_bullets = collision_grid(enemy_bullets)
 	grid_powerups = collision_grid(powerups)
 
-	collision_grid_pairs_foreach(grid_enemies, grid_bullets, function(e, b)
+	collision_grid_pairs_foreach(grid_player_bullets, grid_enemies, function(b, e)
 		sfx(1)
 		b:explode()
 		if e.health then
@@ -200,7 +200,7 @@ function _draw()
 	camera(0, screen_height-128)
 	starfield:draw()
 	enemies:draw()
-	bullets:draw()
+	player_bullets:draw()
 	enemy_bullets:draw()
 	explosions:draw()
 	powerups:draw()
