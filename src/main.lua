@@ -7,6 +7,13 @@ next_powerup = 0
 
 screen_height = 114
 
+players = layer(player)
+enemies = layer(enemy)
+bullets = layer(bullet)
+player_bullets = layer(player_bullet)
+enemy_bullets = layer(enemy_bullet)
+powerups = layer(powerup)
+explosions = layer(explosion)
 texts = layer(text)
 
 function score_add(x)
@@ -194,9 +201,6 @@ end
 function _draw()
 	cls()
 	clip(0, 128-screen_height, 128, 128)
-	-- local p = layer_each(players)()
-	-- local cx = 0
-	-- if (p) cx = (p.x - 60) / 4
 	camera(0, screen_height-128)
 	starfield:draw()
 	enemies:draw()
@@ -206,13 +210,6 @@ function _draw()
 	powerups:draw()
 	players:draw()
 	texts:draw()
-
-	-- color(9)
-	-- collision_grid_draw_debug(grid_enemies)
-	-- color(10)
-	-- collision_grid_draw_debug(grid_bullets)
-	-- color(11)
-	-- collision_grid_draw_debug(grid_players)
 
 	clip()
 	camera(0,0)

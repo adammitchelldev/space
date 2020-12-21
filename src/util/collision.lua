@@ -25,48 +25,33 @@ function collision_pairs(layer1, layer2)
 end
 
 do
-    local inner_mt = {
-        __index = function(t, k)
-            local nt = {}
-            t[k] = nt
-            return nt
-        end
-    }
-    local grid_mt = {
-        __index = function(t, k)
-            local nt = {}
-            setmetatable(nt, inner_mt)
-            t[k] = nt
-            return nt
-        end
-    }
-
     function collision_grid(layer)
-        local grid = setmetatable({}, grid_mt)
+        local g = grid()
 
         for i in layer_each(layer) do
-            local x = i.x
-            local y = i.y
-            local l = (x + i.col.l) \ 16
-            local r = ((x + i.col.r - 1) \ 16)
-            local u = (y + i.col.u) \ 16
-            local d = ((y + i.col.d - 1) \ 16)
+            local col = i.col
+            if col then
+                local x, y = i.x, i.y
+                local l = (x + col.l) \ 16
+                local r = ((x + col.r - 1) \ 16)
+                local u = (y + col.u) \ 16
+                local d = ((y + col.d - 1) \ 16)
 
-            for ix = l, r do
-                for iy = u, d do
-                    color(7)
-                    add(grid[ix][iy], i)
+                for ix = l, r do
+                    for iy = u, d do
+                        local cell = rawget_cell(g, ix, iy)
+                        if cell == nil then
+                            cell = {i}
+                            g[ix][iy] = cell
+                        else
+                            add(cell, i)
+                        end
+                    end
                 end
             end
         end
 
-        return grid
-    end
-
-    local function rawget_cell(grid, x, y)
-        local othercol = rawget(grid, x)
-        if (not othercol) return
-        return rawget(othercol, y)
+        return g
     end
 
     function collision_list_pairs_foreach(list1, list2, func)
@@ -78,45 +63,19 @@ do
         end
     end
     
-    function collision_grid_pairs_foreach(grid1, grid2, func)
-        for x, column in pairs(grid1) do
-            for y, inner in pairs(column) do
-                local other = rawget_cell(grid2, x, y)
-                if (not other) goto continue
-                collision_list_pairs_foreach(inner, other, func)
-                ::continue::
-            end
+    function collision_grid_pairs_foreach(grid1, grid, func)
+        for x, y, c1 in cells(grid1) do
+            local c2 = rawget_cell(grid, x, y)
+            if (c2) collision_list_pairs_foreach(c1, c2, func)
         end
     end
 end
 
--- Three types of collidables: layers, tags and classes
 -- collision_index = setmetatable({}, {
 --     __mode = "kv"
 -- })
 
 -- function collision_on(a, b, handler)
---     local at = type(a)
---     if at == "string" then
-
---     end
--- end
-
-
-
--- local class_mt = getmetatable(class)
--- local old_index = class_mt.__index
--- class_mt.__index = function(t, k)
---     if k == "collides" then -- BAD, will see on every miss
---         local collision_index = setmetatable({}, {
---             __newindex = function(_, k, v)
-                
---             end,
---             __mode = "k"
---         })
---         t.collides = collision_index
---         return collision_index
---     else
---         return old_index[k]
---     end
+--     local layer_a = layer(a)
+--     local layer_b = layer(b)
 -- end

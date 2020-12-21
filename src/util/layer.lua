@@ -64,22 +64,18 @@ function layer(key)
     return t
 end
 
+-- TODO probably don't need this
 function layer_each(layer)
-    local orig_iter, state, cv = pairs(layer)
-    local done = false
+    local k, v, done
     return function()
-        if (not orig_iter) return nil
-        local k, v = orig_iter(state, cv)
-        cv = k
-        if v == nil then
-            orig_iter = nil
-            state = nil
-            cv = nil
-        end
+        if (done) return nil
+        k, v = next(layer, k)
+        if (k == nil) done = true
         return v
     end 
 end
 
+-- TODO make stateless
 function layer_pairs(layer1, layer2)
     local iter1 = layer_each(layer1)
     local iter2 = layer_each(layer2)

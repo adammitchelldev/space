@@ -1,8 +1,5 @@
-explosions = layer()
 
-explosion = class {
-    tag = explosions
-}
+explosion = class {}
 
 function explosion_make(p)
 	explosion {
