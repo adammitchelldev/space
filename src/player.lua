@@ -5,6 +5,8 @@ player = class {
 	sprite = 2,
 	explosion = 50,
 	speed = 1,
+	accel = 0x0.4,
+	drag = 0x0.E,
 	shot_sfx = 0,
 	shot_delay = 30,
 	col = { l=1,r=7,u=3,d=7 }
@@ -13,7 +15,9 @@ player = class {
 function player_make()
 	return player {
     	x = 60,
-    	y = screen_height,
+		y = screen_height,
+		dx = 0,
+		dy = -1,
 		atk = 0,
 	}:add()
 end
@@ -28,21 +32,35 @@ function player:shoot()
 end
 
 function player:update()
-	local dx = 0
-	local dy = 0
+	local x,y,dx,dy,accel,speed,drag = self.x,self.y,self.dx,self.dy,self.accel,self.speed,self.drag
 
-	if (btn(0)) dx -= 1
-	if (btn(1)) dx += 1
-	if (btn(2)) dy -= 1
-	if (btn(3)) dy += 1
+	-- dx *= drag
+	-- dy *= drag
+	dx = 0
+	dy = 0
+	accel = 1
 
-	self.x += dx * self.speed
-	self.y += dy * self.speed
+	if btn(0) then dx-=accel end
+	if btn(1) then dx+=accel end
+	if btn(2) then dy-=accel end
+	if btn(3) then dy+=accel end
 
-	if (self.x < 0) self.x = 0
-	if (self.x > 120) self.x = 120
-	if (self.y < 0) self.y = 0
-	if (self.y > screen_height-8) self.y -= 1 --HACK
+	-- if dx>speed then dx=speed elseif dx<-speed then dx=-speed end
+	-- if dy>speed then dy=speed elseif dy<-speed then dy=-speed end
+
+	-- if vec_len2(dx, dy) > speed * speed then
+	-- 	dx, dy = vec_xy_normalize(dx, dy, speed)
+	-- end
+
+	x += dx
+	y += dy
+
+	if x<0 and dx<0 then x=0; dx=0 end
+	if x>120 and dx>0 then x=120; dx=0 end
+	if y<0 and dy<0 then y=0; dy=0 end
+	if y>screen_height-8 and dy>0 then y=screen_height-8; dy=0 end
+
+	self.x,self.y,self.dx,self.dy=x,y,dx,dy
 
     -- TODO refactor out into a separate "weapon" table
 	if (self.atk > 0) self.atk -= 1

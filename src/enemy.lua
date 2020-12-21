@@ -19,7 +19,7 @@ enemy_green = enemy {
     draw = draw_sprite(4),
     explosion = 16,
     value = 50,
-    dy = 2,
+    dy = 1,
     bounce = false
 }
 
@@ -97,7 +97,7 @@ enemy_green.update = {
         local p = layer_each(players)()
         if (not p) return
         
-        if vec_dist2(self, p) < (64 * 64) then
+        if vec_dist2(self, p) < (50 * 50) then
             local d = {
                 x = p.x - self.x,
                 y = p.y - self.y
@@ -139,11 +139,11 @@ function enemy_shoot_big(self)
     repeat
         local r = flr(rnd(50))
         if r < 30 then
-            for i = 1, 10 do
+            for i = 1, 8 do
                 sfx(11)
                 bullet_make(enemy_bullet, self.x + 2, self.y + 12)
                 bullet_make(enemy_bullet, self.x + 12, self.y + 12)
-                wait(5)
+                wait(6)
             end
         else
             local d = flr(rnd(2))

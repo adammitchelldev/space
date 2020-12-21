@@ -99,7 +99,7 @@ function player_enemy_collision(p, e)
 		play(function()
 			wait(200)
 			lives -= 1
-			player_make().iframes = 60
+			player_make().iframes = 120
 		end)
 	else
 		level_stop()
@@ -189,6 +189,9 @@ end
 function _draw()
 	cls()
 	clip(0, 128-screen_height, 128, 128)
+	-- local p = layer_each(players)()
+	-- local cx = 0
+	-- if (p) cx = (p.x - 60) / 4
 	camera(0, screen_height-128)
 	starfield:draw()
 	enemies:draw()

@@ -15,7 +15,7 @@ enemy_bullet = bullet {
 	layer = enemy_bullets,
 	colors = alien_colors,
 	width = 2,
-	dy = 2,
+	dy = 1.5,
 	col = { l=1, r=3, u=0, d=2 }
 }
 
@@ -45,7 +45,7 @@ function bullet:draw()
 		y += self.dy
 	end
 	local colors = self.colors
-	for i = abs(self.dy), 1, -1 do
+	for i = abs(self.dy)+1, 0, -1 do
 		color(colors[c])
 		rectfill(x, y, x + self.width - 1, y + i - 1)
 		y -= i * step
