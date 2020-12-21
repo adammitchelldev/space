@@ -101,13 +101,7 @@ function save_hiscore()
 	end
 end
 
-function player_enemy_collision(p, e)
-	if (p.iframes) return
-	sfx(1)
-	p:explode()
-	sfx(7)
-	big_explosion(p.x, p.y)
-
+function player_die(p)
 	if lives > 0 then
 		play(function()
 			wait(200)
@@ -115,36 +109,22 @@ function player_enemy_collision(p, e)
 			player_make().iframes = 120
 		end)
 	else
-		level_stop()
-		alive = false
-		play(function()
-			wait(60)
-			local t = text_box("game over", 46, 60)
-			t.bg = false
-			text_scene_type(t, "gAME oVER", 5)
-			wait(120)
-			waiting = true
-			t:remove()
-		end)
-		save_hiscore()
+		game_over()
 	end
 end
 
-collision_on(player_bullets, enemies, function(b, e)
-	sfx(1)
-	b:explode()
-	if e.health then
-		e.health -= 1
-		if (e.health > 0) return
-	end
-	e:explode()
-	score_add(e.value)
-	play(text_rising_box(tostr(e.value).."0", e.x, e.y))
-	roll_powerup(e.x, e.y)
+game_over = script(function()
+	level_stop()
+	alive = false
+	save_hiscore()
+	wait(60)
+	local t = text_box("game over", 46, 60)
+	t.bg = false
+	text_scene_type(t, "gAME oVER", 5)
+	wait(120)
+	waiting = true
+	t:remove()
 end)
-
-collision_on(players, enemies, player_enemy_collision)
-collision_on(players, bullets, player_enemy_collision)
 
 collision_on(players, powerups, function(p, pu)
 	sfx(6)

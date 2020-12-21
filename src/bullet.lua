@@ -1,15 +1,9 @@
-bullets = layer()
-player_bullets = layer()
-enemy_bullets = layer()
-
 bullet = class {
-	tag = bullets,
 	explosion = 5,
 	dx = 0
 }
 
 player_bullet = bullet {
-	tag = player_bullets,
 	colors = heat_colors,
 	dy = -5,
 	width = 1,
@@ -17,7 +11,6 @@ player_bullet = bullet {
 }
 
 enemy_bullet = bullet {
-	tag = enemy_bullets,
 	colors = alien_colors,
 	width = 2,
 	dy = 1.5,
@@ -29,6 +22,11 @@ function bullet_make(ty, x, y)
 		x = x,
 		y = y,
 	}:add()
+end
+
+function bullet:hit()
+	sfx(1)
+	self:explode()
 end
 
 function bullet:update()

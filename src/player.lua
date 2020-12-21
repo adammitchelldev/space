@@ -15,6 +15,15 @@ function player_make()
 	}:add()
 end
 
+function player:hit()
+	if (self.iframes) return
+	sfx(1)
+	self:explode()
+	sfx(7)
+	big_explosion(self.x, self.y)
+	player_die()
+end
+
 function player:shoot()
 	if self.atk == 0 then
 		sfx(self.shot_sfx)

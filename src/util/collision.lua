@@ -74,29 +74,42 @@ end
 do
     local collision_handlers = setmetatable({},{__mode="k"})
 
-    local function add_collision_on(ia, b, handler)
+    local function add_collision_on(ia, b, h)
         local list = ia[b]
         printh("adding collision")
         if list == nil then
-            ia[b] = {handler}
+            ia[b] = {h}
         else
-            add(list, handler)
+            add(list, h)
         end
     end
 
-    function collision_on(a, b, handler)
+    function handler(amethod, bmethod)
+        return function(a, b)
+            if amethod != nil then
+                local func = a[amethod]
+                if (func) func(a, b)
+            end
+            if bmethod != nil then
+                local func = b[bmethod]
+                if (func) func(b, a)
+            end
+        end
+    end
+
+    function collision_on(a, b, h)
         local la, lb = layer(a), layer(b)
         local ia = collision_handlers[la]
         if ia then
-            add_collision_on(ia, lb, handler)
+            add_collision_on(ia, lb, h)
         else
-            local ib = collision_handlers[b]
+            local ib = collision_handlers[lb]
             if ib then
-                add_collision_on(ib, la, handler)
+                add_collision_on(ib, la, function(a, b) h(b, a) end)
             else
-                local i = setmetatable({},{__mode="k"})
-                add_collision_on(i, lb, handler)
-                collision_handlers[a] = i
+                ia = setmetatable({},{__mode="k"})
+                add_collision_on(ia, lb, h)
+                collision_handlers[la] = ia
             end
         end
     end

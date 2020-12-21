@@ -1,7 +1,4 @@
-enemies = layer()
-
 enemy = class {
-    tag = enemies,
     draw = draw_sprite(3),
     sfx = 3,
     bounce_sfx = 2,
@@ -14,6 +11,18 @@ enemy = class {
     value = 10,
     col = { l=0, r=8, u=0, d=8 }
 }
+
+function enemy:hit()
+    sfx(1)
+	if self.health then
+		self.health -= 1
+		if (self.health > 0) return
+	end
+	self:explode()
+	score_add(self.value)
+	play(text_rising_box(tostr(self.value).."0", self.x, self.y))
+	roll_powerup(self.x, self.y)
+end
 
 enemy_green = enemy {
     draw = draw_sprite(4),
