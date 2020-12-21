@@ -22,15 +22,20 @@ end
 
 function score_print(score, x, y, pad)
 	if score == 0 then pad = 0 else pad = pad or 0 end
-	for i = 1, pad do
+	local i = 1
+	while i <= pad do
 		x -= 4
 		print("0", x, y)
+		if ((i % 3)==0) x-=1
+		i += 1
 	end
 	local n = score
 	repeat
 		x -= 4
 		print((n % 0x0000.000a) << 16, x, y)
 		n /= 10
+		if ((i % 3)==0) x-=1
+		i += 1
 	until n == 0
 end
 
