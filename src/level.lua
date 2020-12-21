@@ -1,7 +1,11 @@
 active_level_scripts = {}
 
+function lplay(func)
+    return add(active_level_scripts, play(func))
+end
+
 function level(func)
-    return function() add(active_level_scripts, play(func)) end
+    return function() lplay(func) end
 end
 
 function no_enemies()
@@ -22,6 +26,7 @@ end)
 level_simple = level(function()
     local diff = 0
     local wave_size = 0
+    wait(120)
     repeat
         for c = 1, 4 do
             local dx = rnd(4) - 2
@@ -66,10 +71,18 @@ level_simple = level(function()
 end)
 
 level_test = level(function()
+    lplay(function()
+        repeat
+            wait(1)
+            if btnp(5) then
+                powerup_make({x=rnd(120), y=60})
+            end
+        until false
+    end)
     repeat
+        wait(180)
         enemy_big_make({ x = 60, y = -16, dx = 0.5, health = 20 })
         wait(no_enemies)
-        wait(180)
     until false
 end)
 

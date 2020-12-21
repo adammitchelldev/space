@@ -12,7 +12,8 @@ enemy = class {
     col = { l=0, r=8, u=0, d=8 }
 }
 
-function enemy:hit()
+function enemy:hit(obj)
+    if (obj.iframes) return
     sfx(1)
 	if self.health then
 		self.health -= 1
@@ -201,8 +202,12 @@ enemy_big.update = {
 }
 
 function enemy_big:explode()
-    enemy.explode(self)
-    big_explosion(self.x, self.y)
     sfx(7)
+    enemy_big:super().explode(self)
+    big_explosion(self.x, self.y)
+end
+
+function enemy_big:remove()
     sfx(-1,2)
+    enemy_big:super().remove(self)
 end

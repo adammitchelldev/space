@@ -126,28 +126,9 @@ game_over = script(function()
 	t:remove()
 end)
 
-collision_on(players, powerups, function(p, pu)
-	sfx(6)
-	pu:remove()
-	score_add(25)
-	play(text_rising_box("250", pu.x + 4, pu.y - 8))
-	if p.shot_delay > 20 then
-		p.shot_delay -= 3
-		play(text_rising_box("gUN uP", pu.x + 4, pu.y))
-	elseif p.shot_delay > 10 then
-		p.shot_delay -= 2
-		play(text_rising_box("gUN uP", pu.x + 4, pu.y))
-	elseif p.shot_delay > 5 then
-		p.shot_delay -= 1
-		play(text_rising_box("gUN uP", pu.x + 4, pu.y))
-	else
-		play(text_rising_box("max!", pu.x, pu.y))
-	end
-end)
-
 
 function _update60()
-	if waiting and btnp(5) then
+	if waiting and btn() != 0 then
 		reset()
 	end
 
@@ -189,7 +170,7 @@ function _draw()
 	end
 
 	if waiting then
-		print("pRESS ❎ TO PLAY", 31, 60)
+		print("pRESS ANY BUTTON", 32, 60)
 	end
 
 	--print(stat(1), 0, 0, 7)

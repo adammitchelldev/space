@@ -24,7 +24,8 @@ function bullet_make(ty, x, y)
 	}:add()
 end
 
-function bullet:hit()
+function bullet:hit(obj)
+	if (obj.iframes) return
 	sfx(1)
 	self:explode()
 end

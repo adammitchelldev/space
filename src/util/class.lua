@@ -22,5 +22,10 @@ do
     class = {}
     setmetatable(class, { __call = class_extend })
 
+    function class:super()
+        local mt = getmetatable(self)
+        if (mt != nil) return mt.__index
+    end
+
     -- TODO create hook/delegates for init
 end

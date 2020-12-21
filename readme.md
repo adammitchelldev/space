@@ -3,27 +3,27 @@
 ## TODO
 
 ### Features:
-- [ ] Gamestates and start screen
+- [x] Start screen
 - [ ] Credits
-- [ ] Improved hiscore table (with scoresub)
+- [ ] Improved hiscore table
 - [x] Ship boundaries and hit detection
-- [ ] Ship lives and game over
+- [x] Ship lives and game over
 - [x] Score counter
-- [ ] Cool enemy movement patterns
-- [ ] More enemy types
-- [ ] Powerups
+- [ ] Cool enemy movement patterns (kind of done?)
+- [x] More enemy types
+- [x] Powerups
 - [ ] More weapons (missiles)
 
 ### Refactoring:
-- [ ] Further organise files
-- [ ] Use hook/event style for draw/update/collisions
-- [ ] Automatic layer derivation from draw layers and collision hooks
+- [x] Further organise files
+- [x] Use hook/event style for draw/update/collisions
+- [x] Automatic layer derivation from draw layers and collision hooks
 - [ ] Better init hooks?
-- [ ] Better automatic layer management
+- [x] Better automatic layer management
 
 ### Engine:
-- [ ] Prebuilt methods and draw types
+- [x] Prebuilt methods and draw types
 - [ ] Bring in old effects from Find Gold
 - [ ] Particle effects?
-- [ ] More efficient collision detection (grid)
+- [x] More efficient collision detection (grid)
 - [ ] Game states?

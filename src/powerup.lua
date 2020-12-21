@@ -11,6 +11,25 @@ function powerup_make(orig)
     }:add()
 end
 
+function powerup:collect(p)
+    sfx(6)
+	self:remove()
+	score_add(25)
+	play(text_rising_box("250", self.x + 4, self.y - 8))
+	if p.shot_delay > 20 then
+		p.shot_delay -= 3
+		play(text_rising_box("gUN uP", self.x + 4, self.y))
+	elseif p.shot_delay > 10 then
+		p.shot_delay -= 2
+		play(text_rising_box("gUN uP", self.x + 4, self.y))
+	elseif p.shot_delay > 5 then
+		p.shot_delay -= 1
+		play(text_rising_box("gUN uP", self.x + 4, self.y))
+	else
+		play(text_rising_box("max!", self.x, self.y))
+    end
+end
+
 function powerup:update()
     self.y += self.speed
     if self.y > 128 then

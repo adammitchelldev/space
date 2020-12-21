@@ -74,9 +74,8 @@ end
 do
     local collision_handlers = setmetatable({},{__mode="k"})
 
-    local function add_collision_on(ia, b, h)
+    local function add_collision_handler(ia, b, h)
         local list = ia[b]
-        printh("adding collision")
         if list == nil then
             ia[b] = {h}
         else
@@ -97,18 +96,18 @@ do
         end
     end
 
-    function collision_on(a, b, h)
+    function collision_handler(a, b, h)
         local la, lb = layer(a), layer(b)
         local ia = collision_handlers[la]
         if ia then
-            add_collision_on(ia, lb, h)
+            add_collision_handler(ia, lb, h)
         else
             local ib = collision_handlers[lb]
             if ib then
-                add_collision_on(ib, la, function(a, b) h(b, a) end)
+                add_collision_handler(ib, la, function(a, b) h(b, a) end)
             else
                 ia = setmetatable({},{__mode="k"})
-                add_collision_on(ia, lb, h)
+                add_collision_handler(ia, lb, h)
                 collision_handlers[la] = ia
             end
         end
