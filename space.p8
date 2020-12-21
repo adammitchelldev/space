@@ -12,6 +12,7 @@ __lua__
 #include src/util/grid.lua
 
 #include src/constants.lua
+#include src/common.lua
 
 #include src/bullet.lua
 #include src/enemy.lua

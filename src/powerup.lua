@@ -1,7 +1,11 @@
 powerup = class {
-    sprite = 16,
-    speed = 0.5,
-    col = { l=-2,r=7,u=-2,d=7 }
+    draw = draw_sprite(16),
+    dy = 0.5,
+    col = { l=-2,r=7,u=-2,d=7 },
+    update = {
+        move,
+        remove_oob
+    }
 }
 
 function powerup_make(orig)
@@ -28,16 +32,4 @@ function powerup:collect(p)
 	else
 		play(text_rising_box("max!", self.x, self.y))
     end
-end
-
-function powerup:update()
-    self.y += self.speed
-    if self.y > 128 then
-        self:remove()
-    end
-end
-
-function powerup:draw()
-	fillp(0)
-    spr(self.sprite, self.x, self.y)
 end

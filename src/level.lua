@@ -19,7 +19,7 @@ end
 level_extra_enemy = level(function()
     repeat
         wait(flr(rnd(150)) + 200)
-        enemy_green_make()
+        enemy_green:new{x=rnd(120),y=-8}
     until false
 end)
 
@@ -32,7 +32,7 @@ level_simple = level(function()
             local dx = rnd(4) - 2
             dx *= min(0.5 + (diff * 0.25), 1.5)
             for i = 0, wave_size do
-                enemy_make { x = ((i + ((7 - wave_size) / 2)) * 16) + 4, dx = dx, dy = 1 + (diff * 0.1) - (abs(dx * i) / 16)}
+                enemy_normal:new{ x = ((i + ((7 - wave_size) / 2)) * 16) + 4, dx = dx, dy = 1 + (diff * 0.1) - (abs(dx * i) / 16)}
             end
             if diff < 3 then
                 wait(no_enemies)
@@ -48,7 +48,7 @@ level_simple = level(function()
         wait(60)
 
         for i = 1, 1 + diff do
-            enemy_green_make()
+            enemy_green:new{x=rnd(120),y=-8}
             wait(max(4, 30 - (i * 2)))
         end
         wait(no_enemies, player_up)
@@ -59,7 +59,7 @@ level_simple = level(function()
         end
 
         if diff > 0 and (diff & 1) == 0 then
-            enemy_big_make({ x = 60, y = -16, dx = 0.5, health = 25 + (25 * diff) })
+            enemy_big:new{ x = 60, y = -16, dx = 0.5, health = 25 + (25 * diff) }
             wait(no_enemies)
             lives += 1
             wait(180)
@@ -81,7 +81,7 @@ level_test = level(function()
     end)
     repeat
         wait(180)
-        enemy_big_make({ x = 60, y = -16, dx = 0.5, health = 20 })
+        enemy_big:new{ x = 60, y = -16, dx = 0.5, health = 20 }
         wait(no_enemies)
     until false
 end)

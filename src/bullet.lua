@@ -1,42 +1,23 @@
 bullet = class {
 	explosion = 5,
-	dx = 0
+	dx = 0,
+	update = {
+		move,
+		remove_oob
+	},
+	hit = standard_hit
 }
 
-player_bullet = bullet {
-	colors = heat_colors,
-	dy = -5,
-	width = 1,
-    col = { l=0, r=1, u=0, d=6 }
-}
-
-enemy_bullet = bullet {
-	colors = alien_colors,
-	width = 2,
-	dy = 1.5,
-	col = { l=1, r=3, u=0, d=2 }
-}
-
-function bullet_make(ty, x, y)
-	return ty {
+function bullet:new(x, y)
+	return self {
 		x = x,
 		y = y,
 	}:add()
 end
 
-function bullet:hit(obj)
-	if (obj.iframes) return
+function bullet:die(obj)
 	sfx(1)
 	self:explode()
-end
-
-function bullet:update()
-	self.y += self.dy
-	self.x += self.dx
-
-	if self.y >= 128 or self.y < -8 or self.x >= 128 or self.x < -8 then
-        self:remove()
-    end
 end
 
 function bullet:draw()

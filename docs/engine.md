@@ -1,6 +1,16 @@
 # Engine Design
 
-## New stuff
+## New Stuff
+
+Need to put some more thought into minimizing tokens: should probably collapse a bunch of collision stuff and simplify the layer system back to closer to what it was.
+
+Should move to a single sprite renderer, single update method style? Could try a form much closer to ECS with coroutines and scripts:
+
+Have each system refer to one component, when the component is truthy, system evaluates that logic (apart from move system activates always? pos as component? could allow ad-hoc transform dependence)
+
+
+
+## Older stuff
 
 The engine should be highly modular, each module should be optional but integrate well with other modules (duh). Each module should either support a design pattern or provide a utility or implementation (e.g. drawing or collision).
 

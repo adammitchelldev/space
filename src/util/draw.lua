@@ -2,8 +2,9 @@ function draw_sprite(n, x, y, ...)
     x = x or 0
     y = y or 0
     local args = pack(...)
-    return function(obj)
+    return function(self)
         fillp(0)
-        spr(n, obj.x + x, obj.y + y, unpack(args))
+        if (self.iframes and self.iframes & 1 == 1) return
+        spr(n, self.x + x, self.y + y, unpack(args))
     end
 end

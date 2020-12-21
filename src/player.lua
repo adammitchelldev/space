@@ -1,23 +1,30 @@
 player = class {
 	sprite = 2,
+	draw = draw_sprite(2),
 	explosion = 50,
 	speed = 1,
 	shot_sfx = 0,
 	shot_delay = 30,
-	col = { l=1,r=7,u=3,d=7 }
+	col = { l=1,r=7,u=3,d=7 },
+	hit = standard_hit,
 }
 
-function player_make()
-	return player {
+player_bullet = bullet {
+	colors = heat_colors,
+	dy = -5,
+	width = 1,
+    col = { l=0, r=1, u=0, d=6 }
+}
+
+function player:new()
+	return self {
     	x = 60,
 		y = screen_height,
 		atk = 0,
 	}:add()
 end
 
-function player:hit()
-	if (self.iframes) return
-	sfx(1)
+function player:die()
 	self:explode()
 	sfx(7)
 	big_explosion(self.x, self.y)
@@ -27,8 +34,8 @@ end
 function player:shoot()
 	if self.atk == 0 then
 		sfx(self.shot_sfx)
-		bullet_make(player_bullet, self.x, self.y - 4)
-		bullet_make(player_bullet, self.x + 7, self.y - 4)
+		player_bullet:new(self.x, self.y - 4)
+		player_bullet:new(self.x + 7, self.y - 4)
 		self.atk = self.shot_delay
 	end
 end
@@ -64,10 +71,4 @@ function player:update()
 	end
 
 	if (btn(4)) self:shoot()
-end
-
-function player:draw()
-	fillp(0)
-	if (self.iframes and self.iframes & 1 == 1) return
-	spr(self.sprite, self.x, self.y)
 end

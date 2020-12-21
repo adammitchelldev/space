@@ -73,8 +73,9 @@ function reset()
 	score = 0
 	alive = true
 	next_powerup = flr(rnd(5)) + 10
-	player_make()
-	level_simple()
+	player:new()
+	-- level_simple()
+	level_test()
 end
 
 function load_hiscore()
@@ -106,7 +107,7 @@ function player_die(p)
 		play(function()
 			wait(200)
 			lives -= 1
-			player_make().iframes = 120
+			player:new().iframes = 120
 		end)
 	else
 		game_over()
