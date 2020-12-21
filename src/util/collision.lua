@@ -71,11 +71,66 @@ do
     end
 end
 
--- collision_index = setmetatable({}, {
---     __mode = "kv"
--- })
+do
+    local collision_handlers = setmetatable({},{__mode="k"})
 
--- function collision_on(a, b, handler)
---     local layer_a = layer(a)
---     local layer_b = layer(b)
--- end
+    local function add_collision_on(ia, b, handler)
+        local list = ia[b]
+        printh("adding collision")
+        if list == nil then
+            ia[b] = {handler}
+        else
+            add(list, handler)
+        end
+    end
+
+    function collision_on(a, b, handler)
+        local la, lb = layer(a), layer(b)
+        local ia = collision_handlers[la]
+        if ia then
+            add_collision_on(ia, lb, handler)
+        else
+            local ib = collision_handlers[b]
+            if ib then
+                add_collision_on(ib, la, handler)
+            else
+                local i = setmetatable({},{__mode="k"})
+                add_collision_on(i, lb, handler)
+                collision_handlers[a] = i
+            end
+        end
+    end
+
+    local grids_mt = {
+        __index = function(t, k)
+            if (layer_empty(k)) return
+            local g = collision_grid(k)
+            t[k] = g
+            return g
+        end
+    }
+
+    collision_grids = {}
+    function collision_update()
+        collision_grids = setmetatable({},grids_mt)
+
+        for la, index in pairs(collision_handlers) do
+            local ga = collision_grids[la]
+            if ga then
+                for lb, handlers in pairs(index) do
+                    if #handlers > 0 then
+                        local gb = collision_grids[lb]
+                        if gb then
+                            -- TODO pick smaller layer first
+                            collision_grid_pairs_foreach(ga, gb, function(a, b)
+                                for h in all(handlers) do
+                                    h(a, b)
+                                end
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+    end
+end

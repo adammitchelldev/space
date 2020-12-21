@@ -130,6 +130,42 @@ function player_enemy_collision(p, e)
 	end
 end
 
+collision_on(player_bullets, enemies, function(b, e)
+	sfx(1)
+	b:explode()
+	if e.health then
+		e.health -= 1
+		if (e.health > 0) return
+	end
+	e:explode()
+	score_add(e.value)
+	play(text_rising_box(tostr(e.value).."0", e.x, e.y))
+	roll_powerup(e.x, e.y)
+end)
+
+collision_on(players, enemies, player_enemy_collision)
+collision_on(players, bullets, player_enemy_collision)
+
+collision_on(players, powerups, function(p, pu)
+	sfx(6)
+	pu:remove()
+	score_add(25)
+	play(text_rising_box("250", pu.x + 4, pu.y - 8))
+	if p.shot_delay > 20 then
+		p.shot_delay -= 3
+		play(text_rising_box("gUN uP", pu.x + 4, pu.y))
+	elseif p.shot_delay > 10 then
+		p.shot_delay -= 2
+		play(text_rising_box("gUN uP", pu.x + 4, pu.y))
+	elseif p.shot_delay > 5 then
+		p.shot_delay -= 1
+		play(text_rising_box("gUN uP", pu.x + 4, pu.y))
+	else
+		play(text_rising_box("max!", pu.x, pu.y))
+	end
+end)
+
+
 function _update60()
 	if waiting and btnp(5) then
 		reset()
@@ -143,59 +179,10 @@ function _update60()
 	enemies:update()
 	bullets:update()
 	powerups:update()
-
-	grid_players = collision_grid(players)
-	grid_enemies = collision_grid(enemies)
-	grid_player_bullets = collision_grid(player_bullets)
-	grid_enemy_bullets = collision_grid(enemy_bullets)
-	grid_powerups = collision_grid(powerups)
-
-	collision_grid_pairs_foreach(grid_player_bullets, grid_enemies, function(b, e)
-		sfx(1)
-		b:explode()
-		if e.health then
-			e.health -= 1
-			if (e.health > 0) return
-		end
-		e:explode()
-		score_add(e.value)
-		play(text_rising_box(tostr(e.value).."0", e.x, e.y))
-		roll_powerup(e.x, e.y)
-	end)
-
-	collision_grid_pairs_foreach(grid_players, grid_enemies, player_enemy_collision)
-	collision_grid_pairs_foreach(grid_players, grid_enemy_bullets, player_enemy_collision)
-
-	collision_grid_pairs_foreach(grid_players, grid_powerups, function(p, pu)
-		sfx(6)
-		pu:remove()
-		score_add(25)
-		play(text_rising_box("250", pu.x + 4, pu.y - 8))
-		if p.shot_delay > 20 then
-			p.shot_delay -= 3
-			play(text_rising_box("gUN uP", pu.x + 4, pu.y))
-		elseif p.shot_delay > 10 then
-			p.shot_delay -= 2
-			play(text_rising_box("gUN uP", pu.x + 4, pu.y))
-		elseif p.shot_delay > 5 then
-			p.shot_delay -= 1
-			play(text_rising_box("gUN uP", pu.x + 4, pu.y))
-		else
-			play(text_rising_box("max!", pu.x, pu.y))
-		end
-	end)
-
+	
 	explosions:update()
 
-	--TODO put this somewhere else
-	-- if rnd(1) < rnd(score / ((score + 1))) then
-
-	-- 	if flr(rnd(10)) == 0 then
-	-- 		enemy_green_make()
-	-- 	else
-	-- 		enemy_make()
-	-- 	end
-	-- end
+	collision_update()
 end
 
 function _draw()

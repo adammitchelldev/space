@@ -1,5 +1,5 @@
 layer_index = setmetatable({}, {
-    __mode = "kv"
+    __mode = "k"
 })
 
 local function layer_add_if_exists(key, obj)
@@ -45,23 +45,32 @@ function layer_remove(obj)
 end
 class.remove = layer_remove
 
-function layer(key)
-    local existing = layer_index[key]
-    if (existing) return existing
-
-    local t = {}
-    if (key == nil) key = t
-    layer_index[key] = t
-
-    setmetatable(t, {
+do
+    local layer_mt = {
         __index = function(layer, key)
             return function(...)
                 -- TODO rethink firing
                 update_layer(layer, key, ...)
             end
         end
-    })
-    return t
+    }
+
+    function layer_is(obj)
+        return getmetatable(obj) == layer_mt
+    end
+
+    function layer(key)
+        if (layer_is(key)) return key
+        local existing = layer_index[key]
+        if (existing) return existing
+
+        local t = {}
+        if (key == nil) key = t
+        layer_index[key] = t
+
+        setmetatable(t, layer_mt)
+        return t
+    end
 end
 
 -- TODO probably don't need this
@@ -94,4 +103,8 @@ function layer_pairs(layer1, layer2)
         end
         return v1, v2
     end
+end
+
+function layer_empty(layer)
+    return next(layer) == nil
 end
