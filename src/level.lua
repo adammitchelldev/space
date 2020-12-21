@@ -9,11 +9,11 @@ function level(func)
 end
 
 function no_enemies()
-    return layer_each(enemies)() == nil
+    return layer_empty(enemies)
 end
 
 function player_up()
-    return layer_each(players)() != nil
+    return not layer_empty(players)
 end
 
 level_extra_enemy = level(function()
