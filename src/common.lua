@@ -24,22 +24,38 @@ function bounce(self)
 end
 
 function remove_oob(self)
-    local x,y,w,h = self.x,self.y,self.w or 8,self.h or 8
-    if (y > screen_height) or y < -h or x > 128 or x < -w then
-        self:remove()
+    if self.remove_oob then
+        local x,y,w,h = self.x,self.y,self.w or 8,self.h or 8
+        if (y > screen_height) or y < -h or x > 128 or x < -w then
+            self:remove()
+        end
+    end
+end
+
+function ttl(self)
+    if self.ttl then
+        self.ttl -= 1
+        if self.ttl <= 0 then
+            self:die()
+        end
     end
 end
 
 function move(self)
-    self.x += self.dx or 0
-    self.y += self.dy or 0
+    self.x += self.dx
+    self.y += self.dy
 end
 
-function standard_hit(self, obj)
+function class:hit(obj)
     if (self.iframes or obj.iframes) return
     if self.health then
         self.health -= 1
         if (self.health > 0) return
     end
     self:die()
+end
+
+-- make optional death_fx
+function class:die()
+    self:remove()
 end

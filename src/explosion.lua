@@ -1,18 +1,15 @@
 
 explosion = class {}
 
-function explosion_make(p)
+function explosion_make(p, dx, dy)
 	explosion {
 		x = p.x,
-		y = p.y,
+        y = p.y,
+        dx = p.dx,
+        dy = p.dy,
 		size = p.explosion,
-		age = 0
+		ttl = mid(5, p.explosion, 15)
 	}:add()
-end
-
-function explosion:update()
-	self.age += 1
-	if (self.age > 5) self:remove()
 end
 
 do
@@ -25,13 +22,14 @@ do
     }
 
     function explosion:draw()
-        local x = self.x
-        local y = self.y
-        local c = heat_colors[self.age]
-        local s = self.size * (1 + (self.age - 1) * 0.2)
+        local age = max(1, 6 - self.ttl)
+        local x,y = self.x,self.y
+        local c = heat_colors[age]
+        local s = self.size * (1 + (age - 1) * 0.1)
         color(c)
-        fillp(explosion_dither[self.age])
+        fillp(explosion_dither[age])
         circfill(x, y, s)
+        fillp()
     end
 end
 

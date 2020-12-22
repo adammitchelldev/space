@@ -10,6 +10,7 @@ __lua__
 #include src/util/update.lua
 #include src/util/vec.lua
 #include src/util/grid.lua
+#include src/util/world.lua
 
 #include src/constants.lua
 #include src/common.lua

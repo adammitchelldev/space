@@ -74,8 +74,8 @@ function reset()
 	alive = true
 	next_powerup = flr(rnd(5)) + 10
 	player:new()
-	-- level_simple()
-	level_test()
+	level_simple()
+	-- level_test()
 end
 
 function load_hiscore()
@@ -127,6 +127,14 @@ game_over = script(function()
 	t:remove()
 end)
 
+systems = {
+	move,
+	bounce,
+	remove_oob,
+	ttl
+}
+
+class.x,class.y,class.dx,class.dy = 0,0,0,0
 
 function _update60()
 	if waiting and btn() != 0 then
@@ -137,6 +145,11 @@ function _update60()
 
 	starfield:update()
 
+	process(players, systems)
+	process(enemies, systems)
+	process(bullets, systems)
+	process(powerups, systems)
+	process(explosions, systems)
 	players:update()
 	enemies:update()
 	bullets:update()

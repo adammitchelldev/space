@@ -1,11 +1,7 @@
 bullet = class {
-	explosion = 5,
-	dx = 0,
-	update = {
-		move,
-		remove_oob
-	},
-	hit = standard_hit
+	remove_oob = true,
+	explosion = 4,
+	dx = 0
 }
 
 function bullet:new(x, y)
@@ -15,9 +11,10 @@ function bullet:new(x, y)
 	}:add()
 end
 
-function bullet:die(obj)
+function bullet:die()
 	sfx(1)
-	self:explode()
+	explosion_make(self)
+	self:remove()
 end
 
 function bullet:draw()

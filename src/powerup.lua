@@ -1,11 +1,8 @@
 powerup = class {
+    remove_oob = true,
     draw = draw_sprite(16),
     dy = 0.5,
     col = { l=-2,r=7,u=-2,d=7 },
-    update = {
-        move,
-        remove_oob
-    }
 }
 
 function powerup_make(orig)

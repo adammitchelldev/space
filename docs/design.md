@@ -71,3 +71,13 @@ When collecting power ups in the level, they overcharge the ships abilities for 
 Drones autonomously bounce around the battlefield and seek out targets, depending on the drone type and whatever special upgrades the player may have.
 
 The player can also gain ally ships, which join the players formation and are controlled by them. They fire additional weapons. Certain special ally ships have unique abilities or support powers that will automatically activate and they will level up over time too. Ally ships are not as complex as the player ship and they don't take damage.
+
+## Detailed implementation notes
+
+Would be nice for items to apply generically to any game object, so that they can also be used to generate random enemies a la Risk of Rain 2.
+
+Objects should be controlled with the "behaviour" list, which functions like the current "update", but not permanent i.e. the behaviours or scripts end, but they can replace themselves with new behaviours.
+
+### Text
+
+Come up with a generic campaign/level control system so that levels can be written minimally.

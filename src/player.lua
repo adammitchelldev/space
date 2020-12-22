@@ -6,7 +6,6 @@ player = class {
 	shot_sfx = 0,
 	shot_delay = 30,
 	col = { l=1,r=7,u=3,d=7 },
-	hit = standard_hit,
 }
 
 player_bullet = bullet {

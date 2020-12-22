@@ -7,10 +7,10 @@ function enemy_shoot(self)
 end
 
 enemy = class {
-    explosion = 8,
+    remove_oob = true,
+    explosion = 6,
     die_sfx = 1,
     col = { l=0, r=8, u=0, d=8 },
-    hit = standard_hit
 }
 
 enemy_bullet = bullet {
@@ -40,27 +40,21 @@ enemy_normal = enemy {
     value = 10,
     dy = 1,
     update = {
-        move,
-        bounce,
-        remove_oob,
         enemy_shoot
     }
 }
 
 enemy_green = enemy {
     draw = draw_sprite(4),
-    explosion = 16,
+    explosion = 10,
     die_sfx = 8,
     value = 50,
     dy = 1,
     update = {
-        move,
-        bounce,
-        remove_oob,
         function(self)
             local p = layer_each(players)()
             if (not p) return
-            
+
             if vec_dist2(self, p) < (50 * 50) then
                 local dx, dy = vec_xy_normalize(p.x - self.x, p.y - self.y, 4)
                 self.dx = 0
@@ -128,6 +122,7 @@ function enemy_big_sfx(self)
 end
 
 enemy_big = enemy {
+    remove_oob = false,
     draw = draw_sprite(14, 0, 0, 2, 2),
     explosion = 40,
     die_sfx = 7,
@@ -139,8 +134,6 @@ enemy_big = enemy {
     col = { l=2, r=14, u=2, d=14 },
     update = {
         enemy_move_fast,
-        move,
-        bounce,
         enemy_shoot_big,
         enemy_big_sfx -- TODO make a generic sound function
     }

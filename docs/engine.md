@@ -2,13 +2,13 @@
 
 ## New Stuff
 
+Idea: can use __newindex for setting components and registering them.
+
 Need to put some more thought into minimizing tokens: should probably collapse a bunch of collision stuff and simplify the layer system back to closer to what it was.
 
 Should move to a single sprite renderer, single update method style? Could try a form much closer to ECS with coroutines and scripts:
 
-Have each system refer to one component, when the component is truthy, system evaluates that logic (apart from move system activates always? pos as component? could allow ad-hoc transform dependence)
-
-
+Have each system refer to one component, when the component is truthy, system evaluates that logic (apart from move system activates always? pos as component? could allow ad-hoc transform dependence). This way we get the benefit, more or less, of being fully component driven.
 
 ## Older stuff
 
