@@ -32,7 +32,14 @@ level_simple = level(function()
             local dx = rnd(4) - 2
             dx *= min(0.5 + (diff * 0.25), 1.5)
             for i = 0, wave_size do
-                enemy_normal:new{ x = ((i + ((7 - wave_size) / 2)) * 16) + 4, dx = dx, dy = 1 + (diff * 0.1) - (abs(dx * i) / 16)}
+                local val = flr((diff + 2) / 4) + 1
+                enemy_normal:new{
+                    x = ((i + ((7 - wave_size) / 2)) * 16) + 4,
+                    dx = dx,
+                    dy = 1 + (diff * 0.1) - (abs(dx * i) / 16),
+                    health = val,
+                    value = val * 10
+                }
             end
             if diff < 3 then
                 wait(no_enemies)
@@ -54,16 +61,13 @@ level_simple = level(function()
         wait(no_enemies, player_up)
         wait(100)
 
-        if diff > 2 then
-            level_extra_enemy()
-        end
-
         if diff > 0 and (diff & 1) == 0 then
-            enemy_big:new{ x = 60, y = -16, dx = 0.5, health = 25 + (25 * diff) }
-            wait(no_enemies)
+            enemy_big:new{ x = 60, y = -16, dx = 0.5, health = 25 + (12.5 * diff), value = 1000 * diff }
             lives += 1
+            wait(no_enemies)
             wait(180)
             wait(player_up)
+            level_extra_enemy()
         end
 
         diff += 1
@@ -81,7 +85,8 @@ level_test = level(function()
     end)
     repeat
         wait(180)
-        enemy_big:new{ x = 60, y = -16, dx = 0.5, health = 20 }
+        -- enemy_big:new{ x = 60, y = -16, dx = 0.5, health = 20 }
+        enemy_hunter:new{ x = -7, y = 0 }
         wait(no_enemies)
     until false
 end)

@@ -58,25 +58,21 @@ enemy_green = enemy {
     dy = 1,
     scripts = {
         function(self)
+            local p
             repeat
-                local p = next(collision_layers["player"])
-                if (not p) return
+                yield()
+                p = next(collision_layers["player"])
+            until p and vec_dist2(self, p) < (50 * 50)
 
-                if vec_dist2(self, p) < (50 * 50) then
-                    local dx, dy = vec_xy_normalize(p.x - self.x, p.y - self.y, 4)
-                    self.dx = 0
-                    self.dy = 0
-                    for i = 1,20 do
-                        sfx(4)
-                        wait(1)
-                    end
-                    self.dx = dx
-                    self.dy = dy
-                    repeat
-                        sfx(4) -- TODO make this an actual sound loop
-                        wait(1)
-                    until false
-                end
+            local dx, dy = vec_xy_normalize(p.x - self.x, p.y - self.y, 4)
+            self.dx, self.dy = 0, 0
+            for i = 1,20 do
+                sfx(4)
+                yield()
+            end
+            self.dx, self.dy = dx, dy
+            repeat
+                sfx(4) -- TODO make this an actual sound loop
                 yield()
             until false
         end
@@ -160,3 +156,32 @@ function enemy_big:remove()
     sfx(-1,2)
     enemy_big:super().remove(self)
 end
+
+enemy_hunter = enemy {
+    draw = draw_sprite(5),
+    value = 200,
+    bounce = {l=0,r=120,u=0,d=16},
+    dx = 2,
+    explosion = 15,
+    die_sfx = 8,
+    scripts = {
+        function(self)
+            repeat
+                local p
+                repeat
+                    yield()
+                    p = next(collision_layers["player"])
+                until p and abs(self.x - p.x) <= 8
+
+                for i = 1, 3 do
+                    wait(2)
+                    sfx(11)
+                    enemy_bullet:new(self.x + 3, self.y + 6).dy = 4
+                end
+                self.dx = -self.dx
+                wait(flr(rnd(30)) + 30)
+                self.dx = -self.dx
+            until false
+        end
+    }
+}
