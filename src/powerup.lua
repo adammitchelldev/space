@@ -12,6 +12,10 @@ function powerup_make(orig)
     }:add()
 end
 
+gun_up = script(function(self)
+    text_rising_box("gUN uP", self.x + 4, self.y)
+end)
+
 function powerup:collect(p)
     sfx(6)
 	self:remove()
@@ -19,14 +23,17 @@ function powerup:collect(p)
 	play(text_rising_box("250", self.x + 4, self.y - 8))
 	if p.shot_delay > 20 then
 		p.shot_delay -= 3
-		play(text_rising_box("gUN uP", self.x + 4, self.y))
+		gun_up(self)
 	elseif p.shot_delay > 10 then
 		p.shot_delay -= 2
-		play(text_rising_box("gUN uP", self.x + 4, self.y))
+		gun_up(self)
 	elseif p.shot_delay > 5 then
-		p.shot_delay -= 1
-		play(text_rising_box("gUN uP", self.x + 4, self.y))
-	else
-		play(text_rising_box("max!", self.x, self.y))
+        p.shot_delay -= 1
+        if p.shot_delay > 5 then
+            gun_up(self)
+        else
+            achieve(5)
+            play(text_rising_box("maxed!", self.x + 4, self.y))
+        end
     end
 end

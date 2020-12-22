@@ -18,6 +18,11 @@ texts = layer(text)
 
 function score_add(x)
 	if (alive) score += x >> 16
+	-- use google to convert number to hex, then shift right 4 digits
+	-- remember to remove a 0!
+	if (score > 0x0.4E20) achieve(7)
+	if (score > 0x0.C350) achieve(8)
+	if (score > 0x1.86A0) achieve(9)
 end
 
 function roll_powerup(x, y)
@@ -50,7 +55,8 @@ end
 
 function _init()
 	cartdata("space")
-	menuitem(1, "clear hiscore", function()
+	menuitem(1, "clear achieves", clear_achievements)
+	menuitem(2, "clear hiscore", function()
 		dset(0, 0)
 		hiscore = 0
 	end)
@@ -72,6 +78,8 @@ function reset()
 	waiting = false
 	score = 0
 	alive = true
+	kills = 0
+	boss_kills = 0
 	next_powerup = flr(rnd(5)) + 10
 	player:new()
 	level_simple()

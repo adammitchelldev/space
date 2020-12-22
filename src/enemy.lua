@@ -28,7 +28,11 @@ end
 function enemy:die()
     if (self.die_sfx) sfx(self.die_sfx)
 	self:explode()
-	score_add(self.value)
+    score_add(self.value)
+    kills += 1
+    if (kills == 1) achieve(1)
+    if (kills == 50) achieve(2)
+    if (kills == 1000) achieve(4)
 	play(text_rising_box(tostr(self.value).."0", self.x, self.y))
 	roll_powerup(self.x, self.y)
 end
@@ -139,9 +143,12 @@ enemy_big = enemy {
     }
 }
 
-function enemy_big:explode()
-    enemy_big:super().explode(self)
+function enemy_big:die()
+    enemy_big:super().die(self)
     big_explosion(self.x, self.y)
+    boss_kills += 1
+    if (boss_kills == 1) achieve(3)
+    if (boss_kills == 5) achieve(6)
 end
 
 function enemy_big:remove()

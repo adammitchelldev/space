@@ -26,6 +26,34 @@ Generally the captains are unlocked by completing a story mission involving them
 
 Idea: Badges are earned by complete x/y in a list of achievements. The badges are maxed when all of those achievements are maxed. There's something like this for ship B unlocks in FTL. The trick is for this to be a semi-lategame thing, and also for the achievements to unlock permanent items.
 
+## Ship mechanics
+
+Main resources:
+#### Hull
+You die if it falls below 0. Upgrading hull/armour upgrades max health.
+#### Energy
+The main power resource: energy is used to power up your weapons and abilities. Whilst you can always use your primary weapon, certain upgrades will unlock the ability for it to be powered by energy. Generally, this provides a downside to powerful upgrades, but there are also upgrades and modules that increase your ship's ability to generate and use power. 
+#### Scrap
+Currency-like, used to power certain secondary items, like scrap guns or scrap missile launchers.
+#### Anti-matter
+High value single-use items, used to power advanced items like black hole bombs, super lasers and lifesavers. Generally late-game.
+#### Special resources
+High value items used to upgrade specific module types, or sold for scrap.
+* Tech - computer control
+* Crystal - lasers
+* Lithium - battery and energy
+* Alloy - hull and guns
+* Carbon - dynamics
+* Nano - auto-repair and high-tech
+
+## Tiers
+
+* Common (white)
+* Uncommon (green)
+* Rare (blue)
+* Epic (red)
+* Legendary (gold)
+
 ## Ship + Weapons + Upgrades
 
 The ship itself will be upgradeable with weapons and items, following various rarity tiers. The weapons affect the types of attacks the ship has available whilst the upgrades provide passive benefits. Items are mostly only available as stage/level rewards, missions, shops or bosses/unique encounters, but temporary powerups will drop during the stage from enemies (and many items will boost or change the effect of powerups.) Items and powerups are ranked by rarity a la Ring of Pain, Hades, Risk of Rain 2.
@@ -62,9 +90,31 @@ Upgrades are great but not unlimited and may come with various drawbacks. High f
 * Melting
 * Charged shots
 
+### Item ideas
+
+Items sit on slot B, most require energy to use.
+
+* Boosters: use energy to move faster.
+* Barrier: use energy to become invulnerable (min activation duration and additional grace period)
+* Scrap:
+  * Cannon: use scrap to fire powerful cannon.
+  * Machine guns: use scrap to fire high-rate machine guns.
+  * Missiles: use scrap to fire high-rate swarm missiles.
+  * Furnace: consume scrap to power up weapons or energy.
+* Mega overdrive: increase energy consumption to power up other bonuses.
+* Repulsion?: use energy to curve things away from you.
+* A-mat:
+  * Furnace: consume an a-mat to overdrive energy and weapons for a time.
+  * Cannon: fire a-mat, super destructive and piercing, good for bosses.
+  * Bomb: damage all enemies.
+* Time dilator?:
+  * Uses energy to slow down time.
+
+### Upgrades
+
 ### Power ups
 
-When collecting power ups in the level, they overcharge the ships abilities for a short while, so certain items will upgrade the overcharging power or change its behaviour e.g. collecting power ups adds permanent upgrades instead, or boosts power, or boosts speed, or repairs the ship, or boosts fire rate etc.
+The player can collect various powerups in the level, such as instant hull repairs, overdrives, energy boosts etc.
 
 ## Drones and Allies
 
