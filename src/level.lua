@@ -83,10 +83,17 @@ level_test = level(function()
             end
         until false
     end)
+    local wave = 1
     repeat
         wait(180)
         -- enemy_big:new{ x = 60, y = -16, dx = 0.5, health = 20 }
-        enemy_hunter:new{ x = -7, y = 0 }
+        for i = 1,wave do
+            local x
+            if (flr(rnd(2)) == 0) x = -7 else x = 127
+            enemy_hunter:new{ x = x, y = (i - 1) * 8 }
+            wait(flr(rnd(30))+30)
+        end
+        wave += 1
         wait(no_enemies)
     until false
 end)
