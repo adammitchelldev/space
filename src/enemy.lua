@@ -164,6 +164,7 @@ enemy_hunter = enemy {
     dx = 2,
     explosion = 15,
     die_sfx = 8,
+    health = 3,
     scripts = {
         function(self)
             repeat
