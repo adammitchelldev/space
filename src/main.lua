@@ -199,7 +199,7 @@ function _draw()
 	color(7)
 	score_print(hiscore, 128, 1, 1)
 	score_print(score, 128, 8, 1)
-	print(kills.."/"..boss_kills, 60, 1)
+	-- print(kills.."/"..boss_kills, 60, 1)
 
 	for i = 1, lives do
 		spr(player.sprite, (i * 9) - 8, 1)
