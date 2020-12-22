@@ -179,7 +179,12 @@ enemy_hunter = enemy {
                     enemy_bullet:new(self.x + 3, self.y + 6).dy = 4
                 end
                 self.dx = -self.dx
-                wait(flr(rnd(30)) + 30)
+                wait(60)
+            until false
+        end,
+        function(self)
+            repeat
+                wait(flr(rnd(100))+20)
                 self.dx = -self.dx
             until false
         end
