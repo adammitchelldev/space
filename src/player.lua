@@ -1,4 +1,5 @@
 player = class {
+	tag = "player",
 	sprite = 2,
 	draw = draw_sprite(2),
 	explosion = 50,
@@ -9,6 +10,7 @@ player = class {
 }
 
 player_bullet = bullet {
+	tag = "player_bullet",
 	colors = heat_colors,
 	dy = -5,
 	width = 1,

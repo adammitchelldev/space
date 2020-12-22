@@ -9,11 +9,11 @@ function level(func)
 end
 
 function no_enemies()
-    return layer_empty(enemies)
+    return next(collision_layers["enemy"]) == nil
 end
 
 function player_up()
-    return not layer_empty(players)
+    return next(collision_layers["player"]) != nil
 end
 
 level_extra_enemy = level(function()

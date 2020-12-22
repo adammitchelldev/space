@@ -1,3 +1,4 @@
+-- TODO reduce token count
 function bounce(self)
     if self.bounce then
         local bounced
@@ -52,10 +53,23 @@ function class:hit(obj)
         self.health -= 1
         if (self.health > 0) return
     end
-    self:die()
+    if not self.dead then
+        self.dead = true
+        self:die()
+    end
 end
 
 -- make optional death_fx
 function class:die()
     self:remove()
+end
+
+function class:add()
+    w:add(self)
+    return self
+end
+
+function class:remove()
+    w:remove(self)
+    return self
 end

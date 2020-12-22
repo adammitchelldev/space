@@ -1,4 +1,5 @@
 powerup = class {
+    tag = "powerup",
     remove_oob = true,
     draw = draw_sprite(16),
     dy = 0.5,

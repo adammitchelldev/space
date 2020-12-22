@@ -7,6 +7,7 @@ function enemy_shoot(self)
 end
 
 enemy = class {
+    tag = "enemy",
     remove_oob = true,
     explosion = 6,
     die_sfx = 1,
@@ -14,6 +15,7 @@ enemy = class {
 }
 
 enemy_bullet = bullet {
+    tag = "enemy_bullet",
 	colors = alien_colors,
 	width = 2,
 	dy = 1.5,
@@ -43,7 +45,7 @@ enemy_normal = enemy {
     bounce = {l=0,r=120,u=0,d=50,sfx=3},
     value = 10,
     dy = 1,
-    update = {
+    scripts = {
         enemy_shoot
     }
 }
@@ -54,26 +56,29 @@ enemy_green = enemy {
     die_sfx = 8,
     value = 50,
     dy = 1,
-    update = {
+    scripts = {
         function(self)
-            local p = layer_each(players)()
-            if (not p) return
+            repeat
+                local p = next(collision_layers["player"])
+                if (not p) return
 
-            if vec_dist2(self, p) < (50 * 50) then
-                local dx, dy = vec_xy_normalize(p.x - self.x, p.y - self.y, 4)
-                self.dx = 0
-                self.dy = 0
-                for i = 1,20 do
-                    sfx(4)
-                    wait(1)
+                if vec_dist2(self, p) < (50 * 50) then
+                    local dx, dy = vec_xy_normalize(p.x - self.x, p.y - self.y, 4)
+                    self.dx = 0
+                    self.dy = 0
+                    for i = 1,20 do
+                        sfx(4)
+                        wait(1)
+                    end
+                    self.dx = dx
+                    self.dy = dy
+                    repeat
+                        sfx(4) -- TODO make this an actual sound loop
+                        wait(1)
+                    until false
                 end
-                self.dx = dx
-                self.dy = dy
-                repeat
-                    sfx(4) -- TODO make this an actual sound loop
-                    wait(1)
-                until false
-            end
+                yield()
+            until false
         end
     }
 }
@@ -136,7 +141,7 @@ enemy_big = enemy {
     bounce = { l=24, r=88, u=10, d=35 },
     bounce_sfx = false,
     col = { l=2, r=14, u=2, d=14 },
-    update = {
+    scripts = {
         enemy_move_fast,
         enemy_shoot_big,
         enemy_big_sfx -- TODO make a generic sound function

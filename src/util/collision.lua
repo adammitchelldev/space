@@ -1,3 +1,5 @@
+-- TODO replace with better check, should be able to do 2
+-- axis distance check for more efficient AABB
 function collision_check(i1, i2)
     local l1 = i1.x + i1.col.l
     local r1 = i1.x + i1.col.r
@@ -12,23 +14,11 @@ function collision_check(i1, i2)
     return l1 < r2 and r1 > l2 and u1 < d2 and d1 > u2
 end
 
-function collision_pairs(layer1, layer2)
-    local iter = layer_pairs(layer1, layer2)
-    return function()
-        local i1, i2
-        repeat
-            i1, i2 = iter()
-            if i1 == nil then return nil end
-        until collision_check(i1, i2)
-        return i1, i2
-    end
-end
-
 do
     function collision_grid(layer)
         local g = grid()
 
-        for i in layer_each(layer) do
+        for i in pairs(layer) do
             local col = i.col
             if col then
                 local x, y = i.x, i.y
@@ -72,51 +62,46 @@ do
 end
 
 do
-    local collision_handlers = setmetatable({},{__mode="k"})
+    collision_handlers = {}
 
-    local function add_collision_handler(ia, b, h)
-        local list = ia[b]
+    local function add_collision_handler(ia, tagb, hname)
+        local list = ia[tagb]
         if list == nil then
-            ia[b] = {h}
+            ia[tagb] = {hname}
         else
-            add(list, h)
+            add(list, hname)
         end
     end
 
-    function handler(amethod, bmethod)
-        return function(a, b)
-            if amethod != nil then
-                local func = a[amethod]
-                if (func) func(a, b)
-            end
-            if bmethod != nil then
-                local func = b[bmethod]
-                if (func) func(b, a)
-            end
-        end
-    end
-
-    function collision_handler(a, b, h)
-        local la, lb = layer(a), layer(b)
-        local ia = collision_handlers[la]
+    function collision_handler(taga, tagb, hname)
+        local ia = collision_handlers[taga]
         if ia then
-            add_collision_handler(ia, lb, h)
+            add_collision_handler(ia, tagb, hname)
         else
-            local ib = collision_handlers[lb]
+            local ib = collision_handlers[tagb]
             if ib then
-                add_collision_handler(ib, la, function(a, b) h(b, a) end)
+                add_collision_handler(ib, taga, hname)
             else
-                ia = setmetatable({},{__mode="k"})
-                add_collision_handler(ia, lb, h)
-                collision_handlers[la] = ia
+                ia = {}
+                add_collision_handler(ia, tagb, hname)
+                collision_handlers[taga] = ia
             end
         end
     end
+
+    collision_layers = setmetatable({}, {
+        __index = function(t, k)
+            local nt = {}
+            t[k] = nt
+            return nt
+        end
+    })
 
     local grids_mt = {
         __index = function(t, k)
-            if (layer_empty(k)) return
-            local g = collision_grid(k)
+            layer = collision_layers[k]
+            if (next(layer) == nil) return
+            local g = collision_grid(layer)
             t[k] = g
             return g
         end
@@ -126,23 +111,40 @@ do
     function collision_update()
         collision_grids = setmetatable({},grids_mt)
 
-        for la, index in pairs(collision_handlers) do
-            local ga = collision_grids[la]
+        for taga, index in pairs(collision_handlers) do
+            local ga = collision_grids[taga]
             if ga then
-                for lb, handlers in pairs(index) do
+                for tagb, handlers in pairs(index) do
                     if #handlers > 0 then
-                        local gb = collision_grids[lb]
+                        local gb = collision_grids[tagb]
                         if gb then
                             -- TODO pick smaller layer first
                             collision_grid_pairs_foreach(ga, gb, function(a, b)
-                                for h in all(handlers) do
-                                    h(a, b)
+                                for hname in all(handlers) do
+                                    local h = a[hname]
+                                    if (h) h(a, b)
+                                    h = b[hname]
+                                    if (h) h(b, a)
                                 end
                             end)
                         end
                     end
                 end
             end
+        end
+    end
+
+    function collision_add_listener(item)
+        local tag = item.tag
+        if tag then
+            collision_layers[tag][item] = item
+        end
+    end
+
+    function collision_remove_listener(item)
+        local tag = item.tag
+        if tag then
+            collision_layers[tag][item] = nil
         end
     end
 end

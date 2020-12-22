@@ -4,17 +4,35 @@ hiscore = 0
 waiting = true
 alive = false
 next_powerup = 0
+kills = 0
+boss_kills = 0
 
 screen_height = 114
 
-players = layer(player)
-enemies = layer(enemy)
-bullets = layer(bullet)
-player_bullets = layer(player_bullet)
-enemy_bullets = layer(enemy_bullet)
-powerups = layer(powerup)
-explosions = layer(explosion)
-texts = layer(text)
+-- players = layer(player)
+-- enemies = layer(enemy)
+-- bullets = layer(bullet)
+-- player_bullets = layer(player_bullet)
+-- enemy_bullets = layer(enemy_bullet)
+-- powerups = layer(powerup)
+-- explosions = layer(explosion)
+-- texts = layer(text)
+
+-- layers = {
+-- 	layer(player),
+-- 	layer(enemy),
+-- 	layer(bullet),
+-- 	layer(powerup),
+-- 	layer(explosion),
+-- 	layer(texts)
+-- }
+
+w = world({
+	script_add_listener,
+	collision_add_listener
+}, {
+	collision_remove_listener
+})
 
 function score_add(x)
 	if (alive) score += x >> 16
@@ -68,10 +86,7 @@ end
 function reset()
 	level_stop()
 
-	players:remove()
-	enemies:remove()
-	bullets:remove()
-	powerups:remove()
+	w:process{function(e) e:remove() end}
 
 	sfx(5)
 	lives = 2
@@ -122,6 +137,7 @@ function player_die(p)
 	end
 end
 
+-- TODO move these scripts onto a game manager
 game_over = script(function()
 	level_stop()
 	alive = false
@@ -135,17 +151,29 @@ game_over = script(function()
 	t:remove()
 end)
 
-systems = {
+update_systems = {
+	update_scripts,
+	function(e) if e.update then e:update() end end,
 	move,
 	bounce,
 	remove_oob,
 	ttl
 }
 
+draw_systems = {
+	function(e)
+		e:draw()
+	end
+}
+
 class.x,class.y,class.dx,class.dy = 0,0,0,0
 
 function _update60()
-	if waiting and btn() != 0 then
+	-- TODO custom menu?
+	-- What we could do is force draw a menu around the pause menu
+	-- locations and flip() it before allowing the pause
+	-- if(btn(6)) poke(0x5f30,1)
+	if waiting and btn()&0x3F != 0 then
 		reset()
 	end
 
@@ -153,17 +181,7 @@ function _update60()
 
 	starfield:update()
 
-	process(players, systems)
-	process(enemies, systems)
-	process(bullets, systems)
-	process(powerups, systems)
-	process(explosions, systems)
-	players:update()
-	enemies:update()
-	bullets:update()
-	powerups:update()
-	
-	explosions:update()
+	w:process(update_systems)
 
 	collision_update()
 end
@@ -173,19 +191,15 @@ function _draw()
 	clip(0, 128-screen_height, 128, 128)
 	camera(0, screen_height-128)
 	starfield:draw()
-	enemies:draw()
-	player_bullets:draw()
-	enemy_bullets:draw()
-	explosions:draw()
-	powerups:draw()
-	players:draw()
-	texts:draw()
+
+	w:process(draw_systems)
 
 	clip()
 	camera(0,0)
 	color(7)
 	score_print(hiscore, 128, 1, 1)
 	score_print(score, 128, 8, 1)
+	print(kills.."/"..boss_kills, 60, 1)
 
 	for i = 1, lives do
 		spr(player.sprite, (i * 9) - 8, 1)
