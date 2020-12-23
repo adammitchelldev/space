@@ -1,10 +1,10 @@
 -- collision
 
--- There's a lot of work to be done here:
+-- TODO:
 -- * Add ray casting and collision sorting (most/first intersected)
+-- so that bullets don't penetrate things randomly.
 -- * Avoid duplicate collision (via better grid?)
--- * Allow for colliders to die during detection phase,
---   although I think this already works
+-- * Add simple collision layer queries
 
 -- TODO replace with better check, should be able to do 2
 -- axis distance check for more efficient AABB, optimize tokens

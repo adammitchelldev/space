@@ -1,3 +1,6 @@
+-- simple prototype-based inheritence
+
+-- cache metatables for some memory efficiency
 _mts = {}
 
 function class_extend(base, child)

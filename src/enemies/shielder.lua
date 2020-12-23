@@ -77,7 +77,7 @@ end
 -- TODO refactor this out into an actual fx entity
 function draw_shielding(self)
     local target = self.shield_target
-    if target and not target.dead and w.ents[target] then
+    if target and not target.dead then
         local x1,y1,x2,y2 = self.x,self.y,target.x,target.y
         local dx,dy = (x2-x1)/10, (y2-y1)/10
         x1,y1 = x1+4,y1+4

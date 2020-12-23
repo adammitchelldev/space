@@ -2,7 +2,7 @@
 
 debug = false
 debug_stat = true
-debug_coll = false
+debug_coll = true
 
 function collision_grid_draw_debug(g)
     for x, y, c in cells(g) do
@@ -31,7 +31,33 @@ function _init()
 end
 
 local old_draw = _draw
+local old_cls = cls
+function cls() end
+
+local f = true
 function _draw()
+    old_cls()
+
+    if debug_coll then
+        clip(0, 128-screen_h, 128, 128)
+        camera(0, screen_h-128)
+        -- fillp(0b0111101111011110)
+        -- poke(0x5f33, 1)
+        color(1)
+        collision_grid_draw_debug(grid_enemies)
+        color(2)
+        collision_grid_draw_debug(grid_player_bullets)
+        color(3)
+        collision_grid_draw_debug(grid_players)
+        color(4)
+        collision_grid_draw_debug(grid_enemy_bullets)
+        color(5)
+        collision_grid_draw_debug(grid_powerups)
+        fillp(0)
+        clip()
+        camera()
+    end
+
     old_draw()
 
     if debug then
@@ -40,22 +66,6 @@ function _draw()
             print(stat(0))
             print(stat(1))
             print(stat(2))
-            local n = 0
-            for k, v in pairs(collision_grids) do
-                n += 1
-            end
-            print("grids:"..n)
         end
-
-        -- if debug_coll then
-        --     clip(0, 128-screen_h, 128, 128)
-        --     camera(0, screen_h-128)
-        --     color(9)
-        --     collision_grid_draw_debug(grid_enemies)
-        --     color(10)
-        --     collision_grid_draw_debug(grid_player_bullets)
-        --     color(11)
-        --     collision_grid_draw_debug(grid_players)
-        -- end
     end
 end
