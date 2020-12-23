@@ -18,13 +18,38 @@
 - [ ] Create proper collision query methods e.g. get closest/all within box/range
 - [ ] Collision cleanup
 
+Idea: could reuse collision grids for draw sorting within a layer?
+Simplify:
+- 4 total collision layers: players, enemies, player_bullets, enemy_bullets
+  - Pickups go under enemy_bullets
+- 4 additional render layers: starfield, under_fx, over_fx and game_text
+- Total render order:
+    {
+        starfield/bg,
+        under_fx,
+        player_bullets,
+        enemy_bullets,
+        enemies,
+        over_fx,
+        game_text,
+        players,
+        GUI (not clipped)
+    }
+- Back to using "layer" param.
+
+# Fun stuff
+- [ ] Make an enemy editor and a level editor that save to binary form
+  - These guys can use the persistent cart RAM and cartdata to hold over state and provide quick iteration capabilities, allowing you to set up a test level and save it.
+  - The code will register all available params and scripts and then the enemy editor lets you define prefabs.
+
 # Balance TODO
-- [ ] Stop shielder from accelerating into player
-- [ ] Add a conenction/disconnection time to the shielder so that they can't surprise shield a green one.
+- [x] Stop shielder from accelerating into player
+- [x] Add a conenction/disconnection time to the shielder so that they can't surprise shield a green one.
 - [ ] Reconsider hunter balance.
+  - [x] Added initial delay
   - Are bullets too fast?
   - Needs a warning? When he zips in and kills you with no warning its a bit shit.
-  - If he's going to be that zippy and strong, he should leave the stage after using his voley.
+  - If he's going to be that zippy and strong, he should leave the stage after using his volley.
 
 - [ ] Make weapon objects, add a couple more weapons
 - [ ] Shoot using a shoot flag
@@ -34,14 +59,15 @@
 - [ ] Create a proper level framework for the campaign
   - [ ] Text and dialogue options
   - [ ] Select next destination
+  - [ ] Missions
 - [ ] Merge scripts and coroutine dispatch
-- [ ] Remove autolayering in collision, make simpler
+- [x] Remove autolayering in collision, make simpler
 - [ ] Add animation support
-- [ ] Add some more enemy types
+- [x] Add some more enemy types
 - [ ] Create passive items
 - [ ] Create some mission types
 - [ ] Add a main menu and/or mission select
-- [ ] Achievements
+- [x] Achievements
 
 ### Features:
 - [x] Start screen

@@ -31,6 +31,7 @@ function script_step(script, ...)
     return costatus(script) != "dead"
 end
 
+-- put this straight onto the add method
 function script_add_listener(e, ...)
     local scripts = e.scripts
     if scripts then

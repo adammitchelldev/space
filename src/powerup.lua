@@ -17,6 +17,7 @@ function gun_up(self)
     play(text_rising_box("gUN uP", self.x + 4, self.y))
 end
 
+-- This can be cut down and generified to all powerups
 function powerup:collect(p)
     sfx(6)
 	self:remove()

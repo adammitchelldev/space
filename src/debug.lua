@@ -32,8 +32,8 @@ function _draw()
         end
 
         -- if debug_coll then
-        --     clip(0, 128-screen_height, 128, 128)
-        --     camera(0, screen_height-128)
+        --     clip(0, 128-screen_h, 128, 128)
+        --     camera(0, screen_h-128)
         --     color(9)
         --     collision_grid_draw_debug(grid_enemies)
         --     color(10)

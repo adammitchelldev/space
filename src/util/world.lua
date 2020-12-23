@@ -1,4 +1,5 @@
 
+-- get rid of this
 do
     local world_index = {}
 

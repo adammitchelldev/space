@@ -43,7 +43,7 @@ end
 enemy_normal = enemy {
     draw = draw_sprite(3),
     sfx = 3,
-    bounce = {l=0,r=120,u=0,d=50,sfx=3},
+    bounce = {l=0,r=screen_w,u=0,d=50,sfx=3},
     value = 10,
     dy = 1,
     scripts = {
@@ -135,7 +135,7 @@ enemy_big = enemy {
     value = 250,
     health = 50,
     dy = 0.25,
-    bounce = { l=24, r=88, u=10, d=35 },
+    bounce = { l=24, r=screen_w-24, u=10, d=50 },
     bounce_sfx = false,
     col = { l=2, r=14, u=2, d=14 },
     scripts = {
@@ -162,7 +162,7 @@ end
 enemy_hunter = enemy {
     draw = draw_sprite(5),
     value = 200,
-    bounce = {l=0,r=120,u=0,d=16},
+    bounce = {l=0,r=screen_w,u=0,d=16},
     dx = 2,
     explosion = 15,
     die_sfx = 8,
@@ -197,7 +197,7 @@ enemy_hunter = enemy {
 enemy_shielder = enemy {
     draw = draw_sprite(6),
     value = 50,
-    bounce = {l=0,r=120,u=0,d=120},
+    bounce = {l=0,r=screen_w,u=0,d=screen_h},
     explosion = 10,
     die_sfx = 8,
     health = 10,

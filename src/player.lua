@@ -7,6 +7,7 @@ player = class {
 	shot_sfx = 0,
 	shot_delay = 30,
 	col = { l=1,r=7,u=3,d=7 },
+	bounce = { l=0,r=screen_w,u=0,d=screen_h }
 }
 
 player_bullet = bullet {
@@ -20,7 +21,7 @@ player_bullet = bullet {
 function player:new()
 	return self {
     	x = 60,
-		y = screen_height,
+		y = screen_h,
 		atk = 0,
 	}:add()
 end
@@ -55,11 +56,11 @@ function player:update()
 	x += dx
 	y += dy
 
-	if x<0 and dx<0 then x=0; dx=0 end
-	if x>120 and dx>0 then x=120; dx=0 end
-	if y<0 and dy<0 then y=0; dy=0 end
-	if y>screen_height-8 and dy>0 then y=screen_height-8; dy=0 end
-	if (y>screen_height-8) y-=speed
+	-- if x<0 and dx<0 then x=0; dx=0 end
+	-- if x>120 and dx>0 then x=120; dx=0 end
+	-- if y<0 and dy<0 then y=0; dy=0 end
+	-- if y>screen_h-8 and dy>0 then y=screen_h-8; dy=0 end
+	-- if (y>screen_h-8) y-=speed
 
 	self.x,self.y=x,y
 

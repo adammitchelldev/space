@@ -1,34 +1,26 @@
 -- TODO reduce token count
 function bounce(self)
-    if self.bounce then
-        local bounced
-        local b = self.bounce
-        if b.l and self.x < b.l and self.dx < 0 then
-            self.x = b.l
-            self.dx = -self.dx
-            bounced = true
-        elseif b.r and self.x > b.r and self.dx > 0 then
-            self.x = b.r
-            self.dx = -self.dx
-            bounced = true
+    local b = self.bounce
+    if b then
+        local nobounce,l,r,u,d,dx,dy = true,b.l,b.r and b.r-self.w,b.u,b.d and b.d-self.h,self.dx,self.dy
+        if l and self.x < l and dx <= 0 then
+            self.x,self.dx,nobounce = l,-dx
+        elseif r and self.x > r and dx >= 0 then
+            self.x,self.dx,nobounce = r,-dx
         end
-        if b.u and self.y < b.u and self.dy < 0 then
-            self.y = b.u
-            self.dy = -self.dy
-            bounced = true
-        elseif b.d and self.y > b.d and self.dy > 0 then
-            self.y = b.d
-            self.dy = -self.dy
-            bounced = true
+        if u and self.y < u and self.dy <= 0 then
+            self.y,self.dy,nobounce = u,-dy
+        elseif d and self.y > d and self.dy >= 0 then
+            self.y,self.dy,nobounce = d,-dy
         end
-        if (bounced and b.sfx) sfx(b.sfx)
+        if (not nobounce and b.sfx) sfx(b.sfx)
     end
 end
 
 function remove_oob(self)
     if self.remove_oob then
-        local x,y,w,h = self.x,self.y,self.w or 8,self.h or 8
-        if (y > screen_height) or y < -h or x > 128 or x < -w then
+        local x,y = self.x,self.y
+        if (y > screen_h) or y < -self.h or x > 128 or x < -self.w then
             self:remove()
         end
     end

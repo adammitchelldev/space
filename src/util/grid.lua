@@ -1,19 +1,11 @@
-do
-    local grid_mt = {
-        __index = function(gridt, x)
-            return setmetatable({}, {
-                __newindex = function(rowt, y, v)
-                    rawset(gridt, x, rowt)
-                    rawset(rowt, y, v)
-                    setmetatable(rowt, nil)
-                end
-            })
+function grid()
+    return setmetatable({}, {
+        __index = function(t, k)
+            local v = {}
+            t[k] = v
+            return v
         end
-    }
-
-    function grid()
-        return setmetatable({}, grid_mt)
-    end
+    })
 end
 
 function cells(g)
@@ -22,9 +14,6 @@ function cells(g)
         repeat
             if v == nil then
                 x, col = next(g, x)
-                if type(x) == "table" then
-                    stop(trace())
-                end
                 if (col == nil) return nil
             end
             y, v = next(col, y)

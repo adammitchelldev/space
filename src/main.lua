@@ -1,5 +1,3 @@
-screen_height = 114
-
 -- players = layer(player)
 -- enemies = layer(enemy)
 -- bullets = layer(bullet)
@@ -90,7 +88,6 @@ function reset()
 	kills = 0
 	boss_kills = 0
 	next_powerup = flr(rnd(5)) + 10
-	-- level_test()
 end
 
 function start()
@@ -98,8 +95,8 @@ function start()
 	waiting = false
 	alive = true
 	player:new()
-	-- active_level = level_simple{}:add()
-	active_level = level_test{}:add()
+	active_level = level_simple{}:add()
+	-- active_level = level_test{}:add()
 end
 
 function load_hiscore()
@@ -169,7 +166,7 @@ draw_systems = {
 	draw_shielded
 }
 
-class.x,class.y,class.dx,class.dy = 0,0,0,0
+class.x,class.y,class.dx,class.dy,class.w,class.h = 0,0,0,0,8,8
 
 function _update60()
 	-- TODO custom menu?
@@ -191,8 +188,8 @@ end
 
 function _draw()
 	cls()
-	clip(0, 128-screen_height, 128, 128)
-	camera(0, screen_height-128)
+	clip(0, 128-screen_h, screen_w, 128)
+	camera(0, screen_h-128)
 	starfield:draw()
 
 	w:process(draw_systems)

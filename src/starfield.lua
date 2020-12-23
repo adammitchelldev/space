@@ -15,7 +15,7 @@ do
         for i = 1, n do
             stars[i] = {
                 x = rnd(128),
-                y = rnd(screen_height + 8) - 8,
+                y = rnd(screen_h + 8) - 8,
                 speed = ((i / (n*2)) ^ 3) + 0x0.1,
                 colour = flr(rnd(2)) + 5
             }
@@ -26,7 +26,7 @@ do
         for i = 1, n do
             dust[i] = {
                 x = rnd(128),
-                y = rnd(screen_height + 8) - 8,
+                y = rnd(screen_h + 8) - 8,
                 speed = ((i / n) ^ 2) + 1
             }
         end

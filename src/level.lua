@@ -43,7 +43,7 @@ level_simple = level(function(self)
         wait(60)
 
         for i = 1, 1 + flr(diff/2) do
-            enemy_green:new{x=rnd(120),y=-8}
+            enemy_green:new{x=rnd(screen_w-8),y=-8}
             wait(max(4, 30 - (i * 2)))
         end
         wait(no_enemies, player_up)
@@ -68,7 +68,7 @@ level_simple = level(function(self)
                 self:play(function()
                     repeat
                         wait(flr(rnd(600)+1500))
-                        local e = enemy_shielder:new{x=rnd(120),y=-8}
+                        local e = enemy_shielder:new{x=rnd(screen_w-8),y=-8}
                         wait(is_dead(e))
                     until false
                 end)
@@ -76,7 +76,7 @@ level_simple = level(function(self)
                 self:play(function()
                     repeat
                         wait(flr(rnd(150)) + 200)
-                        enemy_green:new{x=rnd(120),y=-8}
+                        enemy_green:new{x=rnd(screen_w-8),y=-8}
                     until false
                 end)
             end
@@ -88,52 +88,6 @@ level_simple = level(function(self)
     until false
 end)
 
-level_test = level(function(self)
-    self:play(function()
-        repeat
-            wait(1)
-            if btnp(5) then
-                powerup_make({x=rnd(120), y=60})
-            end
-        until false
-    end)
-    local wave = 1
-
-    self:play(function()
-        repeat
-            wait(flr(rnd(300)+1200))
-            local x
-            if (flr(rnd(2)) == 0) x = -7 else x = 127
-            local e = enemy_hunter:new{x=x,y=flr(rnd(4))*8}
-            wait(function() return e.dead end)
-        until false
-    end)
-    self:play(function()
-        repeat
-            wait(flr(rnd(300)+900))
-            local e = enemy_shielder:new{x=rnd(120),y=-8}
-            wait(function() return e.dead end)
-        until false
-    end)
-    self:play(function()
-        repeat
-            wait(flr(rnd(150)) + 200)
-            enemy_green:new{x=rnd(120),y=-8}
-        until false
-    end)
-    repeat
-        wait(180)
-        -- enemy_shielder:new{ x = -7, y = 0, dx = 1, dy = 1 }
-        -- enemy_shielder:new{ x = 127, y = 0, dx = 1, dy = 1 }
-        -- enemy_shielder:new{ x = 60, y = -7, dx = 1, dy = 1 }
-        -- -- enemy_big:new{ x = 60, y = -16, dx = 0.5, health = 20 }
-        -- for i = 1,wave do
-        --     local x
-        --     if (flr(rnd(2)) == 0) x = -7 else x = 127
-        --     enemy_hunter:new{ x = x, y = (i - 1) * 8 }
-        --     wait(flr(rnd(30))+30)
-        -- end
-        -- wave += 1
-        -- wait(no_enemies)
-    until false
-end)
+-- level_test = level(function(self)
+    
+-- end)
