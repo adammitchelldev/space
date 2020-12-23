@@ -1,3 +1,5 @@
+-- grid class
+
 function grid()
     return setmetatable({}, {
         __index = function(t, k)

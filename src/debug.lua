@@ -1,3 +1,5 @@
+-- debug menus and display
+
 debug = false
 debug_stat = true
 debug_coll = false

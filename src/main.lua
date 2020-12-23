@@ -1,20 +1,12 @@
--- players = layer(player)
--- enemies = layer(enemy)
--- bullets = layer(bullet)
--- player_bullets = layer(player_bullet)
--- enemy_bullets = layer(enemy_bullet)
--- powerups = layer(powerup)
--- explosions = layer(explosion)
--- texts = layer(text)
+-- main logic
+-- this is where _init _update and _draw live
 
--- layers = {
--- 	layer(player),
--- 	layer(enemy),
--- 	layer(bullet),
--- 	layer(powerup),
--- 	layer(explosion),
--- 	layer(texts)
--- }
+players = {}
+enemies = {}
+player_bullets = {}
+enemy_bullets = {}
+fg_fx = {}
+game_text = {}
 
 w = world({
 	collision_add_listener
@@ -23,17 +15,11 @@ w = world({
 })
 
 main_scripts = {}
+-- helper function to play global scripts
+-- that don't belong to a specific entity
 function play(f, ...) return script_play(main_scripts, f, ...) end
 
-function score_add(x)
-	if (alive) score += x >> 16
-	-- use google to convert number to hex, then shift right 4 digits
-	-- remember to remove a 0!
-	if (score > 0x0.4E20) achieve(7)
-	if (score > 0x0.C350) achieve(8)
-	if (score > 0x1.86A0) achieve(9)
-end
-
+-- TODO find a better home
 function roll_powerup(x, y)
 	next_powerup -= 1
 	if next_powerup <= 0 then
@@ -43,6 +29,17 @@ function roll_powerup(x, y)
 	end
 end
 
+-- TODO find a better home, game.lua?
+function score_add(x)
+	if (alive) score += x >> 16
+	-- use google to convert number to hex, then shift right 4 digits
+	-- remember to remove a 0!
+	if (score > 0x0.4E20) achieve(7)
+	if (score > 0x0.C350) achieve(8)
+	if (score > 0x1.86A0) achieve(9)
+end
+
+-- TODO ditto, also reduce token count
 function score_print(score, x, y, pad)
 	if score == 0 then pad = 0 else pad = pad or 0 end
 	local i = 1
@@ -65,7 +62,10 @@ end
 function _init()
 	cartdata("space")
 	load_hiscore()
-	play(achieve_loop)
+
+	-- start achieve loop
+	play(achieve_display_loop)
+
 	starfield:init()
 	reset()
 end

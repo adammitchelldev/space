@@ -1,3 +1,6 @@
+-- achievements
+
+-- TODO replace this with an achieve class
 achievements = {
     "first blood!\nkILL YOUR FIRST ENEMY.",
     "killing spree!\n50 KILLS IN ONE RUN.",
@@ -12,8 +15,9 @@ achievements = {
 
 achievement_queue = {}
 
--- TODO make this better
-function achieve_loop()
+-- this loop should be run in a global script
+-- it displays any achievements unlocked asynchronously
+function achieve_display_loop()
     repeat
         local i = deli(achievement_queue, 1)
         if i then
@@ -29,7 +33,7 @@ function achieve_loop()
     until false
 end
 
--- TODO probably better to do this as global achievement objects
+-- TODO probably better to use achievement objects
 function achieve(i)
     local real_i = i - 1
     local addr = ((real_i & 0b1111100000) >> 5) + 32

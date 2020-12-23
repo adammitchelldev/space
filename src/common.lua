@@ -1,4 +1,4 @@
--- TODO reduce token count
+-- miscellanious, should probably have a better home
 
 function draw_shielded(self)
     if self.shielded then

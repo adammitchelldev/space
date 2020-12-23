@@ -1,6 +1,11 @@
 pico-8 cartridge // http://www.pico-8.com
 version 29
 __lua__
+-- untitled space game
+-- by isogash and pikmyn
+
+-->8
+-- util
 #include src/util/class.lua
 #include src/util/grid.lua
 #include src/util/collision.lua
@@ -9,26 +14,42 @@ __lua__
 #include src/util/vec.lua
 #include src/util/world.lua
 
+-->8
+-- common
 #include src/constants.lua
 #include src/entity.lua
 #include src/text.lua
 #include src/common.lua
-
 #include src/starfield.lua
 
+-->8
+-- entities
 #include src/explosion.lua
 #include src/bullet.lua
 #include src/enemy.lua
 #include src/player.lua
 #include src/powerup.lua
 
+-->8
+-- enemies
+#include src/enemies/big.lua
+#include src/enemies/green.lua
+#include src/enemies/hunter.lua
+#include src/enemies/normal.lua
+#include src/enemies/shielder.lua
+
+-->8
+-- level
 #include src/level.lua
 
+-->8
+-- main
 #include src/collision.lua
-
 #include src/achieve.lua
 #include src/main.lua
 
+-->8
+-- debug
 #include src/debug.lua
 __gfx__
 0000000000000000000110000020020000bbbb0000099000001cc100000000000000000000000000000000000000000000000000000000000000058558500000

@@ -1,3 +1,5 @@
+-- bullet base class
+
 bullet = entity {
 	remove_oob = true,
 	explosion = explosion{size=4},

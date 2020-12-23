@@ -3,20 +3,20 @@
 ## TODO
 - [x] Try a simple ECS, litte/no optimization first
   - Seems to work pretty well
-- [ ] Combine the scripts and update behaviour into script.lua
+- [x] Combine the scripts and update behaviour into script.lua
   - [x] Partially completed, layer and update are removed, although I'm missing layer somewhat and might bring the concept back since it made ordering draws much easier.
-  - [ ] Migrate global scripts to use layer scripts
+  - [x] Migrate global scripts to use layer scripts
+- [ ] Move back to old layer system and cleanup collision
 - [ ] Make sprite renderer system-component based
 - [ ] Cleanup time!
-  - [ ] Make spawning sfx into a script helper function
-  - [ ] Make explosions not be the cause of remove
+  - [x] Make explosions not be the cause of remove
     - May need to figure out a proper way to inherit death listeners
-  - [ ] Make explosions use prefab style
-  - [ ] Move to "spawn"/"destroy" functions and terms?
+      - [x] Solved this more or less by adopting a cleanish hook style
+  - [x] Make explosions use prefab style
+  - [x] Move to "spawn" term
   - [ ] Refactor enemies into their own files!
 - [ ] Allow script inheritence?
 - [ ] Create proper collision query methods e.g. get closest/all within box/range
-- [ ] Collision cleanup
 
 Idea: could reuse collision grids for draw sorting within a layer?
 Simplify:

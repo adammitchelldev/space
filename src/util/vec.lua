@@ -1,3 +1,5 @@
+-- 2D vector util
+
 function vec_dist2(a, b)
     return (a.x - b.x) ^ 2 + (a.y - b.y) ^ 2
 end

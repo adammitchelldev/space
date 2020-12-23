@@ -1,3 +1,5 @@
+-- script util
+
 function wait(...)
     local t = 0
     for arg in all({...}) do
