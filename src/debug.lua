@@ -38,7 +38,7 @@ local f = true
 function _draw()
     old_cls()
 
-    if debug_coll then
+    if debug and debug_coll then
         clip(0, 128-screen_h, 128, 128)
         camera(0, screen_h-128)
         -- fillp(0b0111101111011110)
@@ -60,12 +60,10 @@ function _draw()
 
     old_draw()
 
-    if debug then
-        if debug_stat then
-            cursor(50,1)
-            print(stat(0))
-            print(stat(1))
-            print(stat(2))
-        end
+    if debug and debug_stat then
+        cursor(50,1)
+        print(stat(0))
+        print(stat(1))
+        print(stat(2))
     end
 end
