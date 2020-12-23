@@ -79,7 +79,7 @@ function _init()
 end
 
 function reset()
-	if (active_level) active_level:remove()
+	-- if (active_level) active_level:remove()
 
 	w:process{function(e) e:remove() end}
 
@@ -98,7 +98,8 @@ function start()
 	waiting = false
 	alive = true
 	player:new()
-	active_level = level_simple{}:add()
+	-- active_level = level_simple{}:add()
+	active_level = level_test{}:add()
 end
 
 function load_hiscore()
