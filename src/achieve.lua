@@ -22,11 +22,9 @@ function achieve_loop()
             -- TODO put this in the GUI when the gui is a proper layer
             -- TODO replace with ttl or scripts
             -- TODO make a multi-line text box?
-            local t1 = text:new(lines[1], 64 - (#lines[1] * 2), 1, 0)
-            local t2 = text:new(lines[2], 64 - (#lines[2] * 2), 7, 0)
+            text:new(lines[1], 64, 1, 0).ttl = 300
+            text:new(lines[2], 64, 7, 0).ttl = 300
             wait(300)
-            t1:remove()
-            t2:remove()
         else yield() end
     until false
 end
@@ -40,11 +38,5 @@ function achieve(i)
     if bit & old == 0 then
         dset(addr, bit | dget(addr))
         add(achievement_queue, i)
-    end
-end
-
-function clear_achievements()
-    for i = 32,63 do
-        dset(i, 0)
     end
 end

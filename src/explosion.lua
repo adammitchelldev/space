@@ -1,16 +1,40 @@
 
-explosion = entity {}
+explosion = entity {
+    size = 10
+}
 
-function explosion_make(p, dx, dy)
-	explosion:spawn{
-		x = p.x,
-        y = p.y,
-        dx = p.dx,
-        dy = p.dy,
-		size = p.explosion,
-		ttl = mid(5, p.explosion, 15)
-	}
+function explosion:spawn(ent, ...)
+    ent = entity.spawn(self, ent, ...)
+    ent.ttl = mid(5, ent.size, 15)
+    return t
 end
+
+function explosion:new(base)
+	self:spawn{
+		x = base.x,
+        y = base.y,
+        dx = base.dx,
+        dy = base.dy
+    }
+end
+
+big_explosion = explosion {
+    size = 40,
+    scripts = {
+        function(self)
+            for i = 1, 10 do
+                wait(i)
+                explosion:spawn{
+                    x = self.x + rnd(40) - 20,
+                    y = self.y + rnd(40) - 20,
+                    dx = self.dx,
+                    dy = self.dy,
+                    size = (rnd(2) + 1) * (11 - i)
+                }
+            end
+        end
+    }
+}
 
 do
     local explosion_dither = {
@@ -18,7 +42,7 @@ do
         0b1010000010100000,
         0b1010010110100101,
         0b1111010111110101,
-        0b1111010111110101,
+        0b1111010111110101
     }
 
     function explosion:draw()
@@ -30,21 +54,5 @@ do
         fillp(explosion_dither[age])
         circfill(x, y, s)
         fillp()
-    end
-end
-
-function class:explode()
-    explosion_make(self)
-    self:remove()
-end
-
-big_explosion = function(self, px, py)
-    for i = 1, 10 do
-        wait(i)
-        explosion_make({
-            x = px + rnd(40) - 20,
-            y = py + rnd(40) - 20,
-            explosion = (rnd(2) + 1) * (11 - i)
-        })
     end
 end

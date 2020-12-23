@@ -64,11 +64,6 @@ end
 
 function _init()
 	cartdata("space")
-	menuitem(1, "clear achieves", clear_achievements)
-	menuitem(2, "clear hiscore", function()
-		dset(0, 0)
-		hiscore = 0
-	end)
 	load_hiscore()
 	play(achieve_loop)
 	starfield:init()
@@ -141,7 +136,7 @@ function game_over()
 		alive = false
 		save_hiscore()
 		wait(60)
-		local t = text:new("gAME oVER", 46, 60)
+		local t = text:new("gAME oVER", 64, 64)
 		text_scene_type(t, 5)
 		wait(120)
 		waiting = true

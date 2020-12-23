@@ -14,17 +14,19 @@ __lua__
 #include src/text.lua
 #include src/common.lua
 
-#include src/achieve.lua
+#include src/starfield.lua
+
+#include src/explosion.lua
 #include src/bullet.lua
 #include src/enemy.lua
-#include src/explosion.lua
-#include src/level.lua
 #include src/player.lua
 #include src/powerup.lua
-#include src/starfield.lua
+
+#include src/level.lua
 
 #include src/collision.lua
 
+#include src/achieve.lua
 #include src/main.lua
 
 #include src/debug.lua

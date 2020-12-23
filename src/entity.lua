@@ -10,13 +10,14 @@ function entity:hit(ent)
 end
 
 function entity:die()
+    if (self.die_sfx) sfx(self.die_sfx)
+    if (self.explosion) self.explosion:new(self)
     self:remove()
 end
 
 function entity:remove()
     w:remove(self)
     self.dead = true
-    return self
 end
 
 function entity:spawn(t, ...)
@@ -24,7 +25,7 @@ function entity:spawn(t, ...)
 
     if ent.scripts then
         for f in all(ent.scripts) do
-            ent:play(f)
+            ent:play(f, ...)
         end
     end
 

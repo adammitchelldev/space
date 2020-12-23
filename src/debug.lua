@@ -8,10 +8,24 @@ function collision_grid_draw_debug(g)
     end
 end
 
+-- Should have a whole true debug menu
+-- Could do it by suppressing pause?
 local old_init = _init
 function _init()
     old_init()
-    menuitem(5, "toggle debug", function() debug = not debug end)
+    
+    menuitem(1, "clear achieves", function()
+        for i = 32,63 do
+            dset(i, 0)
+        end
+    end)
+	menuitem(2, "clear hiscore", function()
+		dset(0, 0)
+		hiscore = 0
+	end)
+    menuitem(5, "toggle debug", function()
+        debug = not debug
+    end)
 end
 
 local old_draw = _draw

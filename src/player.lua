@@ -5,7 +5,8 @@ player = entity {
 	y = screen_h,
 	atk = 0,
 	draw = draw_sprite(2),
-	explosion = 50,
+	explosion = big_explosion{size=50},
+	die_sfx = 7,
 	speed = 1,
 	shot_sfx = 0,
 	shot_delay = 30,
@@ -47,9 +48,6 @@ player_bullet = bullet {
 }
 
 function player:die()
-	self:explode()
-	sfx(7)
-	play(big_explosion, self.x, self.y)
-	player_die()
 	entity.die(self)
+	player_die()
 end

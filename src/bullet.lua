@@ -1,7 +1,7 @@
 bullet = entity {
 	remove_oob = true,
-	explosion = 4,
-	dx = 0
+	explosion = explosion{size=4},
+	die_sfx = 1
 }
 
 function bullet:new(base, ox, oy)
@@ -9,12 +9,6 @@ function bullet:new(base, ox, oy)
 		x = base.x + (ox or 0),
 		y = base.y + (oy or 0)
 	}
-end
-
-function bullet:die()
-	sfx(1)
-	explosion_make(self)
-	self:remove()
 end
 
 function bullet:draw()

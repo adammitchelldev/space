@@ -1,7 +1,7 @@
 enemy = entity {
     tag = "enemy",
     remove_oob = true,
-    explosion = 6,
+    explosion = explosion{size=6},
     die_sfx = 1,
     col = { l=0, r=8, u=0, d=8 },
 }
@@ -15,8 +15,7 @@ enemy_bullet = bullet {
 }
 
 function enemy:die()
-    sfx(self.die_sfx)
-	self:explode()
+    entity.die(self)
     score_add(self.value)
     kills += 1
     if (kills == 1) achieve(1)
@@ -24,7 +23,6 @@ function enemy:die()
     if (kills == 1000) achieve(4)
 	text_rising:new(tostr(self.value).."0", self.x, self.y)
     roll_powerup(self.x + 2, self.y + 2) -- TODO center
-    entity.die(self)
 end
 
 enemy_normal = enemy {
@@ -46,7 +44,7 @@ enemy_normal = enemy {
 
 enemy_green = enemy {
     draw = draw_sprite(4),
-    explosion = 10,
+    explosion = explosion,
     die_sfx = 8,
     value = 50,
     dy = 1,
@@ -123,7 +121,7 @@ end
 enemy_big = enemy {
     remove_oob = false,
     draw = draw_sprite(14, 0, 0, 2, 2),
-    explosion = 40,
+    explosion = big_explosion,
     die_sfx = 7,
     value = 250,
     health = 50,
@@ -140,7 +138,6 @@ enemy_big = enemy {
 
 function enemy_big:die()
     enemy.die(self)
-    play(big_explosion, self.x, self.y)
     boss_kills += 1
     lives += 1
     if (boss_kills == 1) achieve(3)
@@ -157,7 +154,7 @@ enemy_hunter = enemy {
     value = 200,
     bounce = {l=0,r=screen_w,u=0,d=16},
     dx = 2,
-    explosion = 15,
+    explosion = explosion{size=15},
     die_sfx = 8,
     health = 3,
     scripts = {
@@ -191,7 +188,7 @@ enemy_shielder = enemy {
     draw = draw_sprite(6),
     value = 50,
     bounce = {l=0,r=screen_w,u=0,d=screen_h},
-    explosion = 10,
+    explosion = explosion,
     die_sfx = 8,
     health = 10,
     no_shield = true,
