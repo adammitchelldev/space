@@ -28,7 +28,7 @@ end
 function player:die()
 	self:explode()
 	sfx(7)
-	big_explosion(self.x, self.y)
+	play(big_explosion, self.x, self.y)
 	player_die()
 end
 

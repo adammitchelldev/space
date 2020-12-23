@@ -147,7 +147,7 @@ enemy_big = enemy {
 
 function enemy_big:die()
     enemy_big:super().die(self)
-    big_explosion(self.x, self.y)
+    play(big_explosion, self.x, self.y)
     boss_kills += 1
     lives += 1
     if (boss_kills == 1) achieve(3)

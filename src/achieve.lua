@@ -13,7 +13,7 @@ achievements = {
 achievement_queue = {}
 
 -- TODO make this better
-play(function()
+function achieve_loop()
     repeat
         local i = deli(achievement_queue, 1)
         if i then
@@ -29,7 +29,7 @@ play(function()
             t2:remove()
         else yield() end
     until false
-end)
+end
 
 -- TODO probably better to do this as global achievement objects
 function achieve(i)

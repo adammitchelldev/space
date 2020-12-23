@@ -1,11 +1,7 @@
-active_level_scripts = {}
-
-function lplay(func, ...)
-    return add(active_level_scripts, play(func, ...))
-end
-
-function level(func)
-    return function(...) lplay(func, ...) end
+function level(...)
+    return class {
+        scripts = {...}
+    }
 end
 
 function no_enemies()
@@ -16,7 +12,11 @@ function player_up()
     return next(collision_layers["player"]) != nil
 end
 
-level_simple = level(function()
+function is_dead(e)
+    return function() return e.dead end
+end
+
+level_simple = level(function(self)
     local diff = 0
     local wave_size = 0
     wait(120)
@@ -54,26 +54,26 @@ level_simple = level(function()
             wait(no_enemies)
             wait(180)
             wait(player_up)
-            if diff % 0 then
-                lplay(function()
+            if diff % 8 == 0 then
+                self:play(function()
                     repeat
                         wait(flr(rnd(300)+1200))
                         local x
                         if (flr(rnd(2)) == 0) x = -7 else x = 127
                         local e = enemy_hunter:new{x=x,y=flr(rnd(4))*8}
-                        wait(function() return e.dead end)
+                        wait(is_dead(e))
                     until false
                 end)
             elseif diff % 4 == 0 then
-                lplay(function()
+                self:play(function()
                     repeat
                         wait(flr(rnd(600)+1500))
                         local e = enemy_shielder:new{x=rnd(120),y=-8}
-                        wait(function() return e.dead end)
+                        wait(is_dead(e))
                     until false
                 end)
             else
-                lplay(function()
+                self:play(function()
                     repeat
                         wait(flr(rnd(150)) + 200)
                         enemy_green:new{x=rnd(120),y=-8}
@@ -88,8 +88,8 @@ level_simple = level(function()
     until false
 end)
 
-level_test = level(function()
-    lplay(function()
+level_test = level(function(self)
+    self:play(function()
         repeat
             wait(1)
             if btnp(5) then
@@ -99,7 +99,7 @@ level_test = level(function()
     end)
     local wave = 1
 
-    lplay(function()
+    self:play(function()
         repeat
             wait(flr(rnd(300)+1200))
             local x
@@ -108,14 +108,14 @@ level_test = level(function()
             wait(function() return e.dead end)
         until false
     end)
-    lplay(function()
+    self:play(function()
         repeat
             wait(flr(rnd(300)+900))
             local e = enemy_shielder:new{x=rnd(120),y=-8}
             wait(function() return e.dead end)
         until false
     end)
-    lplay(function()
+    self:play(function()
         repeat
             wait(flr(rnd(150)) + 200)
             enemy_green:new{x=rnd(120),y=-8}
@@ -137,10 +137,3 @@ level_test = level(function()
         -- wait(no_enemies)
     until false
 end)
-
-function level_stop()
-    for s in all(active_level_scripts) do
-        cancel(s)
-    end
-    active_level_scripts = {}
-end

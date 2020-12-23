@@ -4,8 +4,28 @@
 - [x] Try a simple ECS, litte/no optimization first
   - Seems to work pretty well
 - [ ] Combine the scripts and update behaviour into script.lua
+  - [x] Partially completed, layer and update are removed, although I'm missing layer somewhat and might bring the concept back since it made ordering draws much easier.
+  - [ ] Migrate global scripts to use layer scripts
+- [ ] Make sprite renderer system-component based
+- [ ] Cleanup time!
+  - [ ] Make spawning sfx into a script helper function
+  - [ ] Make explosions not be the cause of remove
+    - May need to figure out a proper way to inherit death listeners
+  - [ ] Make explosions use prefab style
+  - [ ] Move to "spawn"/"destroy" functions and terms?
+  - [ ] Refactor enemies into their own files!
+- [ ] Allow script inheritence?
+- [ ] Create proper collision query methods e.g. get closest/all within box/range
+- [ ] Collision cleanup
 
-- [ ] Make sprite renderer ECS based
+# Balance TODO
+- [ ] Stop shielder from accelerating into player
+- [ ] Add a conenction/disconnection time to the shielder so that they can't surprise shield a green one.
+- [ ] Reconsider hunter balance.
+  - Are bullets too fast?
+  - Needs a warning? When he zips in and kills you with no warning its a bit shit.
+  - If he's going to be that zippy and strong, he should leave the stage after using his voley.
+
 - [ ] Make weapon objects, add a couple more weapons
 - [ ] Shoot using a shoot flag
 - [ ] Make upgrades/items that apply to anything

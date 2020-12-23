@@ -1,12 +1,3 @@
-lives = 0
-score = 0
-hiscore = 0
-waiting = true
-alive = false
-next_powerup = 0
-kills = 0
-boss_kills = 0
-
 screen_height = 114
 
 -- players = layer(player)
@@ -33,6 +24,9 @@ w = world({
 }, {
 	collision_remove_listener
 })
+
+gm = class{}
+function play(script, ...) return gm:play(script, ...) end
 
 function score_add(x)
 	if (alive) score += x >> 16
@@ -79,12 +73,12 @@ function _init()
 		hiscore = 0
 	end)
 	load_hiscore()
-
+	play(achieve_loop)
 	starfield:init()
 end
 
 function reset()
-	level_stop()
+	if (active_level) active_level:remove()
 
 	w:process{function(e) e:remove() end}
 
@@ -96,9 +90,12 @@ function reset()
 	kills = 0
 	boss_kills = 0
 	next_powerup = flr(rnd(5)) + 10
-	player:new()
-	level_simple()
 	-- level_test()
+end
+
+function start()
+	player:new()
+	active_level = level_simple{}:add()
 end
 
 function load_hiscore()
@@ -138,18 +135,20 @@ function player_die(p)
 end
 
 -- TODO move these scripts onto a game manager
-game_over = script(function()
-	level_stop()
-	alive = false
-	save_hiscore()
-	wait(60)
-	local t = text_box("game over", 46, 60)
-	t.bg = false
-	text_scene_type(t, "gAME oVER", 5)
-	wait(120)
-	waiting = true
-	t:remove()
-end)
+function game_over()
+	play(function()
+		active_level:remove()
+		alive = false
+		save_hiscore()
+		wait(60)
+		local t = text_box("game over", 46, 60)
+		t.bg = false
+		text_scene_type(t, "gAME oVER", 5)
+		wait(120)
+		waiting = true
+		t:remove()
+	end)
+end
 
 update_systems = {
 	update_scripts,
@@ -162,9 +161,7 @@ update_systems = {
 
 draw_systems = {
 	draw_shielding,
-	function(e)
-		e:draw()
-	end,
+	function(e) if e.draw then e:draw() end end,
 	draw_shielded
 }
 
@@ -179,9 +176,9 @@ function _update60()
 		reset()
 	end
 
-	script_update()
-
 	starfield:update()
+
+	update_scripts(gm)
 
 	w:process(update_systems)
 
@@ -201,7 +198,6 @@ function _draw()
 	color(7)
 	score_print(hiscore, 128, 1, 1)
 	score_print(score, 128, 8, 1)
-	-- print(kills.."/"..boss_kills, 60, 1)
 
 	for i = 1, lives do
 		spr(player.sprite, (i * 9) - 8, 1)
@@ -210,6 +206,4 @@ function _draw()
 	if waiting then
 		print("pRESS ANY BUTTON", 32, 60)
 	end
-
-	--print(stat(1), 0, 0, 7)
 end

@@ -1,26 +1,14 @@
 starfield = {
-    static_count = 0,
     star_count = 70,
     dust_count = 50
 }
 
 do
-    local static
     local stars
     local dust
 
     function starfield:init()
         local n
-
-        static = {}
-        n = starfield.static_count
-        for i = 1, n do
-            static[i] = {
-                x = rnd(128),
-                y = rnd(screen_height),
-                colour = flr(rnd(2)) + 5
-            }
-        end
 
         stars = {}
         n = starfield.star_count
@@ -61,10 +49,6 @@ do
 
     function starfield:draw()
         fillp(0)
-        for s in all(static) do
-            color(s.colour)
-            pset(s.x, s.y)
-        end
         for s in all(stars) do
             color(s.colour)
             pset(s.x, s.y)

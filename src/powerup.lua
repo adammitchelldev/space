@@ -13,9 +13,9 @@ function powerup_make(orig)
     }:add()
 end
 
-gun_up = script(function(self)
-    text_rising_box("gUN uP", self.x + 4, self.y)
-end)
+function gun_up(self)
+    play(text_rising_box("gUN uP", self.x + 4, self.y))
+end
 
 function powerup:collect(p)
     sfx(6)

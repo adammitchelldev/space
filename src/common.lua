@@ -11,7 +11,8 @@ function bounce(self)
             self.x = b.r
             self.dx = -self.dx
             bounced = true
-        elseif b.u and self.y < b.u and self.dy < 0 then
+        end
+        if b.u and self.y < b.u and self.dy < 0 then
             self.y = b.u
             self.dy = -self.dy
             bounced = true
@@ -77,5 +78,6 @@ end
 
 function class:remove()
     w:remove(self)
+    self.dead = true
     return self
 end
