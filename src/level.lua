@@ -86,6 +86,9 @@ level_test = level(function()
     local wave = 1
     repeat
         wait(180)
+        enemy_shielder:new{ x = -7, y = 0, dx = 1, dy = 1 }
+        enemy_shielder:new{ x = 127, y = 0, dx = 1, dy = 1 }
+        enemy_shielder:new{ x = 60, y = -7, dx = 1, dy = 1 }
         -- enemy_big:new{ x = 60, y = -16, dx = 0.5, health = 20 }
         for i = 1,wave do
             local x

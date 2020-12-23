@@ -191,3 +191,79 @@ enemy_hunter = enemy {
         end
     }
 }
+
+enemy_shielder = enemy {
+    draw = draw_sprite(6),
+    value = 50,
+    bounce = {l=0,r=120,u=0,d=120},
+    explosion = 10,
+    die_sfx = 8,
+    health = 5,
+    no_shield = true,
+    scripts = {
+        function(self)
+            repeat
+                -- local a = rnd(1)
+                -- local adx,ady = sin(a)*0x0.2,cos(a)*0x0.2
+
+                local tx,ty
+                local target = self.shield_target
+                if target then
+                    tx,ty=target.x,target.y
+                else
+                    tx,ty=rnd(64)+32,rnd(32)+16
+                end
+
+                local adx,ady=(tx-self.x)*0x0.008,(ty-self.y)*0x0.008
+
+                local dur = flr(rnd(20)) + 20
+                for i = 1, dur do
+                    self.dx = (self.dx + adx) * 0x0.E
+                    self.dy = (self.dy + ady) * 0x0.E
+                    yield()
+                end
+            until false
+        end,
+        function(self)
+            repeat
+                local enemy_list = {}
+                for e in pairs(collision_layers["enemy"]) do
+                    if (not e.shielded and not e.no_shield and e != self.shield_target) add(enemy_list, e)
+                end
+                local target
+                if #enemy_list > 0 then
+                    target = rnd(enemy_list)
+                    target.shielded = true
+                    self.shield_target = target
+                    wait(120)
+                    target.shielded = false
+                else
+                    self.shield_target = nil
+                    wait(60)
+                end
+            until false
+        end
+    }
+}
+
+function enemy_shielder:remove()
+    if (self.shield_target) self.shield_target.shielded = false
+    enemy_shielder:super().remove(self)
+end
+
+function draw_shielding(self)
+    local target = self.shield_target
+    if target and not target.dead and w.ents[target] then
+        local x1,y1 = self.x,self.y
+        local x2,y2 = target.x,target.y
+        local dx,dy = (x2-x1)/10, (y2-y1)/10
+        x1,y1 = x1+4,y1+4
+        fillp(░)
+        for i=1,9 do
+            x1 += dx
+            y1 += dy
+            circfill(x1,y1,flr(i/2)+1,13)
+        end
+        fillp(0)
+    end
+end

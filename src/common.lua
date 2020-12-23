@@ -47,8 +47,14 @@ function move(self)
     self.y += self.dy
 end
 
+function draw_shielded(self)
+    if self.shielded then
+        sspr(0,20,12,12,self.x-2,self.y-2)
+    end
+end
+
 function class:hit(obj)
-    if (self.iframes or obj.iframes) return
+    if (self.iframes or self.shielded or obj.iframes) return
     if self.health then
         self.health -= 1
         if (self.health > 0) return

@@ -161,9 +161,11 @@ update_systems = {
 }
 
 draw_systems = {
+	draw_shielding,
 	function(e)
 		e:draw()
-	end
+	end,
+	draw_shielded
 }
 
 class.x,class.y,class.dx,class.dy = 0,0,0,0
