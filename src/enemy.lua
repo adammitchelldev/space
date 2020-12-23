@@ -170,6 +170,7 @@ enemy_hunter = enemy {
     scripts = {
         function(self)
             repeat
+                wait(90)
                 local p
                 repeat
                     yield()
@@ -182,7 +183,6 @@ enemy_hunter = enemy {
                     enemy_bullet:new(self.x + 3, self.y + 6).dy = 4
                 end
                 self.dx = -self.dx
-                wait(60)
             until false
         end,
         function(self)
