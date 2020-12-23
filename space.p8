@@ -39,8 +39,9 @@ __lua__
 #include src/enemies/shielder.lua
 
 -->8
--- level
+-- game
 #include src/level.lua
+#include src/game.lua
 
 -->8
 -- main

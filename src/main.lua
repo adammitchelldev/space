@@ -15,7 +15,7 @@ end
 function _update60()
 	starfield:update()
 
-	script_update(main_scripts)
+	script_update(game_scripts)
 	if (active_level) script_update(active_level)
 
 	for i in pairs(bg_fx) do i:update() end
