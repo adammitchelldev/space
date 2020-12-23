@@ -1,5 +1,13 @@
+player_bullet = bullet {
+	layer = player_bullets,
+	colors = heat_colors,
+	dy = -5,
+	width = 1,
+    col = { l=0, r=1, u=0, d=6 }
+}
+
 player = entity {
-	tag = "player",
+	layer = players,
 	sprite = 2,
 	x = 60,
 	y = screen_h,
@@ -37,14 +45,6 @@ player = entity {
 			until false
 		end
 	}
-}
-
-player_bullet = bullet {
-	tag = "player_bullet",
-	colors = heat_colors,
-	dy = -5,
-	width = 1,
-    col = { l=0, r=1, u=0, d=6 }
 }
 
 function player:die()

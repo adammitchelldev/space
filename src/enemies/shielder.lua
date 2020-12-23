@@ -33,7 +33,7 @@ enemy_shielder = enemy {
         function(self)
             repeat
                 local enemy_list = {}
-                for e in pairs(collision_layers["enemy"]) do
+                for e in pairs(enemies) do
                     if not e.shielded and
                             not e.shield_targeted and
                             not e.no_shield and

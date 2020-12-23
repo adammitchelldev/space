@@ -11,6 +11,7 @@
 -- various table entries, allowing for
 -- the flexibility of ECS definitions
 -- but without needing a full ECS system.
+-- (saves a lot of tokens!)
 
 -- the most flexible entry is "scripts",
 -- which allows the entity to provide a list
@@ -18,22 +19,32 @@
 -- every frame; use this for custom entity
 -- behaviour.
 
-entity = class{}
+entity = class {
+    x = 0,
+    y = 0,
+    dx = 0,
+    dy = 0,
+    w = 8,
+    h = 8
+}
 
 -- spawns a *copy* of this entity
 -- a.k.a instantiating a prefab
--- this adds the entity to the correct layer
--- and kicks off any attached scripts
 function entity:spawn(t, ...)
-    local ent = w:add(self(t or {}))
+    local ent = self(t or {})
+    ent:add(...)
+    return ent
+end
 
-    if ent.scripts then
-        for f in all(ent.scripts) do
-            ent:play(f, ...)
+-- add the entity to the correct layer
+-- and kick off any attached scripts
+function entity:add(...)
+    if (self.layer) self.layer[self] = self
+    if self.scripts then
+        for f in all(self.scripts) do
+            self:play(f, ...)
         end
     end
-
-    return ent
 end
 
 -- hit is the generic "bullet collision" handler
@@ -59,7 +70,7 @@ end
 -- directly removed is marked as dead so it
 -- doesn't die again
 function entity:remove()
-    w:remove(self)
+    if (self.layer) self.layer[self] = nil
     self.dead = true
 end
 

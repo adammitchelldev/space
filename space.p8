@@ -12,14 +12,14 @@ __lua__
 #include src/util/draw.lua
 #include src/util/script.lua
 #include src/util/vec.lua
-#include src/util/world.lua
 
 -->8
 -- common
+#include src/layers.lua
 #include src/constants.lua
+#include src/achieve.lua
 #include src/entity.lua
 #include src/text.lua
-#include src/common.lua
 #include src/starfield.lua
 
 -->8
@@ -44,8 +44,6 @@ __lua__
 
 -->8
 -- main
-#include src/collision.lua
-#include src/achieve.lua
 #include src/main.lua
 
 -->8

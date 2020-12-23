@@ -11,7 +11,7 @@ enemy_green = enemy {
             local p
             repeat
                 yield()
-                p = next(collision_layers["player"])
+                p = next(players)
             until p and vec_dist2(self, p) < (50 * 50)
 
             local dx, dy = vec_xy_normalize(p.x - self.x, p.y - self.y, 4)

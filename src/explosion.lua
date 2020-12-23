@@ -1,14 +1,11 @@
+-- explosions!!!
 
 explosion = entity {
+    layer = bg_fx, -- bg by default
     size = 10
 }
 
-function explosion:spawn(ent, ...)
-    ent = entity.spawn(self, ent, ...)
-    ent.ttl = mid(5, ent.size, 15)
-    return t
-end
-
+-- TODO rename to something more descriptive
 function explosion:new(base)
 	self:spawn{
 		x = base.x,
@@ -16,6 +13,11 @@ function explosion:new(base)
         dx = base.dx,
         dy = base.dy
     }
+end
+
+function explosion:add(...)
+    entity.add(self, ...)
+    self.ttl = mid(5, self.size, 15)
 end
 
 big_explosion = explosion {

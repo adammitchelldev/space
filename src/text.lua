@@ -1,4 +1,6 @@
-text = entity {}
+text = entity {
+    layer = game_text
+}
 
 function text_draw(obj)
 	if obj.bg then

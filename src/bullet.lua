@@ -2,7 +2,10 @@
 
 bullet = entity {
 	remove_oob = true,
-	explosion = explosion{size=4},
+	explosion = explosion {
+		size = 4,
+		layer = fg_fx -- draw on top!
+	},
 	die_sfx = 1
 }
 

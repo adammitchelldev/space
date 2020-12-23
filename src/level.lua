@@ -6,11 +6,11 @@ end
 
 -- TODO refactor into helpers, along with other useful stuff
 function no_enemies()
-    return next(collision_layers["enemy"]) == nil
+    return next(enemies) == nil
 end
 
 function player_up()
-    return next(collision_layers["player"]) != nil
+    return next(players) != nil
 end
 
 function is_dead(e)

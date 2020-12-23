@@ -1,19 +1,6 @@
 -- main logic
 -- this is where _init _update and _draw live
 
-players = {}
-enemies = {}
-player_bullets = {}
-enemy_bullets = {}
-fg_fx = {}
-game_text = {}
-
-w = world({
-	collision_add_listener
-}, {
-	collision_remove_listener
-})
-
 main_scripts = {}
 -- helper function to play global scripts
 -- that don't belong to a specific entity
@@ -59,21 +46,16 @@ function score_print(score, x, y, pad)
 	until n == 0
 end
 
-function _init()
-	cartdata("space")
-	load_hiscore()
-
-	-- start achieve loop
-	play(achieve_display_loop)
-
-	starfield:init()
-	reset()
-end
-
 function reset()
-	-- if (active_level) active_level:remove()
+	if (active_level) active_level:remove()
 
-	w:process{function(e) e:remove() end}
+	for i in pairs(bg_fx) do i:remove() end
+	for i in pairs(player_bullets) do i:remove() end
+	for i in pairs(enemies) do i:remove() end
+	for i in pairs(enemy_bullets) do i:remove() end
+	for i in pairs(players) do i:remove() end
+	for i in pairs(fg_fx) do i:remove() end
+	for i in pairs(game_text) do i:remove() end
 
 	waiting = true
 	alive = false
@@ -144,19 +126,54 @@ function game_over()
 	end)
 end
 
-update_systems = {
-	function(e) if e.update then e:update() end end,
-}
+function _init()
+	cartdata("space")
+	load_hiscore()
 
-draw_systems = {
-	draw_shielding,
-	function(e) if e.draw then e:draw() end end,
-	draw_shielded
-}
+	-- start achieve loop
+	play(achieve_display_loop)
 
-class.x,class.y,class.dx,class.dy,class.w,class.h = 0,0,0,0,8,8
+	starfield:init()
+	reset()
+end
 
 function _update60()
+	starfield:update()
+
+	script_update(main_scripts)
+	if (active_level) script_update(active_level)
+
+	for i in pairs(bg_fx) do i:update() end
+	for i in pairs(player_bullets) do i:update() end
+	for i in pairs(enemies) do i:update() end
+	for i in pairs(enemy_bullets) do i:update() end
+	for i in pairs(powerups) do i:update() end
+	for i in pairs(players) do i:update() end
+	for i in pairs(fg_fx) do i:update() end
+	for i in pairs(game_text) do i:update() end
+
+	local players_grid = collision_grid(players)
+	local enemies_grid = collision_grid(enemies)
+	local player_bullets_grid = collision_grid(player_bullets)
+	local enemy_bullets_grid = collision_grid(enemy_bullets)
+	local powerups_grid = collision_grid(powerups)
+
+	collision_grid_pairs_foreach(players_grid, enemies_grid, function(p, e)
+		p:hit(e)
+		e:hit(p)
+	end)
+	collision_grid_pairs_foreach(players_grid, enemy_bullets_grid, function(p, b)
+		p:hit(b)
+		b:hit(p)
+	end)
+	collision_grid_pairs_foreach(players_grid, powerups_grid, function(p, pu)
+		pu:collect(p)
+	end)
+	collision_grid_pairs_foreach(player_bullets_grid, enemies_grid, function(b, e)
+		e:hit(b)
+		b:hit(e)
+	end)
+
 	-- TODO custom menu?
 	-- What we could do is force draw a menu around the pause menu
 	-- locations and flip() it before allowing the pause
@@ -164,23 +181,25 @@ function _update60()
 	if waiting and btn()&0x3F != 0 then
 		start()
 	end
-
-	starfield:update()
-
-	script_update(main_scripts)
-
-	w:process(update_systems)
-
-	collision_update()
 end
 
 function _draw()
 	cls()
 	clip(0, 128-screen_h, screen_w, 128)
 	camera(0, screen_h-128)
+
 	starfield:draw()
 
-	w:process(draw_systems)
+	for i in pairs(bg_fx) do i:draw() end
+	-- TODO this as a bg_fx entity
+	for i in pairs(enemies) do draw_shielding(i) end
+	for i in pairs(player_bullets) do i:draw() end
+	for i in pairs(enemies) do i:draw() end
+	for i in pairs(enemy_bullets) do i:draw() end
+	for i in pairs(powerups) do i:draw() end
+	for i in pairs(players) do i:draw() end
+	for i in pairs(fg_fx) do i:draw() end
+	for i in pairs(game_text) do i:draw() end
 
 	clip()
 	camera(0,0)

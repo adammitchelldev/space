@@ -15,7 +15,7 @@ enemy_hunter = enemy {
                 local p
                 repeat
                     yield()
-                    p = next(collision_layers["player"])
+                    p = next(players)
                 until p and abs(self.x - p.x) <= 8
 
                 for i = 1, 3 do

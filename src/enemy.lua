@@ -1,7 +1,7 @@
 -- base enemy class
 
 enemy = entity {
-    tag = "enemy",
+    layer = enemies,
     remove_oob = true,
     explosion = explosion{size=6},
     die_sfx = 1,
@@ -9,7 +9,7 @@ enemy = entity {
 }
 
 enemy_bullet = bullet {
-    tag = "enemy_bullet",
+    layer = enemy_bullets,
 	colors = alien_colors,
 	width = 2,
 	dy = 1.5,
