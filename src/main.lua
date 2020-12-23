@@ -97,8 +97,8 @@ function reset()
 	boss_kills = 0
 	next_powerup = flr(rnd(5)) + 10
 	player:new()
-	-- level_simple()
-	level_test()
+	level_simple()
+	-- level_test()
 end
 
 function load_hiscore()

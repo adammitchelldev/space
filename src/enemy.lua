@@ -25,6 +25,7 @@ enemy_bullet = bullet {
 function enemy:new(t)
 	t = self(t):add()
     if (t.sfx) sfx(t.sfx)
+    return t
 end
 
 function enemy:die()
@@ -148,6 +149,7 @@ function enemy_big:die()
     enemy_big:super().die(self)
     big_explosion(self.x, self.y)
     boss_kills += 1
+    lives += 1
     if (boss_kills == 1) achieve(3)
     if (boss_kills == 5) achieve(6)
 end
