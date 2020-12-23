@@ -17,14 +17,13 @@
 -- }
 
 w = world({
-	script_add_listener,
 	collision_add_listener
 }, {
 	collision_remove_listener
 })
 
-gm = class{}
-function play(script, ...) return gm:play(script, ...) end
+main_scripts = {}
+function play(f, ...) return script_play(main_scripts, f, ...) end
 
 function score_add(x)
 	if (alive) score += x >> 16
@@ -39,7 +38,7 @@ function roll_powerup(x, y)
 	next_powerup -= 1
 	if next_powerup <= 0 then
 		sfx(9)
-		powerup_make({x = x, y = y})
+		powerup:spawn{x = x, y = y}
 		next_powerup = flr(rnd(5)) + 10
 	end
 end
@@ -94,9 +93,9 @@ function start()
 	sfx(5)
 	waiting = false
 	alive = true
-	player:new()
-	active_level = level_simple{}:add()
-	-- active_level = level_test{}:add()
+	player:spawn{}
+	active_level = level_simple:spawn{}
+	-- active_level = level_test:spawn{}
 end
 
 function load_hiscore()
@@ -108,7 +107,7 @@ function save_hiscore()
 		hiscore = score
 		dset(0, hiscore)
 		play(function()
-			t = text_box("hI-sCORE!!", 45, 20)
+			t = text:new("hI-sCORE!!", 45, 20)
 			t.bg = nil
 			for i = 1,10 do
 				wait(10)
@@ -126,9 +125,9 @@ end
 function player_die(p)
 	if lives > 0 then
 		play(function()
-			wait(200)
+			wait(120)
 			lives -= 1
-			player:new().iframes = 120
+			player:spawn{iframes = 120}
 		end)
 	else
 		game_over()
@@ -142,9 +141,8 @@ function game_over()
 		alive = false
 		save_hiscore()
 		wait(60)
-		local t = text_box("game over", 46, 60)
-		t.bg = false
-		text_scene_type(t, "gAME oVER", 5)
+		local t = text:new("gAME oVER", 46, 60)
+		text_scene_type(t, 5)
 		wait(120)
 		waiting = true
 		t:remove()
@@ -152,12 +150,7 @@ function game_over()
 end
 
 update_systems = {
-	update_scripts,
 	function(e) if e.update then e:update() end end,
-	move,
-	bounce,
-	remove_oob,
-	ttl
 }
 
 draw_systems = {
@@ -179,7 +172,7 @@ function _update60()
 
 	starfield:update()
 
-	update_scripts(gm)
+	script_update(main_scripts)
 
 	w:process(update_systems)
 

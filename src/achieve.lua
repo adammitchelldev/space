@@ -22,8 +22,8 @@ function achieve_loop()
             -- TODO put this in the GUI when the gui is a proper layer
             -- TODO replace with ttl or scripts
             -- TODO make a multi-line text box?
-            local t1 = text_box(lines[1], 64 - (#lines[1] * 2), 1)
-            local t2 = text_box(lines[2], 64 - (#lines[2] * 2), 7)
+            local t1 = text:new(lines[1], 64 - (#lines[1] * 2), 1, 0)
+            local t2 = text:new(lines[2], 64 - (#lines[2] * 2), 7, 0)
             wait(300)
             t1:remove()
             t2:remove()

@@ -1,12 +1,4 @@
-function enemy_shoot(self)
-    repeat
-        wait(flr(rnd(340)) + 40)
-        sfx(11)
-        enemy_bullet:new(self.x + 2, self.y + 4)
-    until false
-end
-
-enemy = class {
+enemy = entity {
     tag = "enemy",
     remove_oob = true,
     explosion = 6,
@@ -22,32 +14,33 @@ enemy_bullet = bullet {
 	col = { l=1, r=3, u=0, d=2 }
 }
 
-function enemy:new(t)
-	t = self(t):add()
-    if (t.sfx) sfx(t.sfx)
-    return t
-end
-
 function enemy:die()
-    if (self.die_sfx) sfx(self.die_sfx)
+    sfx(self.die_sfx)
 	self:explode()
     score_add(self.value)
     kills += 1
     if (kills == 1) achieve(1)
     if (kills == 50) achieve(2)
     if (kills == 1000) achieve(4)
-	play(text_rising_box(tostr(self.value).."0", self.x, self.y))
-	roll_powerup(self.x, self.y)
+	text_rising:new(tostr(self.value).."0", self.x, self.y)
+    roll_powerup(self.x + 2, self.y + 2) -- TODO center
+    entity.die(self)
 end
 
 enemy_normal = enemy {
     draw = draw_sprite(3),
-    sfx = 3,
     bounce = {l=0,r=screen_w,u=0,d=50,sfx=3},
     value = 10,
     dy = 1,
     scripts = {
-        enemy_shoot
+        function(self)
+            sfx(3)
+            repeat
+                wait(flr(rnd(340)) + 40)
+                sfx(11)
+                enemy_bullet:new(self, 2, 4)
+            until false
+        end
     }
 }
 
@@ -87,8 +80,8 @@ function enemy_shoot_big(self)
         if r < 30 then
             for i = 1, 8 do
                 sfx(11)
-                enemy_bullet:new(self.x + 2, self.y + 12)
-                enemy_bullet:new(self.x + 12, self.y + 12)
+                enemy_bullet:new(self, 2, 12)
+                enemy_bullet:new(self, 12, 12)
                 wait(6)
             end
         else
@@ -97,8 +90,8 @@ function enemy_shoot_big(self)
             for i = 1, 5 do
                 sfx(11)
                 local dx = (i - 3) * d
-                enemy_bullet:new(self.x + 2, self.y + 12).dx = dx
-                enemy_bullet:new(self.x + 12, self.y + 12).dx = dx
+                enemy_bullet:new(self, 2, 12).dx = dx
+                enemy_bullet:new(self, 12, 12).dx = dx
                 wait(20)
             end
         end
@@ -146,7 +139,7 @@ enemy_big = enemy {
 }
 
 function enemy_big:die()
-    enemy_big:super().die(self)
+    enemy.die(self)
     play(big_explosion, self.x, self.y)
     boss_kills += 1
     lives += 1
@@ -156,7 +149,7 @@ end
 
 function enemy_big:remove()
     sfx(-1,2)
-    enemy_big:super().remove(self)
+    enemy.remove(self)
 end
 
 enemy_hunter = enemy {
@@ -180,7 +173,7 @@ enemy_hunter = enemy {
                 for i = 1, 3 do
                     wait(2)
                     sfx(11)
-                    enemy_bullet:new(self.x + 3, self.y + 6).dy = 4
+                    enemy_bullet:new(self, 3, 6).dy = 4
                 end
                 self.dx = -self.dx
             until false
@@ -265,7 +258,7 @@ function enemy_shielder:remove()
     if self.shield_target then
         self.shield_target.shielded, self.shield_target.shield_targeted = nil
     end
-    enemy_shielder:super().remove(self)
+    enemy.remove(self)
 end
 
 function draw_shielding(self)

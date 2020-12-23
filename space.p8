@@ -6,11 +6,12 @@ __lua__
 #include src/util/collision.lua
 #include src/util/draw.lua
 #include src/util/script.lua
-#include src/util/text.lua
 #include src/util/vec.lua
 #include src/util/world.lua
 
 #include src/constants.lua
+#include src/entity.lua
+#include src/text.lua
 #include src/common.lua
 
 #include src/achieve.lua

@@ -8,6 +8,7 @@ do
         for l in all(self.add_listeners) do
             l(item)
         end
+        return item
     end
 
     function world_index:remove(item)

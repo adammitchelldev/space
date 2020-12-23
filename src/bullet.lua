@@ -1,14 +1,14 @@
-bullet = class {
+bullet = entity {
 	remove_oob = true,
 	explosion = 4,
 	dx = 0
 }
 
-function bullet:new(x, y)
-	return self {
-		x = x,
-		y = y,
-	}:add()
+function bullet:new(base, ox, oy)
+	return self:spawn{
+		x = base.x + (ox or 0),
+		y = base.y + (oy or 0)
+	}
 end
 
 function bullet:die()

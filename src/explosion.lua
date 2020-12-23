@@ -1,15 +1,15 @@
 
-explosion = class {}
+explosion = entity {}
 
 function explosion_make(p, dx, dy)
-	explosion {
+	explosion:spawn{
 		x = p.x,
         y = p.y,
         dx = p.dx,
         dy = p.dy,
 		size = p.explosion,
 		ttl = mid(5, p.explosion, 15)
-	}:add()
+	}
 end
 
 do
