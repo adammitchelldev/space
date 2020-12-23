@@ -75,6 +75,7 @@ function _init()
 	load_hiscore()
 	play(achieve_loop)
 	starfield:init()
+	reset()
 end
 
 function reset()
@@ -82,11 +83,10 @@ function reset()
 
 	w:process{function(e) e:remove() end}
 
-	sfx(5)
+	waiting = true
+	alive = false
 	lives = 2
-	waiting = false
 	score = 0
-	alive = true
 	kills = 0
 	boss_kills = 0
 	next_powerup = flr(rnd(5)) + 10
@@ -94,6 +94,9 @@ function reset()
 end
 
 function start()
+	sfx(5)
+	waiting = false
+	alive = true
 	player:new()
 	active_level = level_simple{}:add()
 end
@@ -173,7 +176,7 @@ function _update60()
 	-- locations and flip() it before allowing the pause
 	-- if(btn(6)) poke(0x5f30,1)
 	if waiting and btn()&0x3F != 0 then
-		reset()
+		start()
 	end
 
 	starfield:update()
