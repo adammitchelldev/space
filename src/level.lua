@@ -54,7 +54,7 @@ level_simple = level(function()
             wait(no_enemies)
             wait(180)
             wait(player_up)
-            if diff & 0b100 == 0 then
+            if diff % 0 then
                 lplay(function()
                     repeat
                         wait(flr(rnd(300)+1200))
@@ -64,7 +64,7 @@ level_simple = level(function()
                         wait(function() return e.dead end)
                     until false
                 end)
-            elseif diff & 0b10 == 0 then
+            elseif diff % 4 == 0 then
                 lplay(function()
                     repeat
                         wait(flr(rnd(600)+1500))
