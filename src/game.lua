@@ -82,7 +82,7 @@ function save_hiscore()
 		hiscore = score
 		dset(0, hiscore)
 		play(function()
-			t = text:new("hI-sCORE!!", 45, 20)
+			t = text:new("hI-sCORE!!", 64, 20)
 			t.bg = nil
 			for i = 1,10 do
 				wait(10)
