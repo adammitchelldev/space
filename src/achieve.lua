@@ -1,6 +1,7 @@
 -- achievements
 
--- TODO replace this with an achieve class
+-- TODO replace this with an achieve class so that
+-- achievements can be referred to as global variables
 achievements = {
     "first blood!\nkILL YOUR FIRST ENEMY.",
     "killing spree!\n50 KILLS IN ONE RUN.",

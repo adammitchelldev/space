@@ -93,7 +93,7 @@ function entity:update()
     -- move
     self.x += self.dx
     self.y += self.dy
-    
+
     -- bounce
     local b = self.bounce
     if b then

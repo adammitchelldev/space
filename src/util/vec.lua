@@ -1,5 +1,6 @@
 -- 2D vector util
 
+-- TODO review, these are mostly hacks used in specific locations
 function vec_dist2(a, b)
     return (a.x - b.x) ^ 2 + (a.y - b.y) ^ 2
 end

@@ -111,7 +111,7 @@ end
 
 function game_over()
 	play(function()
-		active_level:remove()
+		active_level = nil
 		alive = false
 		save_hiscore()
 		wait(60)

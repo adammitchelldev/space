@@ -26,7 +26,7 @@ An untitled roguelike arcade space shooter, see [design](docs/design.md) for des
 ### Engine features
 - [ ] Bring in old effects from Find Gold
 - [ ] Create proper collision query methods e.g. get closest/all within box/range
-- [ ] Script inheritence?
+- [ ] Script inheritence? Probably better to provide a table concat(...)
 - [ ] Simple particle effects?
 
 ### Fun stuff
