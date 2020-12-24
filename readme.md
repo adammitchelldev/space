@@ -9,14 +9,19 @@ An untitled roguelike arcade space shooter, see [design](docs/design.md) for des
 ### Simple cleanup
 - [ ] Deduplicate the main `_update` and `_draw` code
 - [ ] Make achievements global instance based rather than numbered
+- [ ] Refactor some scripts that don't need to be scripts into update hooks
 - [ ] Fix the bullet rendering!
 
 ### Game features
-- [ ] Refactor into actual weapons
-- [ ] Generic upgrade/item system
-- [ ] Main menu
-- [ ] Dialogue
+- [ ] Refactor shooting into actual weapons so we can add some more
+- [ ] Refactor out the floaty movement from shield guy so other entities can use it
+- [ ] Think about generic stats/powerup system to make items easier
+- [ ] Make some item pickups
+- [ ] Main menu!
+- [ ] Break level manager down into "waves" that can be generated from some rules
+- [ ] Dialogue for missions and campaign
 - [ ] Proper campaign and level system
+- [ ] Destination select?
 
 ### Engine features
 - [ ] Bring in old effects from Find Gold

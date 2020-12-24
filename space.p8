@@ -7,7 +7,6 @@ __lua__
 -->8
 -- util
 #include src/util/class.lua
-#include src/util/grid.lua
 #include src/util/collision.lua
 #include src/util/draw.lua
 #include src/util/script.lua

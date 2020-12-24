@@ -6,43 +6,33 @@
 -- * Avoid duplicate collision (via better grid?)
 -- * Add simple collision layer queries
 
--- TODO replace with better check, should be able to do 2
--- axis distance check for more efficient AABB, optimize tokens
+-- TODO review collision types
 function collision_check(i1, i2)
-    local l1 = i1.x + i1.col.l
-    local r1 = i1.x + i1.col.r
-    local u1 = i1.y + i1.col.u
-    local d1 = i1.y + i1.col.d
-
-    local l2 = i2.x + i2.col.l
-    local r2 = i2.x + i2.col.r
-    local u2 = i2.y + i2.col.u
-    local d2 = i2.y + i2.col.d
-
-    return l1 < r2 and r1 > l2 and u1 < d2 and d1 > u2
+    local col1,col2=i1.col,i2.col
+    return i1.x + col1.l < i2.x + col2.r and
+            i1.x + col1.r > i2.x + col2.l and
+            i1.y + col1.u < i2.y + col2.d and
+            i1.y + col1.d > i2.y + col2.u
 end
 
 function collision_grid(layer)
-    local g = grid()
+    local g = {}
 
     for _, i in pairs(layer) do
-        local col = i.col
-        if col then
-            local x, y = i.x, i.y
-            local l = (x + col.l) \ 16
-            local r = ((x + col.r - 1) \ 16)
-            local u = (y + col.u) \ 16
-            local d = ((y + col.d - 1) \ 16)
+        local collider = i.col
+        if collider then
+            local l = (i.x + collider.l) \ 16
+            local r = (i.x + collider.r - 1) \ 16
+            local u = (i.y + collider.u) \ 16
+            local d = (i.y + collider.d - 1) \ 16
 
             for ix = l, r do
+                local column = g[ix] or {}
+                g[ix] = column
                 for iy = u, d do
-                    local cell = rawget_cell(g, ix, iy)
-                    if cell == nil then
-                        cell = {i}
-                        g[ix][iy] = cell
-                    else
-                        add(cell, i)
-                    end
+                    local cell = column[iy] or {}
+                    column[iy] = cell
+                    add(cell, i)
                 end
             end
         end
@@ -52,11 +42,18 @@ function collision_grid(layer)
 end
 
 function collision_grid_pairs_foreach(g1, g2, func)
-    for x, y, c1 in cells(g1) do
-        local c2 = rawget_cell(g2, x, y)
-        for i1 in all(c1) do
-            for i2 in all(c2) do
-                if (collision_check(i1, i2)) func(i1, i2)
+    for x, col1 in pairs(g1) do
+        local col2 = g2[x]
+        if col2 then
+            for y, cell1 in pairs(col1) do
+                local cell2 = col2[y]
+                if cell2 then
+                    for i1 in all(cell1) do
+                        for i2 in all(cell2) do
+                            if (collision_check(i1, i2)) func(i1, i2)
+                        end
+                    end
+                end
             end
         end
     end
