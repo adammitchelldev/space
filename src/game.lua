@@ -45,7 +45,7 @@ function score_print(score, x, y, pad)
 end
 
 function reset()
-	if (active_level) active_level:remove()
+	if (active_level) active_level = nil
 
 	for i in pairs(bg_fx) do i:remove() end
 	for i in pairs(player_bullets) do i:remove() end
@@ -65,12 +65,12 @@ function reset()
 end
 
 function start()
+	reset()
 	sfx(5)
 	waiting = false
 	alive = true
 	player:spawn{}
 	active_level = level_simple:spawn{}
-	-- active_level = level_test:spawn{}
 end
 
 function load_hiscore()
