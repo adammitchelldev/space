@@ -49,7 +49,9 @@ end
 
 enemy_big = enemy {
     remove_oob = false,
-    draw = draw_sprite(14, 0, 0, 2, 2),
+    sprite = 14,
+    sprite_w = 2,
+    sprite_h = 2,
     explosion = big_explosion,
     die_sfx = 7,
     value = 250,

@@ -1,7 +1,7 @@
 powerup = entity {
     layer = powerups,
     remove_oob = true,
-    draw = draw_sprite(16),
+    sprite = 16,
     dy = 0.5,
     col = { l=-2,r=7,u=-2,d=7 },
 }

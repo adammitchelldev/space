@@ -127,3 +127,12 @@ function entity:update()
         end
     end
 end
+
+function entity:draw()
+    if self.sprite and not (self.iframes and self.iframes & 1 == 1) then
+        spr(self.sprite, self.x, self.y, self.sprite_w or 1, self.sprite_h or 1)
+    end
+    if self.shielded then
+        sspr(0,20,12,12,self.x-2,self.y-2)
+    end
+end

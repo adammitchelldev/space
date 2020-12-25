@@ -1,7 +1,7 @@
 -- hunter enemy
 
 enemy_hunter = enemy {
-    draw = draw_sprite(5),
+    sprite = 5,
     value = 200,
     bounce = {l=0,r=screen_w,u=0,d=16},
     dx = 2,

@@ -1,7 +1,7 @@
 -- green enemy
 
 enemy_green = enemy {
-    draw = draw_sprite(4),
+    sprite = 4,
     explosion = explosion,
     die_sfx = 8,
     value = 50,

@@ -48,7 +48,6 @@ do
     end
 
     function starfield:draw()
-        fillp(0)
         for s in all(stars) do
             color(s.colour)
             pset(s.x, s.y)

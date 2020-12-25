@@ -1,7 +1,7 @@
 -- shielder enemy
 
 enemy_shielder = enemy {
-    draw = draw_sprite(6),
+    sprite = 6,
     value = 50,
     bounce = {l=0,r=screen_w,u=0,d=screen_h},
     explosion = explosion,

@@ -12,7 +12,6 @@ player = entity {
 	x = 60,
 	y = screen_h,
 	atk = 0,
-	draw = draw_sprite(2),
 	explosion = big_explosion{size=50},
 	die_sfx = 7,
 	speed = 1,

@@ -55,6 +55,6 @@ do
         color(c)
         fillp(explosion_dither[age])
         circfill(x, y, s)
-        fillp()
+        fillp(0)
     end
 end

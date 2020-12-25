@@ -29,7 +29,6 @@ function bullet:draw()
 	local x = self.x
 	local y = self.y
 	local c = 1
-	fillp(0)
 	local step = sgn(self.dy)
 	if step == 1 then
 		y += self.dy

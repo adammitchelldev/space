@@ -8,7 +8,6 @@ __lua__
 -- util
 #include src/util/class.lua
 #include src/util/collision.lua
-#include src/util/draw.lua
 #include src/util/script.lua
 #include src/util/vec.lua
 
