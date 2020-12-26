@@ -3,7 +3,11 @@ powerup = entity {
     remove_oob = true,
     sprite = 16,
     dy = 0.5,
-    col = { l=-2,r=7,u=-2,d=7 },
+    coll = true,
+    coll_l = -2,
+    coll_r = 7,
+    coll_u = -2,
+    coll_d = 7
 }
 
 function gun_up(self)

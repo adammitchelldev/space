@@ -5,7 +5,9 @@ enemy = entity {
     remove_oob = true,
     explosion = explosion{size=6},
     die_sfx = 1,
-    col = { l=0, r=8, u=0, d=8 },
+    coll = true,
+    coll_r = 8,
+    coll_d = 8
 }
 
 enemy_bullet = bullet {
@@ -13,7 +15,10 @@ enemy_bullet = bullet {
 	colors = alien_colors,
 	width = 2,
 	dy = 1.5,
-	col = { l=1, r=3, u=0, d=2 }
+    coll = true,
+    coll_l=1,
+    coll_r=3,
+    coll_d=2
 }
 
 function enemy:die()

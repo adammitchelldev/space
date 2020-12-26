@@ -1,6 +1,10 @@
 -- base entity class
 -- this is where all the good logic lives
 
+-- ideas:
+-- * add a "children" entry that allows
+-- the specification of attached entities
+
 -- the rationale behind having all of the
 -- logic in one place is that behaviour
 -- is explicit and interacting "systems"
@@ -9,23 +13,36 @@
 -- entity types subclass this class and
 -- configure their behaviour by setting
 -- various table entries, allowing for
--- the flexibility of ECS definitions
--- but without needing a full ECS system.
--- (saves a lot of tokens!)
+-- the flexibility of ECS-style data-driven
+-- entity archetypes but without actual ECS
+-- (cuts out a lot of tokens and magic!)
 
 -- the most flexible entry is "scripts",
 -- which allows the entity to provide a list
 -- of coroutines that will be resumed
--- every frame; use this for custom entity
--- behaviour.
+-- every frame; great for long-lived
+-- update behaviour.
 
+-- more advanced logical specialisation can
+-- be achieved with typical lua "hooking"
+-- for the methods in this class.
+
+default_layer = {}
+
+-- we provide default fallbacks for all
+-- entities here
 entity = class {
+    layer = default_layer,
     x = 0,
     y = 0,
     dx = 0,
     dy = 0,
     w = 8,
-    h = 8
+    h = 8,
+    coll_l = 0,
+    coll_r = 0,
+    coll_u = 0,
+    coll_d = 0,
 }
 
 -- spawns a *copy* of this entity
@@ -39,7 +56,7 @@ end
 -- add the entity to the correct layer
 -- and kick off any attached scripts
 function entity:add(...)
-    if (self.layer) self.layer[self] = self
+    self.layer[self] = self
     if self.scripts then
         for f in all(self.scripts) do
             self:play(f, ...)
@@ -70,7 +87,7 @@ end
 -- directly removed is marked as dead so it
 -- doesn't die again
 function entity:remove()
-    if (self.layer) self.layer[self] = nil
+    self.layer[self] = nil
     self.dead = true
 end
 

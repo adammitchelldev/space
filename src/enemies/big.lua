@@ -62,7 +62,11 @@ enemy_big = enemy {
     h = 16,
     bounce = { l=24, r=screen_w-24, u=10, d=50 },
     bounce_sfx = false,
-    col = { l=2, r=14, u=2, d=14 },
+    coll = true,
+    coll_l = 2,
+    coll_r = 14,
+    coll_u = 2,
+    coll_d = 14,
     scripts = {
         enemy_move_fast,
         enemy_shoot_big,

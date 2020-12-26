@@ -4,7 +4,7 @@ An untitled roguelike arcade space shooter, see [design](docs/design.md) for des
 
 ## TODO
 ### Now
-- [ ] Bake sprite renderer into standard draw
+- [ ] Refactor shooting into actual weapons so we can add some more
 
 ### Simple cleanup
 - [ ] Deduplicate the main `_update` and `_draw` code
@@ -13,7 +13,6 @@ An untitled roguelike arcade space shooter, see [design](docs/design.md) for des
 - [ ] Fix the bullet rendering!
 
 ### Game features
-- [ ] Refactor shooting into actual weapons so we can add some more
 - [ ] Refactor out the floaty movement from shield guy so other entities can use it
 - [ ] Think about generic stats/powerup system to make items easier
 - [ ] Make some item pickups
