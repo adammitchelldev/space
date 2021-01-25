@@ -6,16 +6,9 @@ bullet = entity {
 		size = 4,
 		layer = fg_fx -- draw on top!
 	},
+	h = 20, -- for oob
 	die_sfx = 1,
-	age = 0,
-	scripts = {
-		function(self)
-			repeat
-				self.age += 1
-				yield()
-			until false
-		end
-	}
+	age = 0
 }
 
 function bullet:new(base, ox, oy)
@@ -23,6 +16,11 @@ function bullet:new(base, ox, oy)
 		x = base.x + (ox or 0) + self.dx,
 		y = base.y + (oy or 0) + self.dy
 	}
+end
+
+function bullet:update()
+	entity.update(self)
+	self.age += 1
 end
 
 function bullet:draw()
@@ -38,7 +36,7 @@ function bullet:draw()
 	local m = abs(self.dy)+2-self.age
 	for i = l, mid(0,m,l), -1 do
 		color(colors[c])
-		rectfill(x, y, x + self.width - 1, y + i - 1)
+		rectfill(x, y, x + self.w - 1, y + i - 1)
 		y -= i * step
 		if (c < #colors) c += 1
 	end

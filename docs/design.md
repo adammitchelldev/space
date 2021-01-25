@@ -14,7 +14,7 @@ The main campaign gameplay loop breaks down into levels, each with substages tha
 
 The player progresses through the game by FTL jumping between levels. Each level will have at least a couple of substages involving different obstacles or enemies, such as asteroids and mining, storms, swarms, regular firefights, pirate ambushes, bosses, escapes, collectathons, speed sections, races/chases, rescue/recovery, defending, stealth and combinations of the above. Some stages may be peaceful and involve decisions that will change the next stage and/or activate new missions. Generally, the score for a particular stage or fight is recorded and a grade/rank is given on completion. Grades are also used for missions to provide higher targets to hit and encourage better players to push themselves or value missions that highly coincide. At the end of the level, the player gets to see some information about the next areas and chooses which direction to take.
 
-## Missions
+## Campaign
 
 The player collects missions naturally through their campaign and accepting missions changes which enemies and challenges they will face. Missions come from factions or requests for help from strangers. Sometimes, missions may have diverging decisions and stages, although they will follow fairly typical patterns so as not to be totally unpredictable. Mostly, the missions act as ways to gain bigger rewards. When a mission is accepted, it means that there is some guaranteed opportunity to complete the mission coming up e.g. accepting a smuggling mission means that a port will come up for the delivery, but it also means you will likely be hunted by someone. Taking a bounty mission means you will be able to track and find the target soon.
 
@@ -25,6 +25,18 @@ Once multiple main missions are unlocked, the player will be able to choose thei
 Generally the captains are unlocked by completing a story mission involving them from the point of view of another character. Each captain has a unique set of story missions only they can play, but they may appear in other character's story missions. The captains can unlock badges that change their nature. The goal is to max every captain and every ship, which is only possible by beating every story mission and every captain specific achievement.
 
 Idea: Badges are earned by complete x/y in a list of achievements. The badges are maxed when all of those achievements are maxed. There's something like this for ship B unlocks in FTL. The trick is for this to be a semi-lategame thing, and also for the achievements to unlock permanent items.
+
+### Missions
+
+Player will be presented with mission choices during the campaign. The presented choices will show their reward item.
+
+### Mission types:
+* Cargo missions: -1 module capacity, specific destination, may attract pirates/police
+  * Smuggling
+* Escort missions: gain an ally ship temporarily but face more enemies.
+  * May be a trap
+* Combat missions: assist in a specific fight.
+* 
 
 ## Ship mechanics
 
@@ -111,6 +123,16 @@ Items sit on slot B, most require energy to use.
   * Uses energy to slow down time.
 
 ### Upgrades
+
+Base stats:
+* Hull capacity
+* Energy capacity
+* Shield capacity
+* Projectile speed
+* Projectile range
+* Projectile size?
+* Weapon speed
+* Ship speed
 
 ### Power ups
 
