@@ -12,20 +12,32 @@ function _init()
 	reset()
 end
 
+function update_layer(layer)
+	for i in pairs(layer) do
+		i:update()
+	end
+end
+
+function draw_layer(layer)
+	for i in pairs(layer) do
+		i:draw()
+	end
+end
+
 function _update60()
 	starfield:update()
 
 	script_update(game_scripts)
 	if (active_level) script_update(active_level)
 
-	for i in pairs(bg_fx) do i:update() end
-	for i in pairs(player_bullets) do i:update() end
-	for i in pairs(enemies) do i:update() end
-	for i in pairs(enemy_bullets) do i:update() end
-	for i in pairs(powerups) do i:update() end
-	for i in pairs(players) do i:update() end
-	for i in pairs(fg_fx) do i:update() end
-	for i in pairs(game_text) do i:update() end
+	update_layer(bg_fx)
+	update_layer(player_bullets)
+	update_layer(enemies)
+	update_layer(enemy_bullets)
+	update_layer(powerups)
+	update_layer(players)
+	update_layer(fg_fx)
+	update_layer(game_text)
 
 	grid_players = collision_grid(players)
 	grid_enemies = collision_grid(enemies)
@@ -65,16 +77,14 @@ function _draw()
 
 	starfield:draw()
 
-	for i in pairs(bg_fx) do i:draw() end
-	-- TODO this as a bg_fx entity
-	for i in pairs(enemies) do draw_shielding(i) end
-	for i in pairs(player_bullets) do i:draw() end
-	for i in pairs(enemies) do i:draw() end
-	for i in pairs(enemy_bullets) do i:draw() end
-	for i in pairs(powerups) do i:draw() end
-	for i in pairs(players) do i:draw() end
-	for i in pairs(fg_fx) do i:draw() end
-	for i in pairs(game_text) do i:draw() end
+	draw_layer(bg_fx)
+	draw_layer(player_bullets)
+	draw_layer(enemies)
+	draw_layer(enemy_bullets)
+	draw_layer(powerups)
+	draw_layer(players)
+	draw_layer(fg_fx)
+	draw_layer(game_text)
 
 	clip()
 	camera(0,0)

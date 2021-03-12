@@ -46,9 +46,14 @@ enemy_shielder = enemy {
                     target = rnd(enemy_list)
                     target.shield_targeted = true
                     self.shield_target = target
-                    self.shield_progress = 0
+
+                    local fx = shielding:spawn{
+                        origin = self,
+                        target = target
+                    }
+                    fx.shield_progress = 0
                     for i=1,9 do
-                        self.shield_progress += 1
+                        fx.shield_progress += 1
                         wait(3)
                     end
                     target.shielded = true
@@ -56,7 +61,8 @@ enemy_shielder = enemy {
                         if (target.dead) break
                         yield()
                     end
-                    self.shield_progress = 0
+                    fx:remove()
+
                     target.shielded, target.shield_targeted = nil
                 else
                     self.shield_target = nil
@@ -72,21 +78,4 @@ function enemy_shielder:remove()
         self.shield_target.shielded, self.shield_target.shield_targeted = nil
     end
     enemy.remove(self)
-end
-
--- TODO refactor this out into an actual fx entity
-function draw_shielding(self)
-    local target = self.shield_target
-    if target and not target.dead then
-        local x1,y1,x2,y2 = self.x,self.y,target.x,target.y
-        local dx,dy = (x2-x1)/10, (y2-y1)/10
-        x1,y1 = x1+4,y1+4
-        fillp(░)
-        for i=1,self.shield_progress do
-            x1 += dx
-            y1 += dy
-            circfill(x1,y1,flr(i/2)+1,13)
-        end
-        fillp(0)
-    end
 end

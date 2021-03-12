@@ -21,8 +21,12 @@ __lua__
 #include src/starfield.lua
 
 -->8
+-- fx
+#include src/fx/explosion.lua
+#include src/fx/shielding.lua
+
+-->8
 -- entities
-#include src/explosion.lua
 #include src/bullet.lua
 #include src/enemy.lua
 #include src/player.lua
