@@ -24,16 +24,11 @@ function bullet:update()
 end
 
 function bullet:draw()
-	local x = self.x
-	local y = self.y
-	local c = 1
-	local step = sgn(self.dy)
+	local colors, x, y, dy, c = self.colors, self.x, self.y, self.dy, 1
+	local step, l, m = sgn(dy), abs(dy) + 1, abs(dy) + 2 - self.age
 	if step == 1 then
-		y += self.dy
+		y += dy
 	end
-	local colors = self.colors
-	local l = abs(self.dy)+1
-	local m = abs(self.dy)+2-self.age
 	for i = l, mid(0,m,l), -1 do
 		color(colors[c])
 		rectfill(x, y, x + self.w - 1, y + i - 1)

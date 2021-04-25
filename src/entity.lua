@@ -80,6 +80,7 @@ end
 function entity:die()
     if (self.die_sfx) sfx(self.die_sfx)
     if (self.explosion) self.explosion:new(self)
+    if (self.sprite) debris:scatter(self)
     self:remove()
 end
 

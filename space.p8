@@ -24,6 +24,7 @@ __lua__
 -- fx
 #include src/fx/explosion.lua
 #include src/fx/shielding.lua
+#include src/fx/debris.lua
 
 -->8
 -- entities
